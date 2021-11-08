@@ -4,14 +4,14 @@ Heuristic:
 3. Aesthetic and minimalist design
 
 Problem:
-1. The data log page should provide a search button to search through time/value data the user wants and look through older data. 
-2. All the pages should have exit buttons so that the user can go back to the last stage efficiently. 
-3. The map of the farm is unnecessary on the main page in the advanced mode.  
+1. The Main page should have a slide switch to let the users simply swiching between basic version and addvanced version.  
+2. All the pages should have buttons so that the user can go back to the each stage efficiently. 
+3. The map of the farm is necessary on the main page in the advanced mode.  
 
 Solution:
-1. Search input bar and button added. 
-2. Exit button added. 
-3. Map removed. 
+1. Slide switch added. 
+2. Title shotcut button added. 
+3. Map added. 
 
 Serverity:
 1. 2
