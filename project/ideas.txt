@@ -1,5 +1,4 @@
 Ideas for requirement:
-
 2 Main Ideas
 
 1. Farm Data Analysis System
