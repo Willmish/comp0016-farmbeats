@@ -49,13 +49,15 @@
 		.viewer {
 			border-width: 1em;
 			width: 100%;
+
 		}
 		
 		.slide {
 			img {
-				border-radius: $size-border-radius * 0.75;
+				border-radius: $size-border-radius* 0.75;
 				display: block;
 				width: 100%;
+
 			}
 		}
 		
