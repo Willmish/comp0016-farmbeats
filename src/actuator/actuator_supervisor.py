@@ -8,3 +8,4 @@ class ActuatorSupervisor:
 
     def add_actuator(self, actuator: Actuator) -> None:
         self._actuators.append(actuator)
+
