@@ -3,7 +3,7 @@ from random import random
 from Utils.status import Status
 
 
-class sensor:
+class Sensor:
 
     def __init__(self, sensor_type: str, actuator_id: int, actuator_status: Status = Status.DISABLED):
         self._type: str = sensor_type
