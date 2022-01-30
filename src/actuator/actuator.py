@@ -1,12 +1,12 @@
 from tools.status import Status
-from pubsub import pub
 # Actuator Interface
 
 
 class Actuator:
     """Actuator Interface class, to be overriden by actuator subclasses."""
 
-    def __init__(self, actuator_type: str, actuator_id: int, actuator_status: Status = Status.DISABLED):
+    def __init__(self, actuator_type: str, actuator_id: int,
+                 actuator_status: Status = Status.DISABLED):
         """__init__ Initialise an Actuator Interface.
 
         :param actuator_type:

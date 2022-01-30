@@ -1,5 +1,6 @@
 from tools.status import Status
 from actuator.actuator import Actuator
+from pubsub import pub
 # Actuator Interface
 
 
@@ -8,6 +9,7 @@ class Fans(Actuator):
     FAN_IN_PIN1 = 0
     FAN_OUT_PIN0 = 0
     FAN_OUT_PIN1 = 0
+
     def __init__(self, *args, **kwargs):
         """__init__ Initialise an Actuator Interface.
 
@@ -36,4 +38,3 @@ class Fans(Actuator):
         speed = args
         self._fan_out_speed = speed
         self._fan_in_speed = speed
-
