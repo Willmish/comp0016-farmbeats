@@ -8,4 +8,3 @@ class SensorSupervisor:
 
     def add_actuator(self, sensor: Sensor) -> None:
         self._actuators.append(sensor)
-
