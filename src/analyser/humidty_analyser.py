@@ -1,6 +1,6 @@
 from pubsub import pub
 from typing import List
-from Analyser.analyser import Analyser
+from analyser.analyser import Analyser
 
 
 class HumidityAnalyser(Analyser):

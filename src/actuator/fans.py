@@ -1,5 +1,5 @@
-from Utils.status import Status
-from Actuator.actuator import Actuator
+from tools.status import Status
+from actuator.actuator import Actuator
 # Actuator Interface
 
 

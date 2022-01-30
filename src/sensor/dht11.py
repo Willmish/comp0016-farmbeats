@@ -1,7 +1,7 @@
 from seeed_dht import DHT
 from pubsub import pub
-from Sensor.sensor import Sensor 
-from Utils.status import Status
+from sensor.sensor import Sensor 
+from tools.status import Status
 
 
 class DHT11(Sensor):

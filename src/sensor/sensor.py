@@ -1,7 +1,7 @@
 from doctest import OutputChecker
 from random import random
 from typing import Tuple
-from Utils.status import Status
+from tools.status import Status
 
 
 class Sensor:
