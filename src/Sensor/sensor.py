@@ -1,13 +1,14 @@
 from doctest import OutputChecker
 from random import random
+from typing import Tuple
 from Utils.status import Status
 
 
 class Sensor:
 
-    def __init__(self, sensor_type: str, actuator_id: int, actuator_status: Status = Status.DISABLED):
+    def __init__(self, sensor_type: Tuple[str, ...], sensor_id: int, sensor_status: Status = Status.DISABLED):
         self._type: str = sensor_type
-        self._id: int = actuator_id
+        self._id: int =sensor_id 
         self._status: Status = actuator_status
 
     def collect(self):
