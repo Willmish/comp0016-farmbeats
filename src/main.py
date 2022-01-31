@@ -3,6 +3,7 @@ from actuator.fans import Fans
 from analyser.humidty_analyser import HumidityAnalyser
 from sensor.dht11 import DHT11
 from pubsub import pub
+import RPi.GPIO as GPIO
 
 
 def dummy_listener(args, rest=None):
@@ -10,11 +11,12 @@ def dummy_listener(args, rest=None):
     
 
 if __name__ == "__main__":
+    GPIO.setmode(GPIO.BOARD)
     # Actuator fans object 
-    #fans = Fans()
+    fans = Fans()
 
     # Analyser fans object
-    #humidity_analyser = HumidityAnalyser()
+    humidity_analyser = HumidityAnalyser()
 
     # Sensor DHT11 object
     dht11Sensor = DHT11()
@@ -24,6 +26,7 @@ if __name__ == "__main__":
     while(1):
         dht11Sensor.collect()
         sleep(1)
+    
 
 
 
