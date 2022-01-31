@@ -23,7 +23,6 @@ if __name__ == "__main__":
     dht11Sensor = DHT11()
 
     pub.subscribe(dummy_listener, "humidity_sensor")
-
     try:
         while(1):
             dht11Sensor.collect()
