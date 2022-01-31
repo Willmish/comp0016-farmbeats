@@ -11,7 +11,7 @@ def dummy_listener(args, rest=None):
     
 
 if __name__ == "__main__":
-    GPIO.setmode(GPIO.BOARD)
+    GPIO.setmode(GPIO.BCM)
     # Actuator fans object 
     fans = Fans()
 
@@ -23,15 +23,10 @@ if __name__ == "__main__":
 
     pub.subscribe(dummy_listener, "humidity_sensor")
 
-    while(1):
-        dht11Sensor.collect()
-        sleep(1)
-    
-
-
-
-
-
-
-
-
+    try:
+        while(1):
+            dht11Sensor.collect()
+            fans.actuate()
+            sleep(1)
+    except KeyboardInterrupt:
+        GPIO.cleanup()
