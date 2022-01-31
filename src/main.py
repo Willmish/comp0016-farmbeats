@@ -10,7 +10,6 @@ import RPi.GPIO as GPIO
 def dummy_listener(args, rest=None):
     print("Received message over pubsub:", args)
 
-
 if __name__ == "__main__":
     GPIO.setmode(GPIO.BCM)
     # Actuator fans object
