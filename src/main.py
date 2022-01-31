@@ -1,12 +1,12 @@
-
+from time import sleep
 from actuator.fans import Fans
-from analyser.analyser import HumidityAnalyser
+from analyser.humidty_analyser import HumidityAnalyser
 from sensor.dht11 import DHT11
 from pubsub import pub
 
 
 def dummy_listener(args, rest=None):
-    print (args)
+    print ("Received message over pubsub:", args)
     
 
 if __name__ == "__main__":
@@ -20,6 +20,10 @@ if __name__ == "__main__":
     dht11Sensor = DHT11()
 
     pub.subscribe(dummy_listener, "humidity_sensor")
+
+    while(1):
+        dht11Sensor.collect()
+        sleep(1)
 
 
 
