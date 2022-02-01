@@ -26,10 +26,10 @@ class Fans(Actuator):
         self._fan_in_speed: float = .0
         self._fan_out_speed: float = .0
         pub.subscribe(self.fan_status_listener, "fans_status")
-        GPIO.setup(FAN_IN_PIN0, GPIO.OUT)
-        GPIO.setup(FAN_IN_PIN1, GPIO.OUT)
-        GPIO.setup(FAN_OUT_PIN0, GPIO.OUT)
-        GPIO.setup(FAN_OUT_PIN1, GPIO.OUT)
+        GPIO.setup(Fans.FAN_IN_PIN0, GPIO.OUT)
+        GPIO.setup(Fans.FAN_IN_PIN1, GPIO.OUT)
+        GPIO.setup(Fans.FAN_OUT_PIN0, GPIO.OUT)
+        GPIO.setup(Fans.FAN_OUT_PIN1, GPIO.OUT)
 
     def activate(self):
         """activate: sets the current status to Status.ENABLED."""
@@ -39,18 +39,24 @@ class Fans(Actuator):
         """actuate: dummy actuation function, to be overriden by children."""
         # TODO DO GPIO OUT BASED ON CURRENT SPEEDS !!
         if (self._fan_in_speed > 0):
-            pass
-        if (self._fan_out_speed >0):
-            print("Fans on!")
-            GPIO.output(FAN_OUT_PIN0, GPIO.HIGH)
-            GPIO.output(FAN_OUT_PIN1, GPIO.LOW)
+            print("fans on!")
+            GPIO.output(Fans.FAN_IN_PIN0, GPIO.HIGH)
+            GPIO.output(Fans.FAN_IN_PIN1, GPIO.LOW)
         else:
             print("Fans off!")
-            GPIO.output(FAN_OUT_PIN0, GPIO.LOW)
-            GPIO.output(FAN_OUT_PIN1, GPIO.LOW)
+            GPIO.output(Fans.FAN_IN_PIN0, GPIO.LOW)
+            GPIO.output(Fans.FAN_IN_PIN1, GPIO.LOW)
+        if (self._fan_out_speed > 0):
+            print("fans on!")
+            GPIO.output(Fans.FAN_OUT_PIN0, GPIO.HIGH)
+            GPIO.output(Fans.FAN_OUT_PIN1, GPIO.LOW)
+        else:
+            print("Fans off!")
+            GPIO.output(Fans.FAN_OUT_PIN0, GPIO.LOW)
+            GPIO.output(Fans.FAN_OUT_PIN1, GPIO.LOW)
 
     def fan_status_listener(self, args, rest=None):
-        print("Received speed vals over pubsub:", speed)
         speed = args
+        print("Received speed vals over pubsub:", speed)
         self._fan_out_speed = speed
         self._fan_in_speed = speed
