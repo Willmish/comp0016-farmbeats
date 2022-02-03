@@ -9,11 +9,11 @@ class HumidityAnalyser(Analyser):
     def analyser_listener(self, args, rest=None):
         humidity = args
         # TODO Do analysing stuff here, currently simple threshold
-        if humidity > 0.7:
-            pub.sendMessage("fans_status", 0.5)  # Fans 50% on
-        elif humidity > 0.5:
-            pub.sendMessage("fans_status", 0.2)  # Fans 20% on
+        if humidity > 80:
+            pub.sendMessage("fans_status", args=0.5)  # Fans 50% on
+        elif humidity > 60:
+            pub.sendMessage("fans_status", args=0.2)  # Fans 20% on
         else:
-            pub.sendMessage("fans_status", 0.0)
+            pub.sendMessage("fans_status", args=0.0)
             # FailsafeDefault value (for safety reasons,
             # keep it as 0, as per our security module :)
