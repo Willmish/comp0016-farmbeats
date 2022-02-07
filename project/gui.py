@@ -1,23 +1,10 @@
-
 from tkinter import *
 from pandas import DataFrame
 import matplotlib.pyplot as plt
+from profileInformation import ProfileInformation 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 PADDING = 25
-
-#dummy constants for sensor profile
-INPUT = 800
-
-LOWER = 700
-UPPER = 850
-EXLOWER = 600
-EXUPPER = 950
-ACTUATION = 900
-MESSAGE = "The brightness level is good!"
-
-TIMELIST = [0,5,10,15,20,25,30,35,40,45]
-VALUELIST = [904,920, 911, 890, 883,880,881, 860, 872, 888]
 
 GREEN = '#64975E'
 AMBER = '#D2A833'
@@ -73,7 +60,15 @@ class FarmBeatsApp:
 
         self.optionFrame.pack(expand=True, fill=BOTH, pady = 15, padx = 15)
 
-    def profileFrameSetUp(self):
+    def profileSetUp(self, profileName):
+
+        profile = ProfileInformation(profileName)
+
+        self.label.config(text = profile.title)
+        homeButton = Button(self.labelFrame, text = "Home")
+        homeButton['command'] = lambda idx="Home", binst=homeButton: self.homeButtonAction(binst)
+        homeButton.pack()
+        homeButton.place(bordermode=INSIDE, x= 5, y=5)
 
         for n in range(2):
             self.profileFrame.grid_columnconfigure(n, weight=1)
@@ -82,37 +77,40 @@ class FarmBeatsApp:
         
         #sensorFrame set up
         sensorFrame = Frame(self.profileFrame, bg = '#E7F5EF')
+        
 
-        sensorTitle = Label(sensorFrame, text = "Light Sensor Information")
+        sensorTitle = Label(sensorFrame, text = profile.sensorFrameTitle)
         sensorTitle.config(background = '#E7F5EF', font=("Courier", 15)) #E7F5EF
         sensorTitle.pack()
 
-        value = Label(sensorFrame, text = "Current value: " + str(INPUT) + "cd")
+        value = Label(sensorFrame, text = profile.sensorValueDescription)
         value.config(background = '#E7F5EF') #E7F5EF
         value.config(font=("Courier", 15))
         value.pack()
         currVal = DoubleVar()
-        currVal.set(INPUT)
+        currVal.set(profile.sensorValue)
 
         subFrame = Frame(sensorFrame, bg = '#E7F5EF')
-        s1 = Scale( subFrame, variable = currVal, sliderlength= 5, from_ = 0, to = 1000, orient = HORIZONTAL, state = 'disabled', background = '#E7F5EF') 
+        s1 = Scale( subFrame, variable = currVal, sliderlength= 5, from_ = profile.bound[0], to = profile.bound[1], orient = HORIZONTAL, state = 'disabled', background = '#E7F5EF') 
         s1.pack(side = LEFT)
 
-        colour = self.getColour(INPUT, EXUPPER, EXLOWER, UPPER, LOWER)
+        colour = self.getColour(profile.sensorValue, profile.extr[0], profile.extr[1], profile.extr[2], profile.extr[3])
         colourFrame = Frame(subFrame, bg = colour, width= 30, height= 30)
         colourFrame.pack(side = RIGHT)
         subFrame.pack()
-        self.graphDisplay(sensorFrame)
+        self.graphDisplay(sensorFrame, profile)
         sensorFrame.grid(row = 0, column = 0, sticky = 'news', pady = PADDING, padx = PADDING, rowspan=4)
 
         
         #actuatorFrame set up
 
         actuatorFrame = Frame(self.profileFrame, bg = '#E7F5EF')
-        actuatorTitle = Label(actuatorFrame, text = "LED light Information")
+        actuatorFrame.grid_columnconfigure(0, weight=1)
+        for n in range(3):
+            actuatorFrame.grid_rowconfigure(n, weight=1)
+        actuatorTitle = Label(actuatorFrame, text = profile.actuatorFrameTitle)
         actuatorTitle.config(background = '#E7F5EF', font=("Courier", 15)) #E7F5EF
-        actuatorTitle.pack()
-
+        actuatorTitle.grid(row = 0, column = 0, sticky = 'news', pady = PADDING, padx = PADDING)
         modeSwitchFrame = Frame(actuatorFrame, bg = '#E7F5EF')
         manualMode = Label(modeSwitchFrame, text = "Manual")
         manualMode.config(background = '#CEE5DB', font=("Courier", 15)) #E7F5EF
@@ -120,16 +118,11 @@ class FarmBeatsApp:
         automaticMode = Button(modeSwitchFrame, text = "Automatic")
         automaticMode.config(background = '#E7F5EF', font=("Courier", 15)) #E7F5EF
         automaticMode.pack(side = LEFT)
-        modeSwitchFrame.pack()
-
-
-        actuatorVal = Label(actuatorFrame, text = "Brightness set to: "+ str(ACTUATION) + "cd")
+        modeSwitchFrame.grid(row = 1, column = 0, sticky = 'news', pady = PADDING, padx = PADDING)
+        actuatorVal = Label(actuatorFrame, text = profile.actuatorValueDescription)
         actuatorVal.config(background = '#E7F5EF', font=("Courier", 15)) #E7F5EF
-        actuatorVal.pack()
-        
-
+        actuatorVal.grid(row = 2, column = 0, sticky = 'news', pady = PADDING, padx = PADDING)
         actuatorFrame.grid(row = 0, column = 1, sticky = 'news', pady = PADDING, padx = PADDING, rowspan=3)
-
 
         #suggestionFrame set up
 
@@ -138,19 +131,16 @@ class FarmBeatsApp:
         suggestionLabel.config(background = '#E7F5EF', font=("Courier", 15)) #E7F5EF
         suggestionLabel.pack()
         messageFrame = Frame(suggestionFrame, bg = '#FFFFFF', height=400)
-        msg = Label(messageFrame, text = MESSAGE)
+        msg = Label(messageFrame, text = profile.suggestion)
         msg.pack()
         messageFrame.pack()
-
-
         suggestionFrame.grid(row = 3, column = 1, sticky = 'news', pady = PADDING, padx = PADDING)
-
 
         # display on profileFrame
 
         self.profileFrame.pack(fill = BOTH, expand = True, pady = 15, padx = 15)
     
-    def getColour(self, val, extrUpper, extrLower, upper, lower):
+    def getColour(self, val, extrLower,lower, upper, extrUpper):
         if val <= upper and val >= lower:
             return GREEN
         elif (val <= extrUpper and val > upper) or (val <= extrLower and val > lower):
@@ -158,14 +148,16 @@ class FarmBeatsApp:
         else:
             return RED
 
-    def graphDisplay(self,  frame ):
-        dataFrame = DataFrame({'Time (ms)': TIMELIST,'Brightness (cd)': VALUELIST}, columns=['Time (ms)', 'Brightness (cd)'])
+    def graphDisplay(self,  frame , profile):
+        y_label = profile.title + ' (' + profile.unit + ')'
+        dataFrame = DataFrame({'Time (ms)': profile.timeList, y_label: profile.valList}, columns=['Time (ms)', y_label])
         fig = plt.Figure(figsize=(5,4), dpi=100)
         ax = fig.add_subplot(111)
         FigureCanvasTkAgg(fig, frame).get_tk_widget().pack(pady = 15, padx = 15)
-        dataFrame = dataFrame[['Time (ms)', 'Brightness (cd)']].groupby('Time (ms)').sum()
+        dataFrame = dataFrame[['Time (ms)', y_label]].groupby('Time (ms)').sum()
         dataFrame.plot(kind='line', legend=True, ax=ax, color='r',marker='o', fontsize=10)
-        ax.set_title('Brightness from Sensor over Time')
+        ax.set_title(profile.graphTitle)
+    
 
 
     def homeButtonAction(self, binst):
@@ -175,23 +167,20 @@ class FarmBeatsApp:
         self.label.config(text = "IoT FarmBeats")
 
     def tempButtonAction(self):
-        self.label.config(text = 'Temperature Button Clicked')
+        self.optionFrame.pack_forget()
+        self.profileSetUp("Temperature")
 
     def humidityButtonAction(self):
-        self.label.config(text = 'Humidity Button Clicked')
+        self.optionFrame.pack_forget()
+        self.profileSetUp("Humidity")
     
     def brightnessButtonAction(self):
-        self.label.config(text = "Brightness")
-        homeButton = Button(self.labelFrame, text = "Home")
-        homeButton['command'] = lambda idx="Home", binst=homeButton: self.homeButtonAction(binst)
-        homeButton.pack()
-        homeButton.place(bordermode=INSIDE, x= 5, y=5)
         self.optionFrame.pack_forget()
-        self.profileFrameSetUp()
+        self.profileSetUp("Brightness")
 
-    
     def waterButtonAction(self):
-        self.label.config(text = 'Water Level Button Clicked')
+        self.optionFrame.pack_forget()
+        self.profileSetUp("Water")
 
     def aiCameraButtonAction(self):
         self.label.config(text = 'AI Camera Button Clicked')
@@ -205,5 +194,7 @@ def main():
     root.config(bg='#E7F5EF')
     app = FarmBeatsApp(root)
     root.mainloop()
-    
+
+
+
 if __name__ == "__main__": main()
