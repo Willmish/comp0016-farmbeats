@@ -23,11 +23,11 @@ class PID:
         delta_time = self.current_time - self.last_time
         delta_error = error - self.last_error
         if (delta_time >= self.sample_time):
-            self.PTerm = self.Kp * error#比例
-            self.ITerm += error * delta_time#积分
+            self.PTerm = self.Kp * error #比例 P
+            self.ITerm += error * delta_time #积分 I
             self.DTerm = 0.0
             if delta_time > 0:
-                self.DTerm = delta_error / delta_time#微分
+                self.DTerm = delta_error / delta_time #微分 D
             self.last_time = self.current_time
             self.last_error = error
             self.output = self.PTerm + (self.Ki * self.ITerm) + (self.Kd * self.DTerm)
