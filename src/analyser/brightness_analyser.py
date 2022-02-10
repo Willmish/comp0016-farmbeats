@@ -7,11 +7,14 @@ class BrightnessAnalyser(Analyser):
         super().__init__(["light_sensor"])
 
     def analyser_listener(self, args, rest=None):
-        brightness = args
+        data = args
+        print(args.sensor_value)
+        brightness = args.sensor_value[0]
         # TODO Do analysing stuff here, currently simple threshold
-        if brightness > 80:
+        print(brightness)
+        if brightness > 270:
             pub.sendMessage("light_status", args=0.5)  # Lights 50% on
-        elif brightness > 60:
+        elif brightness > 270:
             pub.sendMessage("light_status", args=0.2)  # Lights 20% on
         else:
             pub.sendMessage("light_status", args=0.0)

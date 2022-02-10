@@ -7,7 +7,7 @@ import RPi.GPIO as GPIO
 
 
 class LEDLights(Actuator):
-    LED_PIN = 0
+    LED_PIN = 5
 
     def __init__(self, *args, **kwargs):
         
@@ -20,6 +20,7 @@ class LEDLights(Actuator):
         :type actuator_status: Status
         """
         super().__init__("led_lights", args, kwargs)
+        self._brightness = 0
         pub.subscribe(self.light_status_listener, "light_status")
         GPIO.setup(LEDLights.LED_PIN, GPIO.OUT)
         

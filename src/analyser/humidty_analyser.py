@@ -11,7 +11,7 @@ class HumidityAnalyser(Analyser):
         # TODO Do analysing stuff here, currently simple threshold
         if humidity > 80:
             pub.sendMessage("fans_status", args=100)  # Fans 50% on
-        elif humidity > 60:
+        elif humidity > 70:
             pub.sendMessage("fans_status", args=70)  # Fans 20% on
         else:
             pub.sendMessage("fans_status", args=0.0)
