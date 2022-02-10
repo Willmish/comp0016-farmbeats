@@ -31,10 +31,10 @@ class Fans(Actuator):
         GPIO.setup(Fans.FAN_IN_PIN1, GPIO.OUT)
         GPIO.setup(Fans.FAN_OUT_PIN0, GPIO.OUT)
         GPIO.setup(Fans.FAN_OUT_PIN1, GPIO.OUT)
-        self._PWM_IN = GPIO.PWM(Fans.FAN_IN_PIN0, 200)
-        self._PWM_OUT = GPIO.PWM(Fans.FAN_OUT_PIN0, 200)
-        self._PWM_IN.start(self._fan_in_speed)
-        self._PWM_OUT.start(self._fan_out_speed)
+        #self._PWM_IN = GPIO.PWM(Fans.FAN_IN_PIN0, 200)
+        #self._PWM_OUT = GPIO.PWM(Fans.FAN_OUT_PIN0, 200)
+        #self._PWM_IN.start(self._fan_in_speed)
+        #self._PWM_OUT.start(self._fan_out_speed)
 
     def activate(self):
         """activate: sets the current status to Status.ENABLED."""
@@ -45,32 +45,37 @@ class Fans(Actuator):
         # TODO DO GPIO OUT BASED ON CURRENT SPEEDS !!
         # MAKE SURE PWM IS IN BETWEEN 0 and 100 (%)
         if (self._fan_in_speed > 0):
-            print("fans on!")
-            #GPIO.output(Fans.FAN_IN_PIN0, GPIO.HIGH)
-            for i in range(100, 0, -10):
-                self._fan_in_speed = i
-                self._PWM_IN.ChangeDutyCycle(self._fan_in_speed)
-                GPIO.output(Fans.FAN_IN_PIN1, GPIO.LOW)
-                print("spinning in, speed: ", i)
-                sleep(2)
+            print("fans in on!")
+            #self._PWM_IN.ChangeDutyCycle(self._fan_in_speed)
+            GPIO.output(Fans.FAN_IN_PIN1, GPIO.LOW)
+            GPIO.output(Fans.FAN_IN_PIN0, GPIO.HIGH)
+            #for i in range(100, 0, -10):
+            #    self._fan_in_speed = i
+            #    self._PWM_IN.ChangeDutyCycle(self._fan_in_speed)
+            #    GPIO.output(Fans.FAN_IN_PIN1, GPIO.LOW)
+            #    print("spinning in, speed: ", i)
+            #    sleep(2)
         else:
-            print("Fans off!")
-            #GPIO.output(Fans.FAN_IN_PIN0, GPIO.LOW)
-            self._PWM_IN.ChangeDutyCycle(self._fan_in_speed)
+            print("Fans in off!")
+            GPIO.output(Fans.FAN_IN_PIN0, GPIO.LOW)
+            #self._PWM_IN.ChangeDutyCycle(self._fan_in_speed)
             GPIO.output(Fans.FAN_IN_PIN1, GPIO.LOW)
         if (self._fan_out_speed > 0):
-            print("fans on!")
-            for i in range(100, 0, -10):
-                self._fan_out_speed = i
-                #GPIO.output(Fans.FAN_OUT_PIN0, GPIO.HIGH)
-                self._PWM_OUT.ChangeDutyCycle(self._fan_out_speed)
-                GPIO.output(Fans.FAN_OUT_PIN1, GPIO.LOW)
-                print("spinning out, speed: ", i)
-                sleep(0.5)
+            print("fans out on!")
+            #self._PWM_OUT.ChangeDutyCycle(self._fan_out_speed)
+            GPIO.output(Fans.FAN_OUT_PIN0, GPIO.HIGH)
+            GPIO.output(Fans.FAN_OUT_PIN1, GPIO.LOW)
+            #for i in range(100, 0, -10):
+            #    self._fan_out_speed = i
+            #    #GPIO.output(Fans.FAN_OUT_PIN0, GPIO.HIGH)
+            #    self._PWM_OUT.ChangeDutyCycle(self._fan_out_speed)
+            #    GPIO.output(Fans.FAN_OUT_PIN1, GPIO.LOW)
+            #    print("spinning out, speed: ", i)
+            #    sleep(0.5)
         else:
-            print("Fans off!")
-            #GPIO.output(Fans.FAN_OUT_PIN0, GPIO.LOW)
-            self._PWM_OUT.ChangeDutyCycle(self._fan_out_speed)
+            print("Fans out off!")
+            GPIO.output(Fans.FAN_OUT_PIN0, GPIO.LOW)
+            #self._PWM_OUT.ChangeDutyCycle(self._fan_out_speed)
             GPIO.output(Fans.FAN_OUT_PIN1, GPIO.LOW)
 
     def PWM_cleanup(self):

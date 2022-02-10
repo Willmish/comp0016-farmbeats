@@ -2,6 +2,7 @@ from seeed_dht import DHT
 from pubsub import pub
 from sensor.sensor import Sensor
 from tools.status import Status
+from tools.sensor_data import SensorData
 
 
 class DHT11(Sensor):
@@ -14,9 +15,10 @@ class DHT11(Sensor):
     def collect(self):
         self._status = Status.ENABLED
         humidity, temp = self._dht11.read()
-        # TODO send in SensorData object, containing info on the actual sensor
-        pub.sendMessage("humidity_sensor", args=humidity)
-        pub.sendMessage("ambient_temperature_sensor", args=temp)
+        # TODO think if magic numbers for sensor type is best option? maybe keep all as enums?
+        # (Problematic with mixed type sensors)
+        pub.sendMessage("humidity_sensor", args=SensorData(self._id, self._type[0], humidity))
+        pub.sendMessage("ambient_temperature_sensor", args=SensorData(self._id, self._type[1], temp))
 
     def disable(self):
         self._status = Status.DISABLED

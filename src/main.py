@@ -2,6 +2,7 @@ from time import sleep
 from actuator.fans import Fans
 from analyser.humidty_analyser import HumidityAnalyser
 from sensor.dht11 import DHT11
+from database.database_manager import DatabaseManager
 from pubsub import pub
 import RPi.GPIO as GPIO
 
@@ -30,4 +31,4 @@ if __name__ == "__main__":
             sleep(1)
     except KeyboardInterrupt:
         GPIO.cleanup()
-        fans.PWM_cleanup()
+        #fans.PWM_cleanup()

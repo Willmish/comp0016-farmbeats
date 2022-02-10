@@ -7,7 +7,7 @@ class HumidityAnalyser(Analyser):
         super().__init__(["humidity_sensor"])
 
     def analyser_listener(self, args, rest=None):
-        humidity = args
+        humidity = args.sensor_value
         # TODO Do analysing stuff here, currently simple threshold
         if humidity > 80:
             pub.sendMessage("fans_status", args=100)  # Fans 50% on

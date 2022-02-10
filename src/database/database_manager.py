@@ -32,5 +32,5 @@ class DatabaseManager():
 if __name__ == "__main__":
     db = DatabaseManager()
     db.connect()
-    db._cursor.execute("
+    #db._cursor.execute("
     print(db)
