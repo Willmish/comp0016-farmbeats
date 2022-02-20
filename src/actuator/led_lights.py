@@ -10,7 +10,7 @@ class LEDLights(Actuator):
     LED_PIN = 5
 
     def __init__(self, *args, **kwargs):
-        
+
         """__init__ Initialise an Actuator Interface.
         :param actuator_type:
         :type actuator_type: str
@@ -23,7 +23,6 @@ class LEDLights(Actuator):
         self._brightness = 0
         pub.subscribe(self.light_status_listener, "actuator.light_status")
         GPIO.setup(LEDLights.LED_PIN, GPIO.OUT)
-        
 
     def activate(self):
         """activate: sets the current status to Status.ENABLED."""
@@ -38,7 +37,6 @@ class LEDLights(Actuator):
         else:
             print("lights off!")
             GPIO.output(LEDLights.LED_PIN, GPIO.LOW)
-        
 
     def light_status_listener(self, args, rest=None):
         brightness = args

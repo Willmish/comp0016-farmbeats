@@ -7,7 +7,6 @@ class BrightnessAnalyser(Analyser):
         super().__init__(["sensor_data.light_sensor"])
 
     def analyser_listener(self, args, rest=None):
-        data = args
         print(args.sensor_value)
         brightness = args.sensor_value[0]
         # TODO Do analysing stuff here, currently simple threshold

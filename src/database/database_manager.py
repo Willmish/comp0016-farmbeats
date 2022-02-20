@@ -16,11 +16,13 @@ from pubsub import pub
 
 class DatabaseManager():
     sensor_data_topic = "sensor_data"
+
     def __init__(self, database_path: str = "test.db"):
         self._database_path: str = database_path
         self._connection = None
         self._cursor = None
-        pub.subscribe(self.sensor_data_listener, DatabaseManager.sensor_data_topic)
+        pub.subscribe(self.sensor_data_listener,
+                      DatabaseManager.sensor_data_topic)
 
     def connect(self):
         self._connection = sqlite3.connect(self._database_path)
@@ -47,9 +49,8 @@ class DatabaseManager():
                 ''')
         self._connection.commit()
 
-
     def add_sensor_data(self, timestamp, sensor_id: int, sensor_type: str,
-            sensor_value: float):
+                        sensor_value: float):
         self._cursor.execute(
                 '''
                 INSERT INTO SensorData VALUES (?, ?, ?, ?)
@@ -67,7 +68,7 @@ class DatabaseManager():
 
     def sensor_data_listener(self, args):
         self.add_sensor_data(args.timestamp, args.sensor_id,
-                args.sensor_type, args.sensor_value)
+                             args.sensor_type, args.sensor_value)
 
     def __repr__(self) -> str:
         res = ''
@@ -75,7 +76,10 @@ class DatabaseManager():
             res += str(row) + '\n'
         return res
 
+
 if __name__ == "__main__":
+    # Test the DB, and clean up afterwards.
+    # Should print the whole db with new test entry added
     import sys
     from time import time
     sys.path.insert(0, '..')
@@ -83,8 +87,8 @@ if __name__ == "__main__":
     db = DatabaseManager()
     db.connect()
     db.create_sensor_data_table()
-    pub.sendMessage("sensor_data", args=SensorData(time(), -1, "test_sensor_type", -999))
-    #db._cursor.execute("
+    pub.sendMessage("sensor_data", args=SensorData(time(),
+                    -1, "test_sensor_type", -999))
     print(db)
     db._remove_data_by_id_type(-1, "test_sensor_type")
     print(db)

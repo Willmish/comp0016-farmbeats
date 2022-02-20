@@ -13,6 +13,7 @@ import RPi.GPIO as GPIO
 def dummy_listener(args, rest=None):
     print("Received message over pubsub:", args.sensor_value)
 
+
 if __name__ == "__main__":
     db = DatabaseManager()
     db.connect()
@@ -42,4 +43,4 @@ if __name__ == "__main__":
             sleep(1)
     except KeyboardInterrupt:
         GPIO.cleanup()
-        #fans.PWM_cleanup()
+        fans.PWM_cleanup()
