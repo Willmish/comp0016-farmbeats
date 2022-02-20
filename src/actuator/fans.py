@@ -26,7 +26,7 @@ class Fans(Actuator):
         super().__init__("fans", args, kwargs)
         self._fan_in_speed: float = .0
         self._fan_out_speed: float = .0
-        pub.subscribe(self.fan_status_listener, "fans_status")
+        pub.subscribe(self.fan_status_listener, "actuator.fans_status")
         GPIO.setup(Fans.FAN_IN_PIN0, GPIO.OUT)
         GPIO.setup(Fans.FAN_IN_PIN1, GPIO.OUT)
         GPIO.setup(Fans.FAN_OUT_PIN0, GPIO.OUT)

@@ -14,6 +14,9 @@ def dummy_listener(args, rest=None):
     print("Received message over pubsub:", args.sensor_value)
 
 if __name__ == "__main__":
+    db = DatabaseManager()
+    db.connect()
+    db.create_sensor_data_table()
     GPIO.setmode(GPIO.BCM)
     # Actuator fans object
     fans = Fans()

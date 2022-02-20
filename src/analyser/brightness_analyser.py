@@ -4,7 +4,7 @@ from analyser.analyser import Analyser
 
 class BrightnessAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
-        super().__init__(["light_sensor"])
+        super().__init__(["sensor_data.light_sensor"])
 
     def analyser_listener(self, args, rest=None):
         data = args
@@ -13,10 +13,10 @@ class BrightnessAnalyser(Analyser):
         # TODO Do analysing stuff here, currently simple threshold
         print(brightness)
         if brightness > 270:
-            pub.sendMessage("light_status", args=0.5)  # Lights 50% on
+            pub.sendMessage("actuator.light_status", args=0.5)  # Lights 50% on
         elif brightness > 270:
-            pub.sendMessage("light_status", args=0.2)  # Lights 20% on
+            pub.sendMessage("actuator.light_status", args=0.2)  # Lights 20% on
         else:
-            pub.sendMessage("light_status", args=0.0)
+            pub.sendMessage("actuator.light_status", args=0.0)
             # FailsafeDefault value (for safety reasons,
             # keep it as 0, as per our security module :)

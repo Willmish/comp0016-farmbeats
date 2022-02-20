@@ -1,6 +1,6 @@
 from seeed_si114x import grove_si114x
 import signal
-import time
+from time import time
 from pubsub import pub
 from sensor.sensor import Sensor
 from tools.status import Status
@@ -19,7 +19,7 @@ class LightSensor(Sensor):
 
     def collect(self):
         self._status = Status.ENABLED
-        pub.sendMessage("light_sensor", args=SensorData(self._id, self._type[0], (self.SI1145.ReadVisible,
+        pub.sendMessage("sensor_data.light_sensor", args=SensorData(time(), self._id, self._type[0], (self.SI1145.ReadVisible,
               self.SI1145.ReadUV / 100, self.SI1145.ReadIR)))
 
     def disable(self):
