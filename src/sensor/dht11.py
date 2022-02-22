@@ -10,7 +10,7 @@ class DHT11(Sensor):
     DHT11_PIN = 16
 
     def __init__(self, *args, **kwargs):
-        super().__init__(("humidity", "temperature"), args, kwargs)
+        super().__init__(("humidity", "temperature"), *args, **kwargs)
         self._dht11 = DHT("11", 16)
 
     def collect(self):
