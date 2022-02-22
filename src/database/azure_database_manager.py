@@ -21,3 +21,21 @@ with pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE=
             #print (str(row[0]) + " " + str(row[1]))
             print(row)
             row = cursor.fetchone()
+
+'''
+------------------ CREATING DATA -------------
+IF OBJECT_ID('[dbo].[SensorData]', 'U') IS NULL
+CREATE TABLE [dbo].[SensorData]
+(
+    [Timestamp] INT NOT NULL, -- Primary Key column
+    [SensorID] INT NOT NULL,
+    [SensorType] TEXT NOT NULL,
+    [Value] REAL NOT NULL,
+    CONSTRAINT SensorData_pk PRIMARY KEY (Timestamp, SensorID)
+    -- Specify more columns here
+);
+GO
+-----------------------------------------------
+------------------- INSERTING DATA -------------
+INSERT INTO dbo.SensorData VALUES (121217, -1, 'test_sensor_type', -999);
+'''
