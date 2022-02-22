@@ -24,9 +24,13 @@ class DatabaseManager():
         pub.subscribe(self.sensor_data_listener,
                       DatabaseManager.sensor_data_topic)
 
-    def connect(self):
+    def __enter__(self):    
         self._connection = sqlite3.connect(self._database_path)
         self._cursor = self._connection.cursor()
+        return self
+    
+    def __exit__(self, type, value, traceback):
+        self._connection.close()
 
     def create_sensor_data_table(self):
         '''
@@ -84,11 +88,10 @@ if __name__ == "__main__":
     from time import time
     sys.path.insert(0, '..')
     from tools.sensor_data import SensorData
-    db = DatabaseManager()
-    db.connect()
-    db.create_sensor_data_table()
-    pub.sendMessage("sensor_data", args=SensorData(time(),
-                    -1, "test_sensor_type", -999))
-    print(db)
-    db._remove_data_by_id_type(-1, "test_sensor_type")
-    print(db)
+    with DatabaseManager() as db:
+        db.create_sensor_data_table()
+        pub.sendMessage("sensor_data", args=SensorData(time(),
+                        -1, "test_sensor_type", -999))
+        print(db)
+        db._remove_data_by_id_type(-1, "test_sensor_type")
+        print(db)

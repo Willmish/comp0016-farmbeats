@@ -15,32 +15,31 @@ def dummy_listener(args, rest=None):
 
 
 if __name__ == "__main__":
-    db = DatabaseManager()
-    db.connect()
-    db.create_sensor_data_table()
-    GPIO.setmode(GPIO.BCM)
-    # Actuator fans object
-    fans = Fans()
-    lights = LEDLights()
+    with DatabaseManager() as db:
+        db.create_sensor_data_table()
+        GPIO.setmode(GPIO.BCM)
+        # Actuator fans object
+        fans = Fans()
+        lights = LEDLights()
 
-    # Analyser fans object
-    humidity_analyser = HumidityAnalyser()
-    brightness_analyser = BrightnessAnalyser()
+        # Analyser fans object
+        humidity_analyser = HumidityAnalyser()
+        brightness_analyser = BrightnessAnalyser()
 
-    # Sensor DHT11 object
-    dht11Sensor = DHT11()
+        # Sensor DHT11 object
+        dht11Sensor = DHT11()
 
-    # Light Sensor object
-    light_sensor = LightSensor()
+        # Light Sensor object
+        light_sensor = LightSensor()
 
-    pub.subscribe(dummy_listener, "humidity_sensor")
-    try:
-        while(1):
-            dht11Sensor.collect()
-            light_sensor.collect()
-            fans.actuate()
-            lights.actuate()
-            sleep(1)
-    except KeyboardInterrupt:
-        GPIO.cleanup()
-        fans.PWM_cleanup()
+        pub.subscribe(dummy_listener, "humidity_sensor")
+        try:
+            while(1):
+                dht11Sensor.collect()
+                light_sensor.collect()
+                fans.actuate()
+                lights.actuate()
+                sleep(1)
+        except KeyboardInterrupt:
+            GPIO.cleanup()
+            fans.PWM_cleanup()
