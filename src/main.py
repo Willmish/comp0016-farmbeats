@@ -12,6 +12,7 @@ import RPi.GPIO as GPIO
 
 TIME_INTERVAL_BETWEEN_READINGS = 0.5
 
+
 def dummy_listener(args, rest=None):
     print("Received message over pubsub:", args.sensor_value)
 
@@ -22,11 +23,11 @@ if __name__ == "__main__":
         GPIO.setmode(GPIO.BCM)
         # Actuator fans object
         fans = Fans()
-        #lights = LEDLights()
+        lights = LEDLights()
 
         # Analyser fans object
         humidity_analyser = HumidityAnalyser()
-        #brightness_analyser = BrightnessAnalyser()
+        brightness_analyser = BrightnessAnalyser()
 
         # Sensor DHT11 object
         dht11Sensor = DHT11(sensor_id=1)
@@ -40,7 +41,7 @@ if __name__ == "__main__":
                 dht11Sensor.collect()
                 light_sensor.collect()
                 fans.actuate()
-                #lights.actuate()
+                # lights.actuate()
                 print(db)
                 sleep(TIME_INTERVAL_BETWEEN_READINGS)
         except KeyboardInterrupt:

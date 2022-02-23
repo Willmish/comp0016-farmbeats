@@ -10,4 +10,9 @@ class SensorData:
         self.sensor_value = sensor_value
 
     def __repr__(self):
-        return str(self.timestamp) + ' ' + str(self.sensor_id) + ' ' + str(self.sensor_type) + ' ' + str(self.sensor_value)
+        res = ''
+        res += f"Timestamp: {str(self.timestamp)}\n"
+        res += f"Sensor ID: {str(self.sensor_id)}\n"
+        res += f"Sensor Type: {str(self.sensor_type)}\n"
+        res += f"Value: {str(self.sensor_value)}\n"
+        return res
