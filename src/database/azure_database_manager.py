@@ -34,8 +34,8 @@ class AzureDatabaseManager(DatabaseManager):
         '''
         self._cursor.execute(
                 '''
-                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='dbo.SensorData' and xtype='U')
-                    CREATE TABLE dbo.SensorData (
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='SensorData' and xtype='U')
+                    CREATE TABLE SensorData (
                         Timestamp INTEGER,
                         SensorID INTEGER,
                         SensorType TEXT,
@@ -49,7 +49,7 @@ class AzureDatabaseManager(DatabaseManager):
                         sensor_value: float):
         self._cursor.execute(
                 '''
-                INSERT INTO dbo.SensorData VALUES (?, ?, ?, ?)
+                INSERT INTO SensorData VALUES (?, ?, ?, ?)
                 ''', (timestamp, sensor_id, sensor_type, sensor_value)
                 )
         self._azure_conn.commit()
@@ -57,7 +57,7 @@ class AzureDatabaseManager(DatabaseManager):
     def _remove_data_by_id_type(self, sensor_id, sensor_type):
         self._cursor.execute(
                 '''
-                DELETE FROM dbo.SensorData WHERE (SensorID = ?) AND SensorType = ?
+                DELETE FROM SensorData WHERE (SensorID = ?) AND (SensorType = ?)
                 ''', (sensor_id, sensor_type)
                 )
         self._azure_conn.commit()
@@ -69,7 +69,7 @@ class AzureDatabaseManager(DatabaseManager):
 
     def __repr__(self) -> str:
         res = ''
-        for row in self._cursor.execute("SELECT * FROM dbo.SensorData;"):
+        for row in self._cursor.execute("SELECT * FROM SensorData;"):
             res += str(row) + '\n'
         return res
 
