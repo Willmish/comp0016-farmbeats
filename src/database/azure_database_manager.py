@@ -39,7 +39,7 @@ class AzureDatabaseManager(DatabaseManager):
                 (
                     [Timestamp] INT NOT NULL,
                     [SensorID] INT NOT NULL,
-                    [SensorType] TEXT NOT NULL,
+                    [SensorType] VARCHAR(256) NOT NULL,
                     [Value] REAL NOT NULL,
                     CONSTRAINT SensorData_pk PRIMARY KEY (Timestamp, SensorID)
                 );
@@ -50,17 +50,15 @@ class AzureDatabaseManager(DatabaseManager):
                         sensor_value: float):
         self._cursor.execute(
                 '''
-                INSERT INTO SensorData VALUES (?, ?, ?, ?)
+                INSERT INTO dbo.SensorData VALUES (?, ?, ?, ?)
                 ''', (timestamp, sensor_id, sensor_type, sensor_value)
                 )
         self._azure_conn.commit()
 
     def _remove_data_by_id_type(self, sensor_id, sensor_type):
-        print ("sensor id type: " + str(type(sensor_id)))
-        print ("sensor type type: " + str(type(sensor_type)))
         self._cursor.execute(
                 '''
-                DELETE FROM SensorData WHERE SensorID = ? AND SensorType = ?
+                DELETE FROM dbo.SensorData WHERE SensorID = ? AND SensorType = ?
                 ''', (sensor_id, sensor_type)
                 )
         self._azure_conn.commit()
@@ -72,7 +70,7 @@ class AzureDatabaseManager(DatabaseManager):
 
     def __repr__(self) -> str:
         res = ''
-        for row in self._cursor.execute("SELECT * FROM SensorData;"):
+        for row in self._cursor.execute("SELECT * FROM dbo.SensorData;"):
             res += str(row) + '\n'
         return res
 
