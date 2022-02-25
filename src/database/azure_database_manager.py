@@ -34,14 +34,15 @@ class AzureDatabaseManager(DatabaseManager):
         '''
         self._cursor.execute(
                 '''
-                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='SensorData' and xtype='U')
-                    CREATE TABLE SensorData (
-                        Timestamp INTEGER,
-                        SensorID INTEGER,
-                        SensorType TEXT,
-                        Value REAL,
-                        PRIMARY KEY(Timestamp, SensorID)
-                    );
+                IF OBJECT_ID('dbo.SensorData', 'U') IS  NULL
+                CREATE TABLE dbo.SensorData
+                (
+                    [Timestamp] INT NOT NULL,
+                    [SensorID] INT NOT NULL,
+                    [SensorType] TEXT NOT NULL,
+                    [Value] REAL NOT NULL,
+                    CONSTRAINT SensorData_pk PRIMARY KEY (Timestamp, SensorID)
+                );
                 ''')
         self._azure_conn.commit()
 
@@ -55,9 +56,11 @@ class AzureDatabaseManager(DatabaseManager):
         self._azure_conn.commit()
 
     def _remove_data_by_id_type(self, sensor_id, sensor_type):
+        print ("sensor id type: " + str(type(sensor_id)))
+        print ("sensor type type: " + str(type(sensor_type)))
         self._cursor.execute(
                 '''
-                DELETE FROM SensorData WHERE (SensorID = ?) AND (SensorType = ?)
+                DELETE FROM SensorData WHERE SensorID = ? AND SensorType = ?
                 ''', (sensor_id, sensor_type)
                 )
         self._azure_conn.commit()
