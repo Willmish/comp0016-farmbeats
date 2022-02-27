@@ -2,6 +2,8 @@ from pubsub import pub
 from database_manager import DatabaseManager
 import pyodbc
 
+#copied from src to manually add data
+
 
 server = 'iot-farmbeats.database.windows.net'
 database = 'iot-farmbeats'
@@ -73,6 +75,8 @@ class AzureDatabaseManager(DatabaseManager):
         for row in self._cursor.execute("SELECT * FROM dbo.SensorData;"):
             res += str(row) + '\n'
         return res
+    
+
 
 
 if __name__ == "__main__":
@@ -86,6 +90,21 @@ if __name__ == "__main__":
         db.create_sensor_data_table()
         pub.sendMessage("sensor_data", args=SensorData(time(),
                         -1, "test_sensor_type", -999))
+        
+        val = 0
+        for x in range(3):
+            pub.sendMessage("sensor_data", args=SensorData(time(),
+                        1, "brightness", 900+val))
+            pub.sendMessage("sensor_data", args=SensorData(time(),
+                        2, "humidity", 55+val))
+            pub.sendMessage("sensor_data", args=SensorData(time(),
+                        3, "temperature", 20+val))
+            pub.sendMessage("sensor_data", args=SensorData(time(),
+                        4, "water level", 15+val))
+            val +=1
+            import time as t
+            t.sleep(1)
+
         print(db)
         db._remove_data_by_id_type(-1, "test_sensor_type")
         print(db)
