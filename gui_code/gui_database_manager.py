@@ -30,7 +30,8 @@ class GuiDatabaseManager(DatabaseManager):
             SELECT  Value
             FROM dbo.SensorData a 
             WHERE Timestamp = (SELECT MAX(Timestamp) ''' +
-            "FROM dbo.SensorData b WHERE b.SensorType = '" + subsys_name +"') AND a.SensorType = '" + subsys_name + "';"
+            "FROM dbo.SensorData b WHERE b.SensorType = '" + 
+            subsys_name +"') AND a.SensorType = '" + subsys_name + "';"
             
         ):
             
@@ -46,8 +47,36 @@ class GuiDatabaseManager(DatabaseManager):
             self.get_curr_val_single_subsys('temperature'),
             self.get_curr_val_single_subsys('water level')
             ] 
-        print (curr_vals)
         return curr_vals
+
+    def get_time_and_val_list(self, subsys_name):
+        vals = []
+        times = []
+
+        for row in self._cursor.execute(
+            '''
+            SELECT  Value, Timestamp
+            FROM dbo.SensorData ''' +
+            "WHERE SensorType = '" + subsys_name + "';"
+            
+        ):
+            vals.append(row[0])
+            times.append(row[1])
+
+        return (vals, times)
+    
+    def get_val_list(self, subsys_name):
+        values = []
+
+        for row in self._cursor.execute(
+            '''
+            SELECT  Value
+            FROM dbo.SensorData ''' +
+            "WHERE SensorType = '" + subsys_name + "';"
+            
+        ):
+            values.append(row[0])
+        return values
 
     def __repr__(self) -> str:
         res = ''
@@ -55,9 +84,5 @@ class GuiDatabaseManager(DatabaseManager):
             res += str(row) + '\n'
         return res
 
-import sys
-sys.path.insert(0, '..')
-with GuiDatabaseManager() as db:
-    db.collect_curr_val()
 
     
