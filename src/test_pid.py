@@ -5,9 +5,9 @@ import numpy as np
 from scipy.interpolate import spline
 
 
-def test_pid(P, I, D, L):
+def test_pid(p, Pi, d, L):
 
-    pid = PID(P, I, D)
+    pid = PID(p, Pi, d)
 
     pid.SetPoint = 1.1
     pid.setSampleTime(0.01)
