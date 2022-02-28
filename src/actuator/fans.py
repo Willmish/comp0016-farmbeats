@@ -23,8 +23,8 @@ class Fans(Actuator):
         :type actuator_status: Status
         """
         super().__init__("fans", args, kwargs)
-        self._fan_in_speed: float = .0
-        self._fan_out_speed: float = .0
+        self._fan_in_speed: float = 0.0
+        self._fan_out_speed: float = 0.0
         pub.subscribe(self.fan_status_listener, "actuator.fans_status")
         GPIO.setup(Fans.FAN_IN_PIN0, GPIO.OUT)
         GPIO.setup(Fans.FAN_IN_PIN1, GPIO.OUT)
@@ -43,7 +43,7 @@ class Fans(Actuator):
         """actuate: dummy actuation function, to be overriden by children."""
         # TODO DO GPIO OUT BASED ON CURRENT SPEEDS !!
         # MAKE SURE PWM IS IN BETWEEN 0 and 100 (%)
-        if (self._fan_in_speed > 0):
+        if self._fan_in_speed > 0:
             print("fans in on!")
             # self._PWM_IN.ChangeDutyCycle(self._fan_in_speed)
             GPIO.output(Fans.FAN_IN_PIN1, GPIO.LOW)
@@ -59,7 +59,7 @@ class Fans(Actuator):
             GPIO.output(Fans.FAN_IN_PIN0, GPIO.LOW)
             # self._PWM_IN.ChangeDutyCycle(self._fan_in_speed)
             GPIO.output(Fans.FAN_IN_PIN1, GPIO.LOW)
-        if (self._fan_out_speed > 0):
+        if self._fan_out_speed > 0:
             print("fans out on!")
             # self._PWM_OUT.ChangeDutyCycle(self._fan_out_speed)
             GPIO.output(Fans.FAN_OUT_PIN0, GPIO.HIGH)
@@ -84,6 +84,6 @@ class Fans(Actuator):
     def fan_status_listener(self, args, rest=None):
         speed = args
         print("Received speed vals over pubsub:", speed)
-        assert(0 <= speed <= 100)
+        assert 0 <= speed <= 100
         self._fan_out_speed = speed
         self._fan_in_speed = speed
