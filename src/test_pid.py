@@ -7,7 +7,7 @@ from scipy.interpolate import spline
 
 def test_pid(P, I , D, L):
 
-    pid = PID.PID(P, I, D)
+    pid = PID(P, I, D)
 
     pid.SetPoint=1.1
     pid.setSampleTime(0.01)
@@ -38,7 +38,7 @@ def test_pid(P, I , D, L):
     plt.ylim((min(feedback_list)-0.5, max(feedback_list)+0.5))
     plt.xlabel('time (s)')
     plt.ylabel('PID (PV)')
-    plt.title('PythonTEST PID--xiaomokuaipao',fontsize=15)
+    plt.title('PythonTEST PID',fontsize=15)
 
     plt.ylim((1-0.5, 1+0.5))
 
