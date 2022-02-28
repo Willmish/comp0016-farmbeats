@@ -3,11 +3,11 @@ import time
 import matplotlib.pyplot as plt
 
 
-def humidity_pid_control(P, I, D, temprature, clock):
+def humidity_pid_control(p, i, d, temprature, clock):
     # P = 1.2
     # I = 1
     # D = 0.001
-    pid = PID(P, I, D)
+    pid = PID(p, i, d)
     pid.SetPoint = temprature
     feedback = 0
     feedback_list = []
