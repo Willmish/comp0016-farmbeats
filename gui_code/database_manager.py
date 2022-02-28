@@ -2,7 +2,7 @@ import sqlite3
 from pubsub import pub
 
 
-#Copied from src folder for now
+# Copied from src folder for now
 
 class DatabaseManager():
     sensor_data_topic = "sensor_data"
