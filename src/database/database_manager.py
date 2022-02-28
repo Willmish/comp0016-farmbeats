@@ -29,33 +29,29 @@ class DatabaseManager():
         |  INTEGER  | INTEGER  |    TEXT    |  REAL |
         +-----------+----------+------------+-------+
         '''
-        self._cursor.execute(
-                '''
-                CREATE TABLE IF NOT EXISTS SensorData(
-                Timestamp INTEGER,
-                SensorID INTEGER,
-                SensorType TEXT,
-                Value REAL,
-                PRIMARY KEY(Timestamp, SensorID)
-                );
-                ''')
+        self._cursor.execute('''
+                             CREATE TABLE IF NOT EXISTS SensorData(
+                             Timestamp INTEGER,
+                             SensorID INTEGER,
+                             SensorType TEXT,
+                             Value REAL,
+                             PRIMARY KEY(Timestamp, SensorID)
+                             );
+                             ''')
         self._connection.commit()
 
     def add_sensor_data(self, timestamp, sensor_id: int, sensor_type: str,
                         sensor_value: float):
-        self._cursor.execute(
-                '''
-                INSERT INTO SensorData VALUES (?, ?, ?, ?)
-                ''', (timestamp, sensor_id, sensor_type, sensor_value)
-                )
+        self._cursor.execute('''
+                             INSERT INTO SensorData VALUES (?, ?, ?, ?)''',
+                             (timestamp, sensor_id, sensor_type, sensor_value))
         self._connection.commit()
 
     def _remove_data_by_id_type(self, sensor_id, sensor_type):
-        self._cursor.execute(
-                '''
-                DELETE FROM SensorData WHERE (SensorID = ?) AND SensorType = ?
-                ''', (sensor_id, sensor_type)
-                )
+        self._cursor.execute('''
+                             DELETE FROM SensorData WHERE
+                             (SensorID = ?) AND SensorType = ?''',
+                             (sensor_id, sensor_type))
         self._connection.commit()
 
     def sensor_data_listener(self, args):
