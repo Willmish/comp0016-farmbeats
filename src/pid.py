@@ -2,10 +2,10 @@ import time
 
 
 class PID:
-    def __init__(self, P, I, D):
-        self.Kp = P
-        self.Ki = I
-        self.Kd = D
+    def __init__(self, p, i, d):
+        self.Kp = p
+        self.Ki = i
+        self.Kd = d
         self.sample_time = 0.00
         self.current_time = time.time()
         self.last_time = self.current_time
