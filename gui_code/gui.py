@@ -1,4 +1,4 @@
-from tkinter import (Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT, Tk)
+from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT, Tk
 import tkinter
 from pandas import DataFrame
 import matplotlib.pyplot as plt
@@ -58,8 +58,7 @@ class FarmBeatsApp:
 
         tempButton.image = tempImg
         tempButton.grid(
-            row=0, column=0, sticky="news",
-            pady=PADDING, padx=PADDING
+            row=0, column=0, sticky="news", pady=PADDING, padx=PADDING
         )
 
         humidityImg = self.getMenuButton(
@@ -75,8 +74,7 @@ class FarmBeatsApp:
 
         humidityButton.image = humidityImg
         humidityButton.grid(
-            row=0, column=1, sticky="news",
-            pady=PADDING, padx=PADDING
+            row=0, column=1, sticky="news", pady=PADDING, padx=PADDING
         )
 
         brightnessImg = self.getMenuButton(
@@ -91,8 +89,7 @@ class FarmBeatsApp:
         )
         brightnessButton.image = brightnessImg
         brightnessButton.grid(
-            row=0, column=2, sticky="news",
-            pady=PADDING, padx=PADDING
+            row=0, column=2, sticky="news", pady=PADDING, padx=PADDING
         )
 
         waterImg = self.getMenuButton(
@@ -108,8 +105,7 @@ class FarmBeatsApp:
 
         waterButton.image = waterImg
         waterButton.grid(
-            row=1, column=0, sticky="news",
-            pady=PADDING, padx=PADDING
+            row=1, column=0, sticky="news", pady=PADDING, padx=PADDING
         )
 
         aiCameraImg = self.getMenuButton(
@@ -125,8 +121,7 @@ class FarmBeatsApp:
 
         aiCameraButton.image = aiCameraImg
         aiCameraButton.grid(
-            row=1, column=1, sticky="news",
-            pady=PADDING, padx=PADDING
+            row=1, column=1, sticky="news", pady=PADDING, padx=PADDING
         )
 
         systemImg = self.getMenuButton(
@@ -142,8 +137,7 @@ class FarmBeatsApp:
 
         sysVisualButton.image = systemImg
         sysVisualButton.grid(
-            row=1, column=2, sticky="news",
-            pady=PADDING, padx=PADDING
+            row=1, column=2, sticky="news", pady=PADDING, padx=PADDING
         )
 
         self.optionFrame.pack(expand=True, fill=BOTH, pady=15, padx=15)
@@ -204,8 +198,12 @@ class FarmBeatsApp:
         subFrame.pack()
         self.graphDisplay(sensorFrame, profile)
         sensorFrame.grid(
-            row=0, column=0, sticky="news",
-            pady=PADDING, padx=PADDING, rowspan=4
+            row=0,
+            column=0,
+            sticky="news",
+            pady=PADDING,
+            padx=PADDING,
+            rowspan=4,
         )
 
         # ActuatorFrame set up
@@ -218,8 +216,7 @@ class FarmBeatsApp:
         actuatorTitle.config(background=BACKGROUND, font=("Courier", 15))
 
         actuatorTitle.grid(
-            row=0, column=0, sticky="news",
-            pady=PADDING, padx=PADDING
+            row=0, column=0, sticky="news", pady=PADDING, padx=PADDING
         )
 
         modeSwitchFrame = Frame(actuatorFrame, bg=BACKGROUND)
@@ -231,25 +228,26 @@ class FarmBeatsApp:
         automaticMode.pack(side=LEFT)
 
         modeSwitchFrame.grid(
-            row=1, column=0, sticky="news",
-            pady=PADDING, padx=PADDING
+            row=1, column=0, sticky="news", pady=PADDING, padx=PADDING
         )
 
         actuatorVal = Label(
-            actuatorFrame,
-            text=profile.actuatorValueDescription
+            actuatorFrame, text=profile.actuatorValueDescription
         )
 
         actuatorVal.config(background=BACKGROUND, font=("Courier", 15))
 
         actuatorVal.grid(
-            row=2, column=0, sticky="news",
-            pady=PADDING, padx=PADDING
+            row=2, column=0, sticky="news", pady=PADDING, padx=PADDING
         )
 
         actuatorFrame.grid(
-            row=0, column=1, sticky="news",
-            pady=PADDING, padx=PADDING, rowspan=3
+            row=0,
+            column=1,
+            sticky="news",
+            pady=PADDING,
+            padx=PADDING,
+            rowspan=3,
         )
 
         # SuggestionFrame set up
@@ -264,8 +262,7 @@ class FarmBeatsApp:
         messageFrame.pack()
 
         suggestionFrame.grid(
-            row=3, column=1, sticky="news",
-            pady=PADDING, padx=PADDING
+            row=3, column=1, sticky="news", pady=PADDING, padx=PADDING
         )
 
         # Display on profileFrame
@@ -299,20 +296,20 @@ class FarmBeatsApp:
         fig = plt.Figure(figsize=(5, 4), dpi=100)
         ax = fig.add_subplot(111)
         FigureCanvasTkAgg(fig, frame).get_tk_widget().pack(pady=15, padx=15)
-        dataFrame = dataFrame[
-            ["Time (ms)", y_label]
-            ].groupby("Time (ms)").sum()
+        dataFrame = (
+            dataFrame[["Time (ms)", y_label]].groupby("Time (ms)").sum()
+        )
 
         dataFrame.plot(
-            linewidth=0.5, kind="line", legend=True,
-            ax=ax, color="r", fontsize=10
+            linewidth=0.5,
+            kind="line",
+            legend=True,
+            ax=ax,
+            color="r",
+            fontsize=10,
         )
 
-        ax.set(
-            xlabel="Time (ms)",
-            ylabel=y_label,
-            title=profile.graphTitle
-        )
+        ax.set(xlabel="Time (ms)", ylabel=y_label, title=profile.graphTitle)
 
     def homeButtonAction(self, binst):
         self.profileFrame.pack_forget()

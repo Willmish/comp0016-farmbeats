@@ -19,10 +19,14 @@ class DHT11(Sensor):
         # TODO think if magic numbers for sensor type is best option?
         # maybe keep all as enums?
         # (Problematic with mixed type sensors)
-        pub.sendMessage("sensor_data.humidity_sensor", args=SensorData(
-                        time(), self._id, self._type[0], humidity))
-        pub.sendMessage("sensor_data.ambient_temperature_sensor",
-                        args=SensorData(time(), self._id, self._type[1], temp))
+        pub.sendMessage(
+            "sensor_data.humidity_sensor",
+            args=SensorData(time(), self._id, self._type[0], humidity),
+        )
+        pub.sendMessage(
+            "sensor_data.ambient_temperature_sensor",
+            args=SensorData(time(), self._id, self._type[1], temp),
+        )
 
     def disable(self):
         self._status = Status.DISABLED

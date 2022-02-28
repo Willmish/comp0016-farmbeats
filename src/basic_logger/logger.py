@@ -26,18 +26,30 @@ def main():
     while True:
         humi, temp = dht.read()
         if humi is not None:
-            print('DHT{0}, humidity {1:.1f}%, temperature {2:.1f}*'.format(
-                  dht.dht_type, humi, temp), end=" ")
+            print(
+                "DHT{0}, humidity {1:.1f}%, temperature {2:.1f}*".format(
+                    dht.dht_type, humi, temp
+                ),
+                end=" ",
+            )
         else:
-            print('DHT{0}, humidity & temperature: {1}'.format(
-                  dht.dht_type, temp), end=" ")
-        print('Visible %03d UV %.2f IR %03d' % (SI1145.ReadVisible,
-              SI1145.ReadUV / 100, SI1145.ReadIR), end=" ")
-        print(f"Soil humdity: {soil_sensor.read_raw(soil_sensor_pin)}",
-              end=' ')
-        print('\r', end='')
+            print(
+                "DHT{0}, humidity & temperature: {1}".format(
+                    dht.dht_type, temp
+                ),
+                end=" ",
+            )
+        print(
+            "Visible %03d UV %.2f IR %03d"
+            % (SI1145.ReadVisible, SI1145.ReadUV / 100, SI1145.ReadIR),
+            end=" ",
+        )
+        print(
+            f"Soil humdity: {soil_sensor.read_raw(soil_sensor_pin)}", end=" "
+        )
+        print("\r", end="")
         time.sleep(0.5)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
