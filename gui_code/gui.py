@@ -1,3 +1,4 @@
+from sre_constants import BRANCH
 from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT, Tk
 import tkinter
 from pandas import DataFrame
@@ -18,165 +19,165 @@ BACKGROUND = "#E7F5EF"
 class FarmBeatsApp:
     def __init__(self, master):
         self.main = master
-        self.labelFrame = Frame(self.main)
-        self.labelFrameSetUp()
-        self.optionFrame = Frame(self.main, bg="white")
-        self.optionFrameSetUp()
-        self.profileFrame = Frame(self.main, bg="white")
+        self.label_frame = Frame(self.main)
+        self.label_frame_setup()
+        self.option_frame = Frame(self.main, bg="white")
+        self.option_frame_setup()
+        self.profile_frame = Frame(self.main, bg="white")
 
-    def labelFrameSetUp(self):
+    def label_frame_setup(self):
 
-        self.label = Label(self.labelFrame, text="IoT FarmBeats", width=60)
+        self.label = Label(self.label_frame, text="IoT FarmBeats", width=60)
         self.label.config(background=BACKGROUND, font=("Courier", 25))
         self.label.pack()
-        self.labelFrame.pack()
+        self.label_frame.pack()
 
-    def getMenuButton(self, imageName):
+    def get_menu_button(self, image_name):
         width = 240
         height = 220
-        img = Image.open(imageName)
+        img = Image.open(image_name)
         img = img.resize((width, height), Image.ANTIALIAS)
         return ImageTk.PhotoImage(img)
 
-    def optionFrameSetUp(self):
+    def option_frame_setup(self):
         for n in range(3):
-            self.optionFrame.grid_columnconfigure(n, weight=1, uniform="row")
+            self.option_frame.grid_columnconfigure(n, weight=1, uniform="row")
 
         for n in range(2):
-            self.optionFrame.grid_rowconfigure(n, weight=1, uniform="row")
+            self.option_frame.grid_rowconfigure(n, weight=1, uniform="row")
 
-        tempImg = self.getMenuButton(
+        temp_img = self.get_menu_button(
             "assets/optionButtons/temperatureButton.png"
         )
 
         tempButton = Button(
-            self.optionFrame,
-            image=tempImg,
-            command=self.tempButtonAction,
+            self.option_frame,
+            image=temp_img,
+            command=self.temp_button_action,
             borderwidth=0,
         )
 
-        tempButton.image = tempImg
+        tempButton.image = temp_img
         tempButton.grid(
             row=0, column=0, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        humidityImg = self.getMenuButton(
+        humidity_img = self.get_menu_button(
             "assets/optionButtons/humidityButton.png"
         )
 
         humidityButton = Button(
-            self.optionFrame,
-            image=humidityImg,
-            command=self.humidityButtonAction,
+            self.option_frame,
+            image=humidity_img,
+            command=self.humidity_button_action,
             borderwidth=0,
         )
 
-        humidityButton.image = humidityImg
+        humidityButton.image = humidity_img
         humidityButton.grid(
             row=0, column=1, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        brightnessImg = self.getMenuButton(
+        brightness_img = self.get_menu_button(
             "assets/optionButtons/brightnessButton.png"
         )
 
         brightnessButton = Button(
-            self.optionFrame,
-            image=brightnessImg,
-            command=self.brightnessButtonAction,
+            self.option_frame,
+            image=brightness_img,
+            command=self.brightness_button_action,
             borderwidth=0,
         )
-        brightnessButton.image = brightnessImg
+        brightnessButton.image = brightness_img
         brightnessButton.grid(
             row=0, column=2, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        waterImg = self.getMenuButton(
+        water_img = self.get_menu_button(
             "assets/optionButtons/waterLevelButton.png"
         )
 
         waterButton = Button(
-            self.optionFrame,
-            image=waterImg,
-            command=self.waterButtonAction,
+            self.option_frame,
+            image=water_img,
+            command=self.water_button_action,
             borderwidth=0,
         )
 
-        waterButton.image = waterImg
+        waterButton.image = water_img
         waterButton.grid(
             row=1, column=0, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        aiCameraImg = self.getMenuButton(
+        aiCamera_img = self.get_menu_button(
             "assets/optionButtons/aiCameraButton.png"
         )
 
         aiCameraButton = Button(
-            self.optionFrame,
-            image=aiCameraImg,
-            command=self.aiCameraButtonAction,
+            self.option_frame,
+            image=aiCamera_img,
+            command=self.ai_camera_button_action,
             borderwidth=0,
         )
 
-        aiCameraButton.image = aiCameraImg
+        aiCameraButton.image = aiCamera_img
         aiCameraButton.grid(
             row=1, column=1, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        systemImg = self.getMenuButton(
+        system_img = self.get_menu_button(
             "assets/optionButtons/systemVisualisationButton.png"
         )
 
         sysVisualButton = Button(
-            self.optionFrame,
-            image=systemImg,
-            command=self.sysVisualButtonAction,
+            self.option_frame,
+            image=system_img,
+            command=self.sys_visual_button_action,
             borderwidth=0,
         )
 
-        sysVisualButton.image = systemImg
+        sysVisualButton.image = system_img
         sysVisualButton.grid(
             row=1, column=2, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        self.optionFrame.pack(expand=True, fill=BOTH, pady=15, padx=15)
+        self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
 
-    def profileSetUp(self, profileName):
+    def profile_setup(self, profile_name):
 
-        profile = ProfileInformation(profileName)
+        profile = ProfileInformation(profile_name)
         self.label.config(text=profile.title)
         img = Image.open("assets/homeIcon.png")
-        homeIcon = ImageTk.PhotoImage(img)
+        home_icon = ImageTk.PhotoImage(img)
 
-        homeButton = Button(self.labelFrame, image=homeIcon, borderwidth=0)
-        homeButton.image = homeIcon
+        home_button = Button(self.label_frame, image=home_icon, borderwidth=0)
+        home_button.image = home_icon
 
-        homeButton[
+        home_button[
             "command"
-        ] = lambda idx="Home", binst=homeButton: self.homeButtonAction(binst)
-        homeButton.pack()
-        homeButton.place(bordermode=INSIDE, x=5, y=5)
+        ] = lambda idx="Home", binst=home_button: self.home_button_action(binst)
+        home_button.pack()
+        home_button.place(bordermode=INSIDE, x=5, y=5)
 
         for n in range(2):
-            self.profileFrame.grid_columnconfigure(n, weight=1)
+            self.profile_frame.grid_columnconfigure(n, weight=1)
         for n in range(4):
-            self.profileFrame.grid_rowconfigure(n, weight=1)
+            self.profile_frame.grid_rowconfigure(n, weight=1)
 
         # SensorFrame set up
 
-        sensorFrame = Frame(self.profileFrame, bg=BACKGROUND)
+        sensor_frame = Frame(self.profile_frame, bg=BACKGROUND)
 
-        sensorTitle = Label(sensorFrame, text=profile.sensorFrameTitle)
-        sensorTitle.config(background=BACKGROUND, font=("Courier", 15))
-        sensorTitle.pack()
+        sensor_title = Label(sensor_frame, text=profile.sensor_frame_title)
+        sensor_title.config(background=BACKGROUND, font=("Courier", 15))
+        sensor_title.pack()
 
-        value = Label(sensorFrame, text=profile.sensorValueDescription)
+        value = Label(sensor_frame, text=profile.sensor_value_description)
         value.config(background=BACKGROUND)
         value.config(font=("Courier", 15))
         value.pack()
 
-        subFrame = Frame(sensorFrame, bg=BACKGROUND)
+        sub_frame = Frame(sensor_frame, bg=BACKGROUND)
 
         range_ = profile.bound[1] - profile.bound[0]
         l1 = ((profile.extr[0] - profile.bound[0]) / range_) * 400
@@ -184,20 +185,20 @@ class FarmBeatsApp:
         l3 = ((profile.extr[2] - profile.bound[0]) / range_) * 400
         l4 = ((profile.extr[3] - profile.bound[0]) / range_) * 400
 
-        line = ((profile.sensorValue - profile.bound[0]) / range_) * 400
-        scaleCanvas = tkinter.Canvas(subFrame, height=40, width=400)
+        line = ((profile.sensor_value - profile.bound[0]) / range_) * 400
+        scale_canvas = tkinter.Canvas(sub_frame, height=40, width=400)
 
-        scaleCanvas.create_rectangle(0, 0, l1, 30, fill=RED, width=0)
-        scaleCanvas.create_rectangle(l1, 0, l2, 30, fill=AMBER, width=0)
-        scaleCanvas.create_rectangle(l2, 0, l3, 30, fill=GREEN, width=0)
-        scaleCanvas.create_rectangle(l3, 0, l4, 30, fill=AMBER, width=0)
-        scaleCanvas.create_rectangle(l4, 0, 400, 30, fill=RED, width=0)
-        scaleCanvas.create_line(0, 15, line, 15, width=3)
-        scaleCanvas.pack()
+        scale_canvas.create_rectangle(0, 0, l1, 30, fill=RED, width=0)
+        scale_canvas.create_rectangle(l1, 0, l2, 30, fill=AMBER, width=0)
+        scale_canvas.create_rectangle(l2, 0, l3, 30, fill=GREEN, width=0)
+        scale_canvas.create_rectangle(l3, 0, l4, 30, fill=AMBER, width=0)
+        scale_canvas.create_rectangle(l4, 0, 400, 30, fill=RED, width=0)
+        scale_canvas.create_line(0, 15, line, 15, width=3)
+        scale_canvas.pack()
 
-        subFrame.pack()
-        self.graphDisplay(sensorFrame, profile)
-        sensorFrame.grid(
+        sub_frame.pack()
+        self.graph_display(sensor_frame, profile)
+        sensor_frame.grid(
             row=0,
             column=0,
             sticky="news",
@@ -208,40 +209,40 @@ class FarmBeatsApp:
 
         # ActuatorFrame set up
 
-        actuatorFrame = Frame(self.profileFrame, bg=BACKGROUND)
-        actuatorFrame.grid_columnconfigure(0, weight=1)
+        actuator_frame = Frame(self.profile_frame, bg=BACKGROUND)
+        actuator_frame.grid_columnconfigure(0, weight=1)
         for n in range(3):
-            actuatorFrame.grid_rowconfigure(n, weight=1)
-        actuatorTitle = Label(actuatorFrame, text=profile.actuatorFrameTitle)
+            actuator_frame.grid_rowconfigure(n, weight=1)
+        actuatorTitle = Label(actuator_frame, text=profile.actuator_frame_title)
         actuatorTitle.config(background=BACKGROUND, font=("Courier", 15))
 
         actuatorTitle.grid(
             row=0, column=0, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        modeSwitchFrame = Frame(actuatorFrame, bg=BACKGROUND)
-        manualMode = Label(modeSwitchFrame, text="Manual")
-        manualMode.config(background="#CEE5DB", font=("Courier", 15))
-        manualMode.pack(side=RIGHT)
-        automaticMode = Button(modeSwitchFrame, text="Automatic")
-        automaticMode.config(background=BACKGROUND, font=("Courier", 15))
-        automaticMode.pack(side=LEFT)
+        mode_switch_frame = Frame(actuator_frame, bg=BACKGROUND)
+        manual_mode = Label(mode_switch_frame, text="Manual")
+        manual_mode.config(background="#CEE5DB", font=("Courier", 15))
+        manual_mode.pack(side=RIGHT)
+        automatic_mode = Button(mode_switch_frame, text="Automatic")
+        automatic_mode.config(background=BACKGROUND, font=("Courier", 15))
+        automatic_mode.pack(side=LEFT)
 
-        modeSwitchFrame.grid(
+        mode_switch_frame.grid(
             row=1, column=0, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        actuatorVal = Label(
-            actuatorFrame, text=profile.actuatorValueDescription
+        actuator_val = Label(
+            actuator_frame, text=profile.actuator_value_description
         )
 
-        actuatorVal.config(background=BACKGROUND, font=("Courier", 15))
+        actuator_val.config(background=BACKGROUND, font=("Courier", 15))
 
-        actuatorVal.grid(
+        actuator_val.grid(
             row=2, column=0, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        actuatorFrame.grid(
+        actuator_frame.grid(
             row=0,
             column=1,
             sticky="news",
@@ -252,55 +253,41 @@ class FarmBeatsApp:
 
         # SuggestionFrame set up
 
-        suggestionFrame = Frame(self.profileFrame, bg="#E7F5EF")
-        suggestionLabel = Label(suggestionFrame, text="Suggestion")
-        suggestionLabel.config(background="#E7F5EF", font=("Courier", 15))
-        suggestionLabel.pack()
-        messageFrame = Frame(suggestionFrame, bg="#FFFFFF", height=400)
-        msg = Label(messageFrame, text=profile.suggestion)
+        suggestion_frame = Frame(self.profile_frame, bg=BACKGROUND)
+        suggestion_label = Label(suggestion_frame, text="Suggestion")
+        suggestion_label.config(background=BACKGROUND, font=("Courier", 15))
+        suggestion_label.pack()
+        message_frame = Frame(suggestion_frame, bg="#FFFFFF", height=400)
+        msg = Label(message_frame, text=profile.suggestion)
         msg.pack()
-        messageFrame.pack()
+        message_frame.pack()
 
-        suggestionFrame.grid(
+        suggestion_frame.grid(
             row=3, column=1, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        # Display on profileFrame
+        # Display on profile_frame
 
-        self.profileFrame.pack(fill=BOTH, expand=True, pady=15, padx=15)
+        self.profile_frame.pack(fill=BOTH, expand=True, pady=15, padx=15)
 
-    def getColour(self, val, extrLower, lower, upper, extrUpper):
-        if val <= upper and val >= lower:
-            return GREEN
-        elif val <= extrUpper and val > upper:
-            return AMBER
-        elif val <= extrLower and val > lower:
-            return AMBER
-        else:
-            return RED
 
-    def graphDisplay(self, frame, profile):
-        print(profile.title)
-        print("Timelist: ")
-        print(profile.timeList)
-        print("Val list: ")
-        print(profile.valList)
+    def graph_display(self, frame, profile):
 
         y_label = profile.title + " (" + profile.unit + ")"
 
-        dataFrame = DataFrame(
-            {"Time (ms)": profile.timeList, y_label: profile.valList},
+        data_frame = DataFrame(
+            {"Time (ms)": profile.time_list, y_label: profile.val_list},
             columns=["Time (ms)", y_label],
         )
 
         fig = plt.Figure(figsize=(5, 4), dpi=100)
         ax = fig.add_subplot(111)
         FigureCanvasTkAgg(fig, frame).get_tk_widget().pack(pady=15, padx=15)
-        dataFrame = (
-            dataFrame[["Time (ms)", y_label]].groupby("Time (ms)").sum()
+        data_frame = (
+            data_frame[["Time (ms)", y_label]].groupby("Time (ms)").sum()
         )
 
-        dataFrame.plot(
+        data_frame.plot(
             linewidth=0.5,
             kind="line",
             legend=True,
@@ -309,41 +296,41 @@ class FarmBeatsApp:
             fontsize=10,
         )
 
-        ax.set(xlabel="Time (ms)", ylabel=y_label, title=profile.graphTitle)
+        ax.set(xlabel="Time (ms)", ylabel=y_label, title=profile.graph_title)
 
-    def homeButtonAction(self, binst):
-        self.profileFrame.pack_forget()
-        self.optionFrame.pack(expand=True, fill=BOTH, pady=15, padx=15)
+    def home_button_action(self, binst):
+        self.profile_frame.pack_forget()
+        self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
         binst.destroy()
         self.label.config(text="IoT FarmBeats")
 
-    def tempButtonAction(self):
-        self.optionFrame.pack_forget()
-        self.profileSetUp("Temperature")
+    def temp_button_action(self):
+        self.option_frame.pack_forget()
+        self.profile_setup("Temperature")
 
-    def humidityButtonAction(self):
-        self.optionFrame.pack_forget()
-        self.profileSetUp("Humidity")
+    def humidity_button_action(self):
+        self.option_frame.pack_forget()
+        self.profile_setup("Humidity")
 
-    def brightnessButtonAction(self):
-        self.optionFrame.pack_forget()
-        self.profileSetUp("Brightness")
+    def brightness_button_action(self):
+        self.option_frame.pack_forget()
+        self.profile_setup("Brightness")
 
-    def waterButtonAction(self):
-        self.optionFrame.pack_forget()
-        self.profileSetUp("Water")
+    def water_button_action(self):
+        self.option_frame.pack_forget()
+        self.profile_setup("Water")
 
-    def aiCameraButtonAction(self):
+    def ai_camera_button_action(self):
         self.label.config(text="AI Camera Button Clicked")
 
-    def sysVisualButtonAction(self):
+    def sys_visual_button_action(self):
         self.label.config(text="System Visualisation Button Clicked")
 
 
 def main():
     root = Tk()
     root.geometry("900x600")
-    root.config(bg="#E7F5EF")
+    root.config(bg=BACKGROUND)
     root.resizable(False, False)
     FarmBeatsApp(root)
     root.mainloop()
