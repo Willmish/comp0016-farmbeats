@@ -1,4 +1,3 @@
-from sre_constants import BRANCH
 from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT, Tk
 import tkinter
 from pandas import DataFrame
@@ -155,7 +154,9 @@ class FarmBeatsApp:
 
         home_button[
             "command"
-        ] = lambda idx="Home", binst=home_button: self.home_button_action(binst)
+        ] = lambda idx="Home", \
+            binst=home_button: self.home_button_action(binst)
+
         home_button.pack()
         home_button.place(bordermode=INSIDE, x=5, y=5)
 
@@ -164,7 +165,7 @@ class FarmBeatsApp:
         for n in range(4):
             self.profile_frame.grid_rowconfigure(n, weight=1)
 
-        # SensorFrame set up
+        # sensor_frame set up
 
         sensor_frame = Frame(self.profile_frame, bg=BACKGROUND)
 
@@ -207,13 +208,18 @@ class FarmBeatsApp:
             rowspan=4,
         )
 
-        # ActuatorFrame set up
+        # actuator_frame set up
 
         actuator_frame = Frame(self.profile_frame, bg=BACKGROUND)
         actuator_frame.grid_columnconfigure(0, weight=1)
         for n in range(3):
             actuator_frame.grid_rowconfigure(n, weight=1)
-        actuatorTitle = Label(actuator_frame, text=profile.actuator_frame_title)
+
+        actuatorTitle = Label(
+            actuator_frame,
+            text=profile.actuator_frame_title
+        )
+
         actuatorTitle.config(background=BACKGROUND, font=("Courier", 15))
 
         actuatorTitle.grid(
@@ -251,7 +257,7 @@ class FarmBeatsApp:
             rowspan=3,
         )
 
-        # SuggestionFrame set up
+        # suggestion_frame set up
 
         suggestion_frame = Frame(self.profile_frame, bg=BACKGROUND)
         suggestion_label = Label(suggestion_frame, text="Suggestion")
@@ -269,7 +275,6 @@ class FarmBeatsApp:
         # Display on profile_frame
 
         self.profile_frame.pack(fill=BOTH, expand=True, pady=15, padx=15)
-
 
     def graph_display(self, frame, profile):
 

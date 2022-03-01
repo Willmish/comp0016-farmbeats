@@ -36,7 +36,9 @@ class ProfileInformation:
                 self.actuator_frame_title = "LED light Information"
                 self.actuator_value = ACTUATION
                 self.actuator_value_description = (
-                    "Brightness set to: " + str(self.actuator_value) + self.unit
+                    "Brightness set to: "
+                    + str(self.actuator_value)
+                    + self.unit
                 )
 
                 self.suggestion = MESSAGE
@@ -72,7 +74,9 @@ class ProfileInformation:
 
             elif profile_name == "Temperature":
                 self.sensor_frame_title = "DH11 Sensor Information"
-                self.sensor_value = db.get_curr_val_single_subsys("temperature")
+                self.sensor_value = \
+                    db.get_curr_val_single_subsys("temperature")
+
                 self.unit = "°c"
                 self.sensor_value_description = (
                     "Current value: " + str(self.sensor_value) + self.unit
@@ -94,8 +98,10 @@ class ProfileInformation:
 
                 self.suggestion = MESSAGE
             elif profile_name == "Water":
-                self.sensor_frame_title = "Soil moisture Sensor Information"
-                self.sensor_value = db.get_curr_val_single_subsys("water level")
+                self.sensor_frame_title = \
+                    "Soil moisture Sensor Information"
+                self.sensor_value = \
+                    db.get_curr_val_single_subsys("water level")
                 self.unit = "%"
                 self.sensor_value_description = (
                     "Current value: " + str(self.sensor_value) + self.unit
