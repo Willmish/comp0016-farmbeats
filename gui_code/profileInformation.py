@@ -36,7 +36,7 @@ class ProfileInformation:
                 self.actuator_frame_title = "LED light Information"
                 self.actuator_value = ACTUATION
                 self.actuator_value_description = (
-                    "Brightness set to: "
+                    "Brightness set to: \n"
                     + str(self.actuator_value)
                     + self.unit
                 )
@@ -48,7 +48,9 @@ class ProfileInformation:
                 self.sensor_value = db.get_curr_val_single_subsys("humidity")
                 self.unit = "%"
                 self.sensor_value_description = (
-                    "Current value: " + str(self.sensor_value) + self.unit
+                    "Current value: "
+                    + str(self.sensor_value)
+                    + self.unit
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
@@ -62,7 +64,7 @@ class ProfileInformation:
                 self.actuator_frame_title = "Fan Information"
                 self.actuator_value = ACTUATION
                 self.actuator_value_description = (
-                    "Input speed set to: "
+                    "Input speed set to: \n"
                     + str(self.actuator_value)
                     + self.unit
                     + "\n Output speed set to: "
@@ -79,7 +81,9 @@ class ProfileInformation:
 
                 self.unit = "°c"
                 self.sensor_value_description = (
-                    "Current value: " + str(self.sensor_value) + self.unit
+                    "Current value: "
+                    + str(self.sensor_value)
+                    + self.unit
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
@@ -93,7 +97,9 @@ class ProfileInformation:
                 self.actuator_frame_title = "Heater Information"
                 self.actuator_value = ACTUATION
                 self.actuator_value_description = (
-                    "Heater set to: " + str(self.actuator_value) + self.unit
+                    "Heater set to: \n"
+                    + str(self.actuator_value)
+                    + self.unit
                 )
 
                 self.suggestion = MESSAGE
@@ -104,7 +110,9 @@ class ProfileInformation:
                     db.get_curr_val_single_subsys("water level")
                 self.unit = "%"
                 self.sensor_value_description = (
-                    "Current value: " + str(self.sensor_value) + self.unit
+                    "Current value: "
+                    + str(self.sensor_value)
+                    + self.unit
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
@@ -118,7 +126,7 @@ class ProfileInformation:
                 self.actuator_frame_title = "Sprinkler Information"
                 self.actuator_value = ACTUATION
                 self.actuator_value_description = (
-                    "Amount of water added: "
+                    "Amount of water added: \n"
                     + str(self.actuator_value)
                     + self.unit
                 )
