@@ -1,4 +1,4 @@
-from azure.iot.device import IoTHubDeviceClient, Message, MethodResponse
+from azure.iot.device import IoTHubDeviceClient, Message
 from dotenv import load_dotenv
 from pubsub import pub
 from datetime import datetime
@@ -7,7 +7,12 @@ import os
 
 class IoTHubStreamer:
     sensor_data_topic = "sensor_data"
-    MSG_TEXT = '{{"Timestamp": {timestamp},"SensorID": {sensor_id},"SensorType": {sensor_type},"Value": {value}}}'
+    MSG_TEXT = (
+        '{{"Timestamp": {timestamp},'
+        '"SensorID": {sensor_id},'
+        '"SensorType": {sensor_type},'
+        '"Value": {value}}}'
+    )
 
     def __init__(self):
         load_dotenv()

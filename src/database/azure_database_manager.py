@@ -90,7 +90,8 @@ if __name__ == "__main__":
     from tools.sensor_data import SensorData
 
     def get_current_time_iso_cut():
-        # Get current time in ISO format, ODBC acceptable (without fractional seconds)
+        # Get current time in ISO format,
+        # ODBC acceptable (without fractional seconds)
         date = datetime.now().isoformat()
         return date[: date.find(".")]
 
