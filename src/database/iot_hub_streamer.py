@@ -6,10 +6,7 @@ import os
 
 class IoTHubStreamer:
     sensor_data_topic = "sensor_data"
-    MSG_TEXT = '{{"Timestamp": {timestamp},\
-                "SensorID": {sensor_id},\
-                "SensorType": {sensor_type},\
-                "Value": {value}}}'
+    MSG_TEXT = '{{"Timestamp": {timestamp},"SensorID": {sensor_id},"SensorType": {sensor_type},"Value": {value}}}'
 
     def __init__(self):
         load_dotenv()
@@ -30,7 +27,7 @@ class IoTHubStreamer:
         print("IoTHubStreamer: Received data over pubsub ", args)
         msg_text_formatted = IoTHubStreamer.MSG_TEXT.format(timestamp=args.timestamp,
                                              sensor_id=args.sensor_id,
-                                             sensor_type=args.sensor_type,
+                                             sensor_type='"' + args.sensor_type + '"',
                                              value=args.sensor_value)
         message = Message(msg_text_formatted)
         self._client.send_message(message)
@@ -38,9 +35,11 @@ class IoTHubStreamer:
 if __name__ == "__main__":
     # Test the IoTHub connection.
     import sys
-    from time import time
+    from time import time, sleep
     with IoTHubStreamer() as streamer:
         sys.path.insert(0, '..')
         from tools.sensor_data import SensorData
-        pub.sendMessage("sensor_data", args=SensorData(time(),
-                        -1, "test_sensor_type", -999))
+        while(1):
+            pub.sendMessage("sensor_data", args=SensorData(time(),
+                            -1, "test_sensor_type", -999))
+            sleep(2)
