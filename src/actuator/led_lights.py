@@ -31,7 +31,7 @@ class LEDLights(Actuator):
     def actuate(self):
         """actuate: dummy actuation function, to be overriden by children."""
         # Turns LED on and off
-        if (self._brightness > 0):
+        if self._brightness > 0:
             print("lights on!")
             GPIO.output(LEDLights.LED_PIN, GPIO.HIGH)
         else:

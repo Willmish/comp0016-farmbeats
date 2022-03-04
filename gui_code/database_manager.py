@@ -2,6 +2,9 @@ import sqlite3
 from pubsub import pub
 
 
+# Copied from src folder for now
+
+
 class DatabaseManager:
     sensor_data_topic = "sensor_data"
 
@@ -32,14 +35,14 @@ class DatabaseManager:
         """
         self._cursor.execute(
             """
-                             CREATE TABLE IF NOT EXISTS SensorData(
-                             Timestamp INTEGER,
-                             SensorID INTEGER,
-                             SensorType TEXT,
-                             Value REAL,
-                             PRIMARY KEY(Timestamp, SensorID)
-                             );
-                             """
+                CREATE TABLE IF NOT EXISTS SensorData(
+                Timestamp INTEGER,
+                SensorID INTEGER,
+                SensorType TEXT,
+                Value REAL,
+                PRIMARY KEY(Timestamp, SensorID)
+                );
+                """
         )
         self._connection.commit()
 
@@ -48,7 +51,8 @@ class DatabaseManager:
     ):
         self._cursor.execute(
             """
-                             INSERT INTO SensorData VALUES (?, ?, ?, ?)""",
+                INSERT INTO SensorData VALUES (?, ?, ?, ?)
+                """,
             (timestamp, sensor_id, sensor_type, sensor_value),
         )
         self._connection.commit()
@@ -56,8 +60,8 @@ class DatabaseManager:
     def _remove_data_by_id_type(self, sensor_id, sensor_type):
         self._cursor.execute(
             """
-                             DELETE FROM SensorData WHERE
-                             (SensorID = ?) AND SensorType = ?""",
+                DELETE FROM SensorData WHERE (SensorID = ?) AND SensorType = ?
+                """,
             (sensor_id, sensor_type),
         )
         self._connection.commit()

@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
         pub.subscribe(dummy_listener, "humidity_sensor")
         try:
-            while(1):
+            while 1:
                 dht11Sensor.collect()
                 light_sensor.collect()
                 fans.actuate()

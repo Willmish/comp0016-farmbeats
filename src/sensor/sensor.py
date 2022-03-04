@@ -4,9 +4,12 @@ from tools.status import Status
 
 
 class Sensor:
-
-    def __init__(self, sensor_type: Tuple[str, ...], sensor_id: int,
-                 sensor_status: Status = Status.DISABLED):
+    def __init__(
+        self,
+        sensor_type: Tuple[str, ...],
+        sensor_id: int,
+        sensor_status: Status = Status.DISABLED,
+    ):
         self._type: str = sensor_type
         self._id: int = sensor_id
         self._status: Status = sensor_status

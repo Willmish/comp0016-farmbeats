@@ -3,8 +3,12 @@ from typing import List
 
 
 class Analyser:
-    def __init__(self, sensor_type_topics: List[str],
-                 actuator_type_topics: List[str] = [], analyser_id: str = ''):
+    def __init__(
+        self,
+        sensor_type_topics: List[str],
+        actuator_type_topics: List[str] = [],
+        analyser_id: str = "",
+    ):
         self._sensor_type_topics: List[str] = sensor_type_topics
         self._actuator_type_topics: List[str] = actuator_type_topics
         self._id = analyser_id
