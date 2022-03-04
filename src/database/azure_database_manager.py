@@ -99,39 +99,46 @@ if __name__ == "__main__":
     # Test the DB, and clean up afterwards.
     # Should print the whole db with new test entry added
     import sys
-    from time import time
+    from time import sleep
+    from datetime import datetime
 
     sys.path.insert(0, "..")
     from tools.sensor_data import SensorData
 
+    def get_current_time_iso_cut():
+        # Get current time in ISO format, ODBC acceptable (without fractional seconds)
+        date = datetime.now().isoformat()
+        return date[:date.find('.')]
+
     with AzureDatabaseManager() as db:
         db.create_sensor_data_table()
+        print(get_current_time_iso_cut())
         pub.sendMessage(
             "sensor_data",
-            args=SensorData(time(), -1, "test_sensor_type", -999),
+            args=SensorData(get_current_time_iso_cut(), -1, "test_sensor_type", -999),
         )
 
         val = 0
         for x in range(3):
             pub.sendMessage(
                 "sensor_data",
-                args=SensorData(time(), 1, "brightness", 900 + val),
-            )
-            pub.sendMessage(
-                "sensor_data", args=SensorData(time(), 2, "humidity", 55 + val)
+                args=SensorData(get_current_time_iso_cut(), 1, "brightness", 900 + val),
             )
             pub.sendMessage(
                 "sensor_data",
-                args=SensorData(time(), 3, "temperature", 20 + val),
+                args=SensorData(get_current_time_iso_cut(), 2, "humidity", 55 + val)
             )
             pub.sendMessage(
                 "sensor_data",
-                args=SensorData(time(), 4, "water level", 15 + val),
+                args=SensorData(get_current_time_iso_cut(), 3, "temperature", 20 + val),
+            )
+            pub.sendMessage(
+                "sensor_data",
+                args=SensorData(get_current_time_iso_cut(), 4, "water level", 15 + val),
             )
             val += 1
-            import time as t
 
-            t.sleep(1)
+            sleep(1)
 
         print(db)
         db._remove_data_by_id_type(-1, "test_sensor_type")

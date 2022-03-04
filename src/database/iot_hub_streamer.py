@@ -1,6 +1,7 @@
 from azure.iot.device import IoTHubDeviceClient, Message, MethodResponse
 from dotenv import load_dotenv
 from pubsub import pub
+from datetime import datetime
 import os
 
 
@@ -30,8 +31,9 @@ class IoTHubStreamer:
 
     def sensor_data_listener(self, args):
         print("IoTHubStreamer: Received data over pubsub ", args)
+        date = str(datetime.fromtimestamp(args.timestamp))
         msg_text_formatted = IoTHubStreamer.MSG_TEXT.format(
-            timestamp=args.timestamp,
+            timestamp='"' + date + '"',
             sensor_id=args.sensor_id,
             sensor_type='"' + args.sensor_type + '"',
             value=args.sensor_value,
