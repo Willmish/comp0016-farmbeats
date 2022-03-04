@@ -7,6 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from PIL import Image
 from PIL import ImageTk
 import matplotlib.animation as animation
+from matplotlib.animation import FuncAnimation
 from matplotlib import style
 style.use('ggplot')
 
@@ -18,12 +19,7 @@ RED = "#C34A4D"
 BACKGROUND = "#E7F5EF"
 
 
-def animate(a, profile, profile_name):
-    profile.update_from_db(profile_name)
-    xar= profile.time_list
-    yar= profile.val_list
-    a.clear()
-    a.plot(xar,yar)
+
 
 class FarmBeatsApp:
     def __init__(self, master):
@@ -34,7 +30,9 @@ class FarmBeatsApp:
         self.option_frame_setup()
         self.profile_frame = Frame(self.main, bg="white")
 
-        self.on_profile_page = False
+        self.current_profile = None
+        self.graph_ax = None
+
 
     def label_frame_setup(self):
         self.label = Label(self.label_frame, text="IoT FarmBeats", width=60)
@@ -221,9 +219,7 @@ class FarmBeatsApp:
         scale_canvas.pack()
         scale_frame.pack()
 
-        
         self.graph_display(sensor_frame, profile)
-
 
         sensor_frame.grid(
             row=0,
@@ -302,6 +298,13 @@ class FarmBeatsApp:
 
         self.profile_frame.pack(fill=BOTH, expand=True, pady=15, padx=15)
 
+    def animate(self, i):
+        self.profile.update_from_db(self.profile.title)
+        xar= self.profile.time_list
+        yar= self.profile.val_list
+        self.graph_ax.clear()
+        self.graph_ax.plot(xar,yar)
+
     def graph_display(self, frame, profile):
         y_label = profile.title + " (" + profile.unit + ")"
 
@@ -310,51 +313,46 @@ class FarmBeatsApp:
             columns=["Time (ms)", y_label],
         )
 
-
         fig = plt.Figure(figsize=(5, 4), dpi=100)
-        ax = fig.add_subplot(111)
+        self.graph_ax = fig.add_subplot(111)
         FigureCanvasTkAgg(fig, frame).get_tk_widget().pack(pady=15, padx=15)
         data_frame = (
             data_frame[["Time (ms)", y_label]].groupby("Time (ms)").sum()
         )
 
+
         data_frame.plot(
             linewidth=0.5,
             kind="line",
             legend=True,
-            ax=ax,
+            ax= self.graph_ax,
             color="r",
             fontsize=10,
         )
 
-        ax.set(xlabel="Time (ms)", ylabel=y_label, title=profile.graph_title)
-        ani = animation.FuncAnimation(fig, animate, interval=1000)
+        ani = FuncAnimation(fig, self.animate, interval=1000)
+        self.graph_ax .set(xlabel="Time (ms)", ylabel=y_label, title=profile.graph_title)
 
     def home_button_action(self, binst):
         self.profile_frame.pack_forget()
-        self.on_profile_page = False
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
         binst.destroy()
         self.label.config(text="IoT FarmBeats")
 
     def temp_button_action(self):
         self.option_frame.pack_forget()
-        self.on_profile_page = True
         self.profile_setup("Temperature")
 
     def humidity_button_action(self):
         self.option_frame.pack_forget()
-        self.on_profile_page = True
         self.profile_setup("Humidity")
 
     def brightness_button_action(self):
         self.option_frame.pack_forget()
-        self.on_profile_page = True
         self.profile_setup("Brightness")
 
     def water_button_action(self):
         self.option_frame.pack_forget()
-        self.on_profile_page = True
         self.profile_setup("Water")
 
     def ai_camera_button_action(self):
