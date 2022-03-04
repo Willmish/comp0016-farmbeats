@@ -51,7 +51,7 @@ class AzureDatabaseManager(DatabaseManager):
                 IF OBJECT_ID('dbo.SensorData', 'U') IS  NULL
                 CREATE TABLE dbo.SensorData
                 (
-                    [Timestamp] INT NOT NULL,
+                    [Timestamp] REAL NOT NULL,
                     [SensorID] INT NOT NULL,
                     [SensorType] VARCHAR(256) NOT NULL,
                     [Value] REAL NOT NULL,
