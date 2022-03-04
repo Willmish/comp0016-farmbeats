@@ -178,26 +178,38 @@ class FarmBeatsApp:
         value.config(font=("Courier", 15))
         value.pack()
 
-        sub_frame = Frame(sensor_frame, bg=BACKGROUND)
+        # scale_frame set up
 
+        scale_frame = Frame(sensor_frame, bg=BACKGROUND)
+        offset = 25
         range_ = profile.bound[1] - profile.bound[0]
-        l1 = ((profile.extr[0] - profile.bound[0]) / range_) * 400
-        l2 = ((profile.extr[1] - profile.bound[0]) / range_) * 400
-        l3 = ((profile.extr[2] - profile.bound[0]) / range_) * 400
-        l4 = ((profile.extr[3] - profile.bound[0]) / range_) * 400
+        l1 = (((profile.extr[0] - profile.bound[0]) / range_) * 400) + offset
+        l2 = (((profile.extr[1] - profile.bound[0]) / range_) * 400) + offset
+        l3 = (((profile.extr[2] - profile.bound[0]) / range_) * 400) + offset
+        l4 = (((profile.extr[3] - profile.bound[0]) / range_) * 400) + offset
 
         line = ((profile.sensor_value - profile.bound[0]) / range_) * 400
-        scale_canvas = tkinter.Canvas(sub_frame, height=40, width=400)
+        scale_canvas = tkinter.Canvas(scale_frame, height=50, width=400+2*offset)
 
-        scale_canvas.create_rectangle(0, 0, l1, 30, fill=RED, width=0)
+        scale_canvas.create_rectangle(0 + offset, 0, l1, 30, fill=RED, width=0)
         scale_canvas.create_rectangle(l1, 0, l2, 30, fill=AMBER, width=0)
         scale_canvas.create_rectangle(l2, 0, l3, 30, fill=GREEN, width=0)
         scale_canvas.create_rectangle(l3, 0, l4, 30, fill=AMBER, width=0)
-        scale_canvas.create_rectangle(l4, 0, 400, 30, fill=RED, width=0)
-        scale_canvas.create_line(0, 15, line, 15, width=3)
-        scale_canvas.pack()
+        scale_canvas.create_rectangle(l4, 0, 400+ offset, 30, fill=RED, width=0)
+        scale_canvas.create_line(offset, 15, line+offset, 15, width=3)
+        scale_canvas.create_text(offset, 35, text=str(profile.bound[0]), fill="black", font=('Courier'))
+        scale_canvas.create_text(l1, 45, text=str(profile.extr[0]), fill="black", font=('Courier'))
+        scale_canvas.create_line(l1-1, 30, l1-1, 40, fill='grey')
+        scale_canvas.create_text(l2, 35, text=str(profile.extr[1]), fill="black", font=('Courier'))
+        scale_canvas.create_text(l3, 45, text=str(profile.extr[2]), fill="black", font=('Courier'))
+        scale_canvas.create_line(l3-1, 30, l3-1, 40, fill='grey')
+        scale_canvas.create_text(l4, 35, text=str(profile.extr[3]), fill="black", font=('Courier'))
+        scale_canvas.create_text(400+offset, 45, text=str(profile.bound[1]), fill="black", font=('Courier'))
+        scale_canvas.create_line(400+offset-1, 30, 400+offset-1, 40, fill='grey')
 
-        sub_frame.pack()
+        scale_canvas.pack()
+        scale_frame.pack()
+        
         self.graph_display(sensor_frame, profile)
         sensor_frame.grid(
             row=0,
