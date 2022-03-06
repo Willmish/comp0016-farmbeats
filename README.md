@@ -1,5 +1,5 @@
 # comp0016-farmbeats
-
+[![Lintly-Flake8 CI](https://github.com/Willmish/comp0016-farmbeats/actions/workflows/flake8-ci.yml/badge.svg)](https://github.com/Willmish/comp0016-farmbeats/actions/workflows/flake8-ci.yml)
 To install pyodbc, ODBC header files are required to build pyodbc buildwheel
 
 For ubuntu, package `unixodbc-dev` is required:
