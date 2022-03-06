@@ -5,7 +5,8 @@ from analyser.humidty_analyser import HumidityAnalyser
 from analyser.brightness_analyser import BrightnessAnalyser
 from sensor.dht11 import DHT11
 from sensor.light_sensor import LightSensor
-from database.database_manager import DatabaseManager
+#from database.database_manager import DatabaseManager
+from database.iot_hub_streamer import IoTHubStreamer
 from pubsub import pub
 import RPi.GPIO as GPIO
 
@@ -18,8 +19,8 @@ def dummy_listener(args, rest=None):
 
 
 if __name__ == "__main__":
-    with DatabaseManager() as db:
-        db.create_sensor_data_table()
+    with IoTHubStreamer() as db:
+        # db.create_sensor_data_table()
         GPIO.setmode(GPIO.BCM)
         # Actuator fans object
         fans = Fans()
@@ -42,7 +43,7 @@ if __name__ == "__main__":
                 light_sensor.collect()
                 fans.actuate()
                 # lights.actuate()
-                print(db)
+                #print(db)
                 sleep(TIME_INTERVAL_BETWEEN_READINGS)
         except KeyboardInterrupt:
             GPIO.cleanup()
