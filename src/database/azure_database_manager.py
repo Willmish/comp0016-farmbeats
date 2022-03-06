@@ -1,15 +1,8 @@
 from pubsub import pub
 from database_manager import DatabaseManager
+from dotenv import load_dotenv
+import os
 import pyodbc
-
-# copied from src to manually add data
-
-
-server = "iot-farmbeats.database.windows.net"
-database = "iot-farmbeats"
-username = "iotFarmBeats2022"
-password = "{plantGrowth22}"
-driver = "{ODBC Driver 18 for SQL Server}"
 
 
 class AzureDatabaseManager(DatabaseManager):
@@ -17,20 +10,11 @@ class AzureDatabaseManager(DatabaseManager):
 
     def __init__(self, database_path: str = "test.db"):
         super().__init__("azure_db")
+        load_dotenv()
+        self._connection_string = os.getenv("DATABASE_CONNECTION_STRING")
 
     def __enter__(self):
-        self._azure_conn = pyodbc.connect(
-            "DRIVER="
-            + driver
-            + ";SERVER=tcp:"
-            + server
-            + ";PORT=1433;DATABASE="
-            + database
-            + ";UID="
-            + username
-            + ";PWD="
-            + password
-        )
+        self._azure_conn = pyodbc.connect(self._connection_string)
         self._cursor = self._azure_conn.cursor()
         return self
 
@@ -51,7 +35,7 @@ class AzureDatabaseManager(DatabaseManager):
                 IF OBJECT_ID('dbo.SensorData', 'U') IS  NULL
                 CREATE TABLE dbo.SensorData
                 (
-                    [Timestamp] INT NOT NULL,
+                    [Timestamp] DATETIME NOT NULL,
                     [SensorID] INT NOT NULL,
                     [SensorType] VARCHAR(256) NOT NULL,
                     [Value] REAL NOT NULL,
@@ -99,58 +83,58 @@ if __name__ == "__main__":
     # Test the DB, and clean up afterwards.
     # Should print the whole db with new test entry added
     import sys
-    from time import time
+    from time import sleep
+    from datetime import datetime
 
     sys.path.insert(0, "..")
     from tools.sensor_data import SensorData
 
+    def get_current_time_iso_cut():
+        # Get current time in ISO format,
+        # ODBC acceptable (without fractional seconds)
+        date = datetime.now().isoformat()
+        return date[: date.find(".")]
+
     with AzureDatabaseManager() as db:
         db.create_sensor_data_table()
+        print(get_current_time_iso_cut())
         pub.sendMessage(
             "sensor_data",
-            args=SensorData(time(), -1, "test_sensor_type", -999),
+            args=SensorData(
+                get_current_time_iso_cut(), -1, "test_sensor_type", -999
+            ),
         )
 
         val = 0
         for x in range(3):
             pub.sendMessage(
                 "sensor_data",
-                args=SensorData(time(), 1, "brightness", 900 + val),
-            )
-            pub.sendMessage(
-                "sensor_data", args=SensorData(time(), 2, "humidity", 55 + val)
-            )
-            pub.sendMessage(
-                "sensor_data",
-                args=SensorData(time(), 3, "temperature", 20 + val),
+                args=SensorData(
+                    get_current_time_iso_cut(), 1, "brightness", 900 + val
+                ),
             )
             pub.sendMessage(
                 "sensor_data",
-                args=SensorData(time(), 4, "water level", 15 + val),
+                args=SensorData(
+                    get_current_time_iso_cut(), 2, "humidity", 55 + val
+                ),
+            )
+            pub.sendMessage(
+                "sensor_data",
+                args=SensorData(
+                    get_current_time_iso_cut(), 3, "temperature", 20 + val
+                ),
+            )
+            pub.sendMessage(
+                "sensor_data",
+                args=SensorData(
+                    get_current_time_iso_cut(), 4, "water level", 15 + val
+                ),
             )
             val += 1
-            import time as t
 
-            t.sleep(1)
+            sleep(1)
 
         print(db)
         db._remove_data_by_id_type(-1, "test_sensor_type")
         print(db)
-
-"""
------------------- CREATING DATA -------------
-IF OBJECT_ID('[dbo].[SensorData]', 'U') IS NULL
-CREATE TABLE [dbo].[SensorData]
-(
-    [Timestamp] INT NOT NULL, -- Primary Key column
-    [SensorID] INT NOT NULL,
-    [SensorType] TEXT NOT NULL,
-    [Value] REAL NOT NULL,
-    CONSTRAINT SensorData_pk PRIMARY KEY (Timestamp, SensorID)
-    -- Specify more columns here
-);
-GO
------------------------------------------------
-------------------- INSERTING DATA -------------
-INSERT INTO dbo.SensorData VALUES (121217, -1, 'test_sensor_type', -999);
-"""
