@@ -35,7 +35,7 @@ class Waterpump(Actuator):
             print("pump on!")
             GPIO.output(Waterpump.LED_PIN, GPIO.HIGH)
         else:
-            print("lights off!")
+            print("pump off!")
             GPIO.output(Waterpump.LED_PIN, GPIO.LOW)
 
     def pump_status_listener(self, args, rest=None):
