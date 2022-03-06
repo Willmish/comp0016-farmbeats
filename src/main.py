@@ -12,7 +12,7 @@ from pubsub import pub
 import RPi.GPIO as GPIO
 
 
-TIME_INTERVAL_BETWEEN_READINGS = 0.5
+TIME_INTERVAL_BETWEEN_READINGS = 5
 
 
 def dummy_listener(args, rest=None):
