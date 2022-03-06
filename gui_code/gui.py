@@ -1,25 +1,23 @@
+import datetime
 from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT, Tk
 import tkinter
-from pandas import DataFrame
 import matplotlib.pyplot as plt
 from profileInformation import ProfileInformation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from PIL import Image
 from PIL import ImageTk
-import matplotlib.animation as animation
 from matplotlib.animation import FuncAnimation
 from matplotlib import style
+import time
+
 style.use('ggplot')
 
 PADDING = 25
-
 GREEN = "#64975E"
 AMBER = "#D2A833"
 RED = "#C34A4D"
 BACKGROUND = "#E7F5EF"
-
-
-
+TIME_INTERVAL = 5
 
 class FarmBeatsApp:
     def __init__(self, master):
@@ -30,8 +28,15 @@ class FarmBeatsApp:
         self.option_frame_setup()
         self.profile_frame = Frame(self.main, bg="white")
 
+        # for graph display
         self.current_profile = None
-        self.graph_ax = None
+        self.time_since_update = time.time()
+        self.fig = None
+        self.plot = None
+        self.data_plot = None
+        self.canvas = None
+        self.widget = None
+        self.animation = None
 
 
     def label_frame_setup(self):
@@ -153,8 +158,8 @@ class FarmBeatsApp:
 
     def profile_setup(self, profile_name):
 
-        profile = ProfileInformation(profile_name)
-        self.label.config(text=profile.title)
+        self.profile = ProfileInformation(profile_name)
+        self.label.config(text=self.profile.title)
         img = Image.open("assets/homeIcon.png")
         home_icon = ImageTk.PhotoImage(img)
 
@@ -178,11 +183,11 @@ class FarmBeatsApp:
 
         sensor_frame = Frame(self.profile_frame, bg=BACKGROUND)
 
-        sensor_title = Label(sensor_frame, text=profile.sensor_frame_title)
+        sensor_title = Label(sensor_frame, text=self.profile.sensor_frame_title)
         sensor_title.config(background=BACKGROUND, font=("Courier", 15))
         sensor_title.pack()
 
-        value = Label(sensor_frame, text=profile.sensor_value_description)
+        value = Label(sensor_frame, text=self.profile.sensor_value_description)
         value.config(background=BACKGROUND)
         value.config(font=("Courier", 15))
         value.pack()
@@ -191,13 +196,13 @@ class FarmBeatsApp:
 
         scale_frame = Frame(sensor_frame, bg=BACKGROUND)
         offset = 25
-        range_ = profile.bound[1] - profile.bound[0]
-        l1 = (((profile.extr[0] - profile.bound[0]) / range_) * 400) + offset
-        l2 = (((profile.extr[1] - profile.bound[0]) / range_) * 400) + offset
-        l3 = (((profile.extr[2] - profile.bound[0]) / range_) * 400) + offset
-        l4 = (((profile.extr[3] - profile.bound[0]) / range_) * 400) + offset
+        range_ = self.profile.bound[1] - self.profile.bound[0]
+        l1 = (((self.profile.extr[0] - self.profile.bound[0]) / range_) * 400) + offset
+        l2 = (((self.profile.extr[1] - self.profile.bound[0]) / range_) * 400) + offset
+        l3 = (((self.profile.extr[2] - self.profile.bound[0]) / range_) * 400) + offset
+        l4 = (((self.profile.extr[3] - self.profile.bound[0]) / range_) * 400) + offset
 
-        line = ((profile.sensor_value - profile.bound[0]) / range_) * 400
+        line = ((self.profile.sensor_value - self.profile.bound[0]) / range_) * 400
         scale_canvas = tkinter.Canvas(scale_frame, height=50, width=400+2*offset)
 
         scale_canvas.create_rectangle(0 + offset, 0, l1, 30, fill=RED, width=0)
@@ -206,20 +211,20 @@ class FarmBeatsApp:
         scale_canvas.create_rectangle(l3, 0, l4, 30, fill=AMBER, width=0)
         scale_canvas.create_rectangle(l4, 0, 400+ offset, 30, fill=RED, width=0)
         scale_canvas.create_line(offset, 15, line+offset, 15, width=3)
-        scale_canvas.create_text(offset, 35, text=str(profile.bound[0]), fill="black", font=('Courier'))
-        scale_canvas.create_text(l1, 45, text=str(profile.extr[0]), fill="black", font=('Courier'))
+        scale_canvas.create_text(offset, 35, text=str(self.profile.bound[0]), fill="black", font=('Courier'))
+        scale_canvas.create_text(l1, 45, text=str(self.profile.extr[0]), fill="black", font=('Courier'))
         scale_canvas.create_line(l1-1, 30, l1-1, 40, fill='grey')
-        scale_canvas.create_text(l2, 35, text=str(profile.extr[1]), fill="black", font=('Courier'))
-        scale_canvas.create_text(l3, 45, text=str(profile.extr[2]), fill="black", font=('Courier'))
+        scale_canvas.create_text(l2, 35, text=str(self.profile.extr[1]), fill="black", font=('Courier'))
+        scale_canvas.create_text(l3, 45, text=str(self.profile.extr[2]), fill="black", font=('Courier'))
         scale_canvas.create_line(l3-1, 30, l3-1, 40, fill='grey')
-        scale_canvas.create_text(l4, 35, text=str(profile.extr[3]), fill="black", font=('Courier'))
-        scale_canvas.create_text(400+offset, 45, text=str(profile.bound[1]), fill="black", font=('Courier'))
+        scale_canvas.create_text(l4, 35, text=str(self.profile.extr[3]), fill="black", font=('Courier'))
+        scale_canvas.create_text(400+offset, 45, text=str(self.profile.bound[1]), fill="black", font=('Courier'))
         scale_canvas.create_line(400+offset-1, 30, 400+offset-1, 40, fill='grey')
 
         scale_canvas.pack()
         scale_frame.pack()
 
-        self.graph_display(sensor_frame, profile)
+        self.graph_display(sensor_frame)
 
         sensor_frame.grid(
             row=0,
@@ -239,7 +244,7 @@ class FarmBeatsApp:
 
         actuatorTitle = Label(
             actuator_frame,
-            text=profile.actuator_frame_title
+            text=self.profile.actuator_frame_title
         )
 
         actuatorTitle.config(background=BACKGROUND, font=("Courier", 15))
@@ -261,7 +266,7 @@ class FarmBeatsApp:
         )
 
         actuator_val = Label(
-            actuator_frame, text=profile.actuator_value_description
+            actuator_frame, text=self.profile.actuator_value_description
         )
 
         actuator_val.config(background=BACKGROUND, font=("Courier", 15))
@@ -286,7 +291,7 @@ class FarmBeatsApp:
         suggestion_label.config(background=BACKGROUND, font=("Courier", 15))
         suggestion_label.pack()
         message_frame = Frame(suggestion_frame, bg="#FFFFFF", height=400)
-        msg = Label(message_frame, text=profile.suggestion)
+        msg = Label(message_frame, text=self.profile.suggestion)
         msg.pack()
         message_frame.pack()
 
@@ -298,41 +303,33 @@ class FarmBeatsApp:
 
         self.profile_frame.pack(fill=BOTH, expand=True, pady=15, padx=15)
 
+    def graph_display(self, frame):
+        y_label = self.profile.title + " (" + self.profile.unit + ")"
+        self.fig = plt.figure(figsize=(5,4), dpi=100,tight_layout=True)
+        self.axs = plt.axes()
+        self.axs.plot(self.profile.time_list, self.profile.val_list)
+        self.axs.set(xlabel="Time (ms)", ylabel=y_label, title=self.profile.graph_title)
+        self.canvas = FigureCanvasTkAgg(self.fig, frame)  # A tk.DrawingArea.
+        self.canvas.draw()
+        self.canvas.get_tk_widget().pack(pady=15, padx=15)
+        self.animation = FuncAnimation(self.fig, self.animate, interval=TIME_INTERVAL)
+        self.fig.tight_layout()
+
     def animate(self, i):
-        self.profile.update_from_db(self.profile.title)
+        #self.profile.update_from_db(self.profile.title)
+        if time.time()-self.time_since_update >= TIME_INTERVAL:
+            added_seconds = datetime.timedelta(0, 25)
+            self.profile.time_list.append(self.profile.time_list[-1]+added_seconds)
+            self.profile.val_list.append(self.profile.val_list[-1]+5)
+            print(self.profile.time_list[-1]+added_seconds)
+            print(self.profile.val_list[-1])
+            self.time_since_update = time.time()
         xar= self.profile.time_list
         yar= self.profile.val_list
-        self.graph_ax.clear()
-        self.graph_ax.plot(xar,yar)
 
-    def graph_display(self, frame, profile):
-        y_label = profile.title + " (" + profile.unit + ")"
-
-        data_frame = DataFrame(
-            {"Time (ms)": profile.time_list, y_label: profile.val_list},
-            columns=["Time (ms)", y_label],
-        )
-
-        fig = plt.Figure(figsize=(5, 4), dpi=100)
-        self.graph_ax = fig.add_subplot(111)
-        FigureCanvasTkAgg(fig, frame).get_tk_widget().pack(pady=15, padx=15)
-        data_frame = (
-            data_frame[["Time (ms)", y_label]].groupby("Time (ms)").sum()
-        )
-
-
-        data_frame.plot(
-            linewidth=0.5,
-            kind="line",
-            legend=True,
-            ax= self.graph_ax,
-            color="r",
-            fontsize=10,
-        )
-
-        ani = FuncAnimation(fig, self.animate, interval=1000)
-        self.graph_ax .set(xlabel="Time (ms)", ylabel=y_label, title=profile.graph_title)
-
+        self.axs.clear()
+        self.axs.plot(xar,yar)
+    
     def home_button_action(self, binst):
         self.profile_frame.pack_forget()
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
@@ -374,3 +371,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
