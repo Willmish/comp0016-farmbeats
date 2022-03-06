@@ -17,7 +17,8 @@ GREEN = "#64975E"
 AMBER = "#D2A833"
 RED = "#C34A4D"
 BACKGROUND = "#E7F5EF"
-TIME_INTERVAL = 5
+TIME_INTERVAL = 1
+TIME_AT_START = time.time()
 
 class FarmBeatsApp:
     def __init__(self, master):
@@ -316,16 +317,19 @@ class FarmBeatsApp:
         self.fig.tight_layout()
 
     def animate(self, i):
-        #self.profile.update_from_db(self.profile.title)
         if time.time()-self.time_since_update >= TIME_INTERVAL:
-            added_seconds = datetime.timedelta(0, 25)
-            self.profile.time_list.append(self.profile.time_list[-1]+added_seconds)
-            self.profile.val_list.append(self.profile.val_list[-1]+5)
-            print(self.profile.time_list[-1]+added_seconds)
+            self.profile.update_from_db(self.profile.title)
+            print(self.profile.time_list[-1])
             print(self.profile.val_list[-1])
             self.time_since_update = time.time()
-        xar= self.profile.time_list
-        yar= self.profile.val_list
+    
+        if len(self.profile.time_list) < 100:
+            xar= self.profile.time_list
+            yar= self.profile.val_list
+        else:
+            xar= self.profile.time_list[-100:]
+            yar= self.profile.val_list[-100:]
+
 
         self.axs.clear()
         self.axs.plot(xar,yar)
