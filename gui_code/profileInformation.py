@@ -132,7 +132,7 @@ class ProfileInformation:
                 )
 
                 self.suggestion = MESSAGE
-        
+
     def update_from_db(self, profile_name):
         with GuiDatabaseManager() as db:
             if profile_name == "Brightness":
@@ -144,10 +144,16 @@ class ProfileInformation:
                 self.time_list = db.get_time_and_val_list("humidity")[1]
                 self.val_list = db.get_time_and_val_list("humidity")[0]
             elif profile_name == "Temperature":
-                self.sensor_value = db.get_curr_val_single_subsys("temperature")
+                self.sensor_value = db.get_curr_val_single_subsys(
+                    "temperature"
+                )
                 self.time_list = db.get_time_and_val_list("temperature")[1]
-                self.val_list = db.get_time_and_val_list("temperature")[0]
+                self.val_list = db.get_time_and_val_list(
+                    "temperature"
+                )[0]
             elif profile_name == "Water":
-                self.sensor_value = db.get_curr_val_single_subsys("water level")
+                self.sensor_value = db.get_curr_val_single_subsys(
+                    "water level"
+                )
                 self.time_list = db.get_time_and_val_list("water level")[1]
                 self.val_list = db.get_time_and_val_list("water level")[0]
