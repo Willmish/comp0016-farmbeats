@@ -47,7 +47,12 @@ class AzureDatabaseManager(DatabaseManager):
         self._azure_conn.commit()
 
     def add_sensor_data(
-            self, timestamp, sensor_id: int, sensor_type: str, sensor_value: float, actuator_value: float
+        self,
+        timestamp,
+        sensor_id: int,
+        sensor_type: str,
+        sensor_value: float,
+        actuator_value: float,
     ):
         self._cursor.execute(
             """
@@ -70,7 +75,11 @@ class AzureDatabaseManager(DatabaseManager):
     def sensor_data_listener(self, args):
         print("Received data over pubsub: ", args)
         self.add_sensor_data(
-            args.timestamp, args.sensor_id, args.sensor_type, args.sensor_value, args.actuator_value
+            args.timestamp,
+            args.sensor_id,
+            args.sensor_type,
+            args.sensor_value,
+            args.actuator_value,
         )
 
     def __repr__(self) -> str:
