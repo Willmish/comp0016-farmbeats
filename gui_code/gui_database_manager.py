@@ -52,6 +52,27 @@ class GuiDatabaseManager(DatabaseManager):
         else:
             return None
 
+    def get_curr_actuation_val_single_subsys(self, subsys_name):
+        total = 0
+        count = 0
+        for row in self._cursor.execute(
+            """
+            SELECT ActuatorValue
+            FROM dbo.SensorData a
+            WHERE Timestamp = (SELECT MAX(Timestamp) """
+            + "FROM dbo.SensorData b WHERE b.SensorType = '"
+            + subsys_name
+            + "') AND a.SensorType = '"
+            + subsys_name
+            + "';"
+        ):
+            total += row[0]
+            count += 1
+        if count > 0:
+            return total / count
+        else:
+            return None
+
     def collect_curr_val(self):
         # [brightness, humidity, temperature, water]
         curr_vals = [

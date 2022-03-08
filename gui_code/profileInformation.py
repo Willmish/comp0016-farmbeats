@@ -32,7 +32,9 @@ class ProfileInformation:
                 self.graph_title = "Brightness over Time"
 
                 self.actuator_frame_title = "LED light Information"
-                self.actuator_value = ACTUATION
+                self.actuator_value = db.get_curr_actuation_val_single_subsys(
+                    "brightness"
+                )
                 self.actuator_value_description = (
                     "Brightness set to: \n"
                     + str(self.actuator_value)
@@ -60,7 +62,9 @@ class ProfileInformation:
                 self.graph_title = "Humidity over Time"
 
                 self.actuator_frame_title = "Fan Information"
-                self.actuator_value = ACTUATION
+                self.actuator_value = db.get_curr_actuation_val_single_subsys(
+                    "humidity"
+                )
                 self.actuator_value_description = (
                     "Input speed set to: \n"
                     + str(self.actuator_value)
@@ -93,7 +97,9 @@ class ProfileInformation:
                 self.graph_title = "Temperature over Time"
 
                 self.actuator_frame_title = "Heater Information"
-                self.actuator_value = ACTUATION
+                self.actuator_value = db.get_curr_actuation_val_single_subsys(
+                    "temperature"
+                )
                 self.actuator_value_description = (
                     "Heater set to: \n"
                     + str(self.actuator_value)
@@ -122,7 +128,9 @@ class ProfileInformation:
                 self.graph_title = "Soil Moisture over Time"
 
                 self.actuator_frame_title = "Sprinkler Information"
-                self.actuator_value = ACTUATION
+                self.actuator_value = db.get_curr_actuation_val_single_subsys(
+                    "water level"
+                )
                 self.actuator_value_description = (
                     "Amount of water added: \n"
                     + str(self.actuator_value)
@@ -137,10 +145,16 @@ class ProfileInformation:
                 self.sensor_value = db.get_curr_val_single_subsys("brightness")
                 self.time_list = db.get_time_and_val_list("brightness")[1]
                 self.val_list = db.get_time_and_val_list("brightness")[0]
+                self.actuator_value = db.get_curr_actuation_val_single_subsys(
+                    "brightness"
+                )
             elif profile_name == "Humidity":
                 self.sensor_value = db.get_curr_val_single_subsys("humidity")
                 self.time_list = db.get_time_and_val_list("humidity")[1]
                 self.val_list = db.get_time_and_val_list("humidity")[0]
+                self.actuator_value = db.get_curr_actuation_val_single_subsys(
+                    "humidity"
+                )
             elif profile_name == "Temperature":
                 self.sensor_value = db.get_curr_val_single_subsys(
                     "temperature"
@@ -149,9 +163,15 @@ class ProfileInformation:
                 self.val_list = db.get_time_and_val_list(
                     "temperature"
                 )[0]
+                self.actuator_value = db.get_curr_actuation_val_single_subsys(
+                    "temperature"
+                )
             elif profile_name == "Water":
                 self.sensor_value = db.get_curr_val_single_subsys(
                     "water level"
                 )
                 self.time_list = db.get_time_and_val_list("water level")[1]
                 self.val_list = db.get_time_and_val_list("water level")[0]
+                self.actuator_value = db.get_curr_actuation_val_single_subsys(
+                    "water level"
+                )
