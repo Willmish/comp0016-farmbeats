@@ -39,6 +39,6 @@ class LEDLights(Actuator):
             GPIO.output(LEDLights.LED_PIN, GPIO.LOW)
 
     def light_status_listener(self, args, rest=None):
-        brightness = args
+        brightness = args.actuator_value
         print("Received brightness vals over pubsub:", brightness)
         self._brightness = brightness
