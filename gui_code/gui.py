@@ -226,8 +226,11 @@ class FarmBeatsApp:
         l4 = (((self.profile.extr[3] - self.profile.bound[0])
               / range_) * 400) + offset
 
-        line = ((self.profile.sensor_value - self.profile.bound[0])
-                / range_) * 400
+        if self.profile.sensor_value:
+            line = ((self.profile.sensor_value - self.profile.bound[0])
+                    / range_) * 400
+        else:
+            line = 0
 
         scale_canvas = tkinter.Canvas(
             scale_frame, height=50, width=400 + 2 * offset

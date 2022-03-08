@@ -9,8 +9,6 @@ ACTUATION = 900
 MESSAGE = "The sensor readings seem good!"
 LOWER_BOUND = 0
 UPPER_BOUND = 1000
-TIMELIST = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45]
-VALUELIST = [904, 920, 911, 890, 883, 880, 881, 860, 872, 888]
 
 
 class ProfileInformation:
@@ -26,8 +24,8 @@ class ProfileInformation:
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
-                self.extr = [EXLOWER, LOWER, UPPER, EXUPPER]
-                self.bound = [LOWER_BOUND, UPPER_BOUND]
+                self.extr = [100, 200, 250, 400]
+                self.bound = [0, 500]
 
                 self.time_list = db.get_time_and_val_list("brightness")[1]
                 self.val_list = db.get_time_and_val_list("brightness")[0]
@@ -54,8 +52,8 @@ class ProfileInformation:
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
-                self.extr = [EXLOWER, LOWER, UPPER, EXUPPER]
-                self.bound = [LOWER_BOUND, UPPER_BOUND]
+                self.extr = [50, 60, 70, 80]
+                self.bound = [0, 100]
 
                 self.time_list = db.get_time_and_val_list("humidity")[1]
                 self.val_list = db.get_time_and_val_list("humidity")[0]
@@ -87,8 +85,8 @@ class ProfileInformation:
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
-                self.extr = [EXLOWER, LOWER, UPPER, EXUPPER]
-                self.bound = [LOWER_BOUND, UPPER_BOUND]
+                self.extr = [10, 16, 25, 30]
+                self.bound = [0, 40]
 
                 self.time_list = db.get_time_and_val_list("temperature")[1]
                 self.val_list = db.get_time_and_val_list("temperature")[0]

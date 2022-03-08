@@ -45,10 +45,12 @@ class GuiDatabaseManager(DatabaseManager):
             + subsys_name
             + "';"
         ):
-
             total += row[0]
             count += 1
-        return total / count
+        if count > 0:
+            return total / count
+        else:
+            return None
 
     def collect_curr_val(self):
         # [brightness, humidity, temperature, water]
@@ -74,22 +76,7 @@ class GuiDatabaseManager(DatabaseManager):
         ):
             vals.append(row[0])
             times.append(row[1])
-
         return (vals, times)
-
-    def get_val_list(self, subsys_name):
-        values = []
-
-        for row in self._cursor.execute(
-            """
-            SELECT  Value
-            FROM dbo.SensorData """
-            + "WHERE SensorType = '"
-            + subsys_name
-            + "';"
-        ):
-            values.append(row[0])
-        return values
 
     def __repr__(self) -> str:
         res = ""
