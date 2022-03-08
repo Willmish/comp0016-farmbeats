@@ -135,7 +135,6 @@ class ProfileInformation:
         
     def update_from_db(self, profile_name):
         with GuiDatabaseManager() as db:
-            self.title = profile_name
             if profile_name == "Brightness":
                 self.sensor_value = db.get_curr_val_single_subsys("brightness")
                 self.time_list = db.get_time_and_val_list("brightness")[1]

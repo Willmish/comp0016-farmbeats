@@ -1,4 +1,3 @@
-import datetime
 from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT, Tk
 import tkinter
 import matplotlib.pyplot as plt
@@ -158,7 +157,6 @@ class FarmBeatsApp:
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
 
     def profile_setup(self, profile_name):
-
         self.profile = ProfileInformation(profile_name)
         self.label.config(text=self.profile.title)
         img = Image.open("assets/homeIcon.png")
@@ -330,11 +328,11 @@ class FarmBeatsApp:
             xar= self.profile.time_list[-100:]
             yar= self.profile.val_list[-100:]
 
-
         self.axs.clear()
         self.axs.plot(xar,yar)
     
     def home_button_action(self, binst):
+        self.animation.event_source.stop()
         self.profile_frame.pack_forget()
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
         binst.destroy()
