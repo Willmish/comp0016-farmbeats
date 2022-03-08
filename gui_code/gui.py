@@ -22,12 +22,18 @@ TIME_AT_START = time.time()
 
 class FarmBeatsApp:
     def __init__(self, master):
+        self.u = 0
         self.main = master
         self.label_frame = Frame(self.main)
         self.label_frame_setup()
         self.option_frame = Frame(self.main, bg="white")
         self.option_frame_setup()
         self.profile_frame = Frame(self.main, bg="white")
+
+        self.sensor_frame = None
+        self.curr_value_label = None
+        self.actuator_frame = None
+        self.suggestion_frame = None
 
         # for graph display
         self.current_profile = None
@@ -189,26 +195,26 @@ class FarmBeatsApp:
 
         # sensor_frame set up
 
-        sensor_frame = Frame(self.profile_frame, bg=BACKGROUND)
+        self.sensor_frame = Frame(self.profile_frame, bg=BACKGROUND)
 
         sensor_title = Label(
-            sensor_frame, text=self.profile.sensor_frame_title
+            self.sensor_frame, text=self.profile.sensor_frame_title
         )
 
         sensor_title.config(background=BACKGROUND, font=("Courier", 15))
         sensor_title.pack()
 
-        value = Label(
-            sensor_frame, text=self.profile.sensor_value_description
+        self.curr_value_label = Label(
+            self.sensor_frame, text=self.profile.sensor_value_description
         )
 
-        value.config(background=BACKGROUND)
-        value.config(font=("Courier", 15))
-        value.pack()
+        self.curr_value_label.config(background=BACKGROUND)
+        self.curr_value_label.config(font=("Courier", 15))
+        self.curr_value_label.pack()
 
         # scale_frame set up
 
-        scale_frame = Frame(sensor_frame, bg=BACKGROUND)
+        scale_frame = Frame(self.sensor_frame, bg=BACKGROUND)
         offset = 25
         range_ = self.profile.bound[1] - self.profile.bound[0]
         l1 = (((self.profile.extr[0] - self.profile.bound[0])
@@ -287,9 +293,9 @@ class FarmBeatsApp:
         scale_canvas.pack()
         scale_frame.pack()
 
-        self.graph_display(sensor_frame)
+        self.graph_display(self.sensor_frame)
 
-        sensor_frame.grid(
+        self.sensor_frame.grid(
             row=0,
             column=0,
             sticky="news",
@@ -300,13 +306,14 @@ class FarmBeatsApp:
 
         # actuator_frame set up
 
-        actuator_frame = Frame(self.profile_frame, bg=BACKGROUND)
-        actuator_frame.grid_columnconfigure(0, weight=1)
+        self.actuator_frame = Frame(self.profile_frame, bg=BACKGROUND)
+        self.actuator_frame.grid_columnconfigure(0, weight=1)
         for n in range(3):
-            actuator_frame.grid_rowconfigure(n, weight=1)
+            self.actuator_frame.grid_rowconfigure(n, weight=1)
 
         actuatorTitle = Label(
-            actuator_frame, text=self.profile.actuator_frame_title
+            self.actuator_frame,
+            text=self.profile.actuator_frame_title
         )
 
         actuatorTitle.config(
@@ -318,7 +325,7 @@ class FarmBeatsApp:
             pady=PADDING, padx=PADDING
         )
 
-        mode_switch_frame = Frame(actuator_frame, bg=BACKGROUND)
+        mode_switch_frame = Frame(self.actuator_frame, bg=BACKGROUND)
         manual_mode = Label(mode_switch_frame, text="Manual")
         manual_mode.config(background="#CEE5DB", font=("Courier", 15))
         manual_mode.pack(side=RIGHT)
@@ -332,7 +339,7 @@ class FarmBeatsApp:
         )
 
         actuator_val = Label(
-            actuator_frame, text=self.profile.actuator_value_description
+            self.actuator_frame, text=self.profile.actuator_value_description
         )
 
         actuator_val.config(background=BACKGROUND, font=("Courier", 15))
@@ -342,7 +349,7 @@ class FarmBeatsApp:
             pady=PADDING, padx=PADDING
         )
 
-        actuator_frame.grid(
+        self.actuator_frame.grid(
             row=0,
             column=1,
             sticky="news",
@@ -353,16 +360,16 @@ class FarmBeatsApp:
 
         # suggestion_frame set up
 
-        suggestion_frame = Frame(self.profile_frame, bg=BACKGROUND)
-        suggestion_label = Label(suggestion_frame, text="Suggestion")
+        self.suggestion_frame = Frame(self.profile_frame, bg=BACKGROUND)
+        suggestion_label = Label(self.suggestion_frame, text="Suggestion")
         suggestion_label.config(background=BACKGROUND, font=("Courier", 15))
         suggestion_label.pack()
-        message_frame = Frame(suggestion_frame, bg="#FFFFFF", height=400)
+        message_frame = Frame(self.suggestion_frame, bg="#FFFFFF", height=400)
         msg = Label(message_frame, text=self.profile.suggestion)
         msg.pack()
         message_frame.pack()
 
-        suggestion_frame.grid(
+        self.suggestion_frame.grid(
             row=3, column=1, sticky="news", pady=PADDING, padx=PADDING
         )
 
@@ -392,6 +399,9 @@ class FarmBeatsApp:
     def animate(self, i):
         if time.time() - self.time_since_update >= TIME_INTERVAL:
             self.profile.update_from_db(self.profile.title)
+            self.curr_value_label.config(
+                text=self.profile.sensor_value_description
+            )
             print(self.profile.time_list[-1])
             print(self.profile.val_list[-1])
             self.time_since_update = time.time()
