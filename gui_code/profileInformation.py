@@ -40,7 +40,6 @@ class ProfileInformation:
                     + str(self.actuator_value)
                     + self.unit
                 )
-
                 self.suggestion = MESSAGE
 
             elif profile_name == "Humidity":

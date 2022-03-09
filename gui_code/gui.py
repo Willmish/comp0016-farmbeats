@@ -31,7 +31,8 @@ class FarmBeatsApp:
         self.profile_frame = Frame(self.main, bg="white")
 
         self.sensor_frame = None
-        self.curr_value_label = None
+        self.curr_sensor_value_label = None
+        self.curr_actuator_value_label = None
         self.actuator_frame = None
         self.suggestion_frame = None
 
@@ -204,13 +205,13 @@ class FarmBeatsApp:
         sensor_title.config(background=BACKGROUND, font=("Courier", 15))
         sensor_title.pack()
 
-        self.curr_value_label = Label(
+        self.curr_sensor_value_label = Label(
             self.sensor_frame, text=self.profile.sensor_value_description
         )
 
-        self.curr_value_label.config(background=BACKGROUND)
-        self.curr_value_label.config(font=("Courier", 15))
-        self.curr_value_label.pack()
+        self.curr_sensor_value_label.config(background=BACKGROUND)
+        self.curr_sensor_value_label.config(font=("Courier", 15))
+        self.curr_sensor_value_label.pack()
 
         # scale_frame set up
 
@@ -341,13 +342,13 @@ class FarmBeatsApp:
             pady=PADDING, padx=PADDING
         )
 
-        actuator_val = Label(
+        self.curr_actuator_value_label = Label(
             self.actuator_frame, text=self.profile.actuator_value_description
         )
 
-        actuator_val.config(background=BACKGROUND, font=("Courier", 15))
+        self.curr_actuator_value_label.config(background=BACKGROUND, font=("Courier", 15))
 
-        actuator_val.grid(
+        self.curr_actuator_value_label.grid(
             row=2, column=0, sticky="news",
             pady=PADDING, padx=PADDING
         )
@@ -402,8 +403,11 @@ class FarmBeatsApp:
     def animate(self, i):
         if time.time() - self.time_since_update >= TIME_INTERVAL:
             self.profile.update_from_db(self.profile.title)
-            self.curr_value_label.config(
+            self.curr_sensor_value_label.config(
                 text=self.profile.sensor_value_description
+            )
+            self.curr_actuator_value_label.config(
+                text=self.profile.actuator_value_description
             )
             print(self.profile.time_list[-1])
             print(self.profile.val_list[-1])
