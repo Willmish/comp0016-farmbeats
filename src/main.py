@@ -3,8 +3,10 @@ from actuator.fans import Fans
 from actuator.led_lights import LEDLights
 from analyser.humidty_analyser import HumidityAnalyser
 from analyser.brightness_analyser import BrightnessAnalyser
+from analyser.water_analyser import WaterAnalyser
 from sensor.dht11 import DHT11
 from sensor.light_sensor import LightSensor
+from sensor.water_level import WaterLevel
 
 # from database.database_manager import DatabaseManager
 from database.iot_hub_streamer import IoTHubStreamer
@@ -28,11 +30,13 @@ if __name__ == "__main__":
         lights = LEDLights()
 
         # Analyser fans object
-        humidity_analyser = HumidityAnalyser()
-        brightness_analyser = BrightnessAnalyser()
+        #humidity_analyser = HumidityAnalyser()
+        #brightness_analyser = BrightnessAnalyser()
+        water_analyser = WaterAnalyser()
 
         # Sensor DHT11 object
         dht11Sensor = DHT11(sensor_id=1)
+        water_level = WaterLevel(sensor_id=2)
 
         # Light Sensor object
         light_sensor = LightSensor(sensor_id=0)
@@ -42,6 +46,7 @@ if __name__ == "__main__":
             while 1:
                 dht11Sensor.collect()
                 light_sensor.collect()
+                water_level.collect()
                 fans.actuate()
                 # lights.actuate()
                 # print(db)

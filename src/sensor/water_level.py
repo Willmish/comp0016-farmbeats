@@ -6,7 +6,7 @@ from tools.sensor_data import SensorData
 from grove.adc import ADC
 
 class WaterLevel(Sensor):
-    WATER_LEVEL_PIN = "A2"
+    WATER_LEVEL_PIN = 2
     water_level = ADC()
     
     def __init__(self, *args, **kwargs):

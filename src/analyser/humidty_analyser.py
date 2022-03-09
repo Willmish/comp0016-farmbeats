@@ -1,7 +1,7 @@
-from humidity_pid import humidity_pid_control
+#from pid.humidity_pid import humidity_pid_control
 from pubsub import pub
 from analyser.analyser import Analyser
-from pid import PID
+from pid.pid import PID
 import time
 
 class HumidityAnalyser(Analyser):
