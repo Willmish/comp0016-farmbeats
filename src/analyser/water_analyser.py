@@ -7,7 +7,7 @@ class WaterAnalyser(Analyser):
 
     def analyser_listener(self, args, rest=None):
         print(args.sensor_value)
-        waterlevel = args.sensor_value
+        waterlevel = args.sensor_value[0]
         # TODO Do analysing stuff here, currently simple threshold
         print(waterlevel)
         voltage = round(((waterlevel * 3300) / 1024), 0)
