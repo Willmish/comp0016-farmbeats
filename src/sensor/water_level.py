@@ -3,11 +3,12 @@ from pubsub import pub
 from sensor.sensor import Sensor
 from tools.status import Status
 from tools.sensor_data import SensorData
-
+from grove.adc import ADC
 
 class WaterLevel(Sensor):
-    WHATER_LEVEL_PIN = 0
-
+    WATER_LEVEL_PIN = "A2"
+    water_level = ADC()
+    
     def __init__(self, *args, **kwargs):
         super().__init__(("waterlevel"), *args, **kwargs)
 
@@ -16,7 +17,7 @@ class WaterLevel(Sensor):
         pub.sendMessage(
             "sensor_data.water_level_sensor",
             args=SensorData(
-                time(), self._id, self._type
+                time(), self._id, self._type, self.water_level.read_raw(self.WATER_LEVEL_PIN)
             ),
         )
 
