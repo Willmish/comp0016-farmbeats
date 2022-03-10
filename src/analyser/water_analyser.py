@@ -12,7 +12,7 @@ class WaterAnalyser(Analyser):
         print(waterlevel)
         voltage = round(((waterlevel * 3300) / 1024), 0)
         if voltage < 50:
-            pub.sendMessage("actuator.pump_status", args=1)  # Lights 50% on
+            pub.sendMessage("actuator.pump_status", args=1)  # Pump on
         else:
             pub.sendMessage("actuator.pump_status", args=0.0)
             # FailsafeDefault value (for safety reasons,
