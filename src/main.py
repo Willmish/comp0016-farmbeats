@@ -3,7 +3,7 @@ from actuator.fans import Fans
 from actuator.led_lights import LEDLights
 from analyser.humidty_analyser import HumidityAnalyser
 from analyser.brightness_analyser import BrightnessAnalyser
-from analyser.water_analyser import WaterAnalyser
+from analyser.moisture_analyser import WaterAnalyser
 from sensor.dht11 import DHT11
 from sensor.light_sensor import LightSensor
 from sensor.water_level import WaterLevel
