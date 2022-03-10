@@ -82,7 +82,7 @@ class Fans(Actuator):
         self._PWM_OUT.stop()
 
     def fan_status_listener(self, args, rest=None):
-        speed = args
+        speed = args.actuator_value
         print("Received speed vals over pubsub:", speed)
         assert 0 <= speed <= 100
         self._fan_out_speed = speed

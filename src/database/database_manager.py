@@ -3,7 +3,7 @@ from pubsub import pub
 
 
 class DatabaseManager:
-    sensor_data_topic = "sensor_data"
+    sensor_data_topic = "actuator"
 
     def __init__(self, database_path: str = "test.db"):
         self._database_path: str = database_path
@@ -24,11 +24,11 @@ class DatabaseManager:
     def create_sensor_data_table(self):
         """
         Table structure:
-        +-----------+----------+------------+-------+
-        | Timestamp | SensorID | SensorType | Value |
-        +-----------+----------+------------+-------+
-        |  INTEGER  | INTEGER  |    TEXT    |  REAL |
-        +-----------+----------+------------+-------+
+        +-----------+----------+------------+-------+---------------+
+        | Timestamp | SensorID | SensorType | Value | ActuatorValue |
+        +-----------+----------+------------+-------+---------------+
+        |  INTEGER  | INTEGER  |    TEXT    |  REAL |      REAL     |
+        +-----------+----------+------------+-------+---------------+
         """
         self._cursor.execute(
             """
@@ -37,6 +37,7 @@ class DatabaseManager:
                              SensorID INTEGER,
                              SensorType TEXT,
                              Value REAL,
+                             ActuatorValue REAL,
                              PRIMARY KEY(Timestamp, SensorID)
                              );
                              """
@@ -44,12 +45,18 @@ class DatabaseManager:
         self._connection.commit()
 
     def add_sensor_data(
-        self, timestamp, sensor_id: int, sensor_type: str, sensor_value: float
+        self,
+        timestamp,
+        sensor_id: int,
+        sensor_type: str,
+        sensor_value: float,
+        actuator_value: float,
     ):
         self._cursor.execute(
             """
-                             INSERT INTO SensorData VALUES (?, ?, ?, ?)""",
-            (timestamp, sensor_id, sensor_type, sensor_value),
+                INSERT INTO SensorData VALUES (?, ?, ?, ?, ?)
+                """,
+            (timestamp, sensor_id, sensor_type, sensor_value, actuator_value),
         )
         self._connection.commit()
 
@@ -65,7 +72,11 @@ class DatabaseManager:
     def sensor_data_listener(self, args):
         print("Received data over pubsub: ", args)
         self.add_sensor_data(
-            args.timestamp, args.sensor_id, args.sensor_type, args.sensor_value
+            args.timestamp,
+            args.sensor_id,
+            args.sensor_type,
+            args.sensor_value,
+            args.actuator_value,
         )
 
     def __repr__(self) -> str:
@@ -87,8 +98,8 @@ if __name__ == "__main__":
     with DatabaseManager() as db:
         db.create_sensor_data_table()
         pub.sendMessage(
-            "sensor_data",
-            args=SensorData(time(), -1, "test_sensor_type", -999),
+            "actuator",
+            args=SensorData(time(), -1, "test_sensor_type", -999, 50),
         )
         print(db)
         db._remove_data_by_id_type(-1, "test_sensor_type")
