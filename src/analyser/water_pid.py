@@ -27,4 +27,4 @@ class MoisturePidAnalyser(Analyser):
             pub.sendMessage("actuator.water_pump_status", args=1.0)  # pump on
             time.sleep(output*clock)
             pub.sendMessage("actuator.water_pump_status", args=0)  # pump off
-            time.sleep(clock - output*clock)
+            time.sleep(clock - (output * clock))

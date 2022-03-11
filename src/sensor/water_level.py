@@ -18,7 +18,7 @@ class WaterLevel(Sensor):
         pub.sendMessage(
             "sensor_data.water_level_sensor",
             args=SensorData(
-                time(), self._id, self._type, 
+                time(), self._id, self._type,
                 self.water_level.read_raw(self.WATER_LEVEL_PIN)
             ),
         )
