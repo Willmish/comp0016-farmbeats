@@ -5,6 +5,7 @@ from tools.status import Status
 from tools.sensor_data import SensorData
 from grove.adc import ADC
 
+
 class WaterLevel(Sensor):
     SOIL_MOISTURE_PIN = 0
     soil_moisture = ADC()
@@ -17,7 +18,8 @@ class WaterLevel(Sensor):
         pub.sendMessage(
             "sensor_data.soil_moisture_sensor",
             args=SensorData(
-                time(), self._id, self._type, self.water_level.read_raw(self.SOIL_MOISTURE_PIN)
+                time(), self._id, self._type, 
+                self.water_level.read_raw(self.SOIL_MOISTURE_PIN)
             ),
         )
 

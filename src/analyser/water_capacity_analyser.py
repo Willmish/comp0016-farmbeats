@@ -1,5 +1,6 @@
-from pubsub import pub
+# from pubsub import pub
 from analyser.analyser import Analyser
+
 
 class WaterCapacityAnalyser(Analyser):
     def __init__(self, *args, **kwargs):

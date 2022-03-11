@@ -1,6 +1,7 @@
 from pubsub import pub
 from analyser.analyser import Analyser
 
+
 class MoistureAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
         super().__init__(["sensor_data.soil_moisture_sensor"])

@@ -3,6 +3,7 @@ from analyser.analyser import Analyser
 from pid.pid import PID
 import time
 
+
 class MoisturePidAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
         super().__init__(["sensor_data.soil_moisture_sensor"])
@@ -23,8 +24,8 @@ class MoisturePidAnalyser(Analyser):
             feedback = voltage
             pid.update(feedback)
             output = (100 - pid.output)/100
-            pub.sendMessage("actuator.water_pump_status", args=1.0) #pump on
+            pub.sendMessage("actuator.water_pump_status", args=1.0)  # pump on
             time.sleep(output*clock)
-            pub.sendMessage("actuator.water_pump_status", args=0) #pump off
+            pub.sendMessage("actuator.water_pump_status", args=0)  # pump off
             time.sleep(clock - output*clock)
 

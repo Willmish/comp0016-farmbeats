@@ -3,6 +3,7 @@ from analyser.analyser import Analyser
 from pid.pid import PID
 import time
 
+
 class LightPidAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
         super().__init__(["sensor_data.light_sensor"])
@@ -21,6 +22,6 @@ class LightPidAnalyser(Analyser):
         while True:
             feedback = brightness
             pid.update(feedback)
-            output = (100 - pid.output)/100 # need to fill in maximam number of light sensor. 
-            pub.sendMessage("actuator.light_status", args=output) #pump on
+            output = (100 - pid.output)/100  # fill in maximam sensor number
+            pub.sendMessage("actuator.light_status", args=output)  # pump on
             time.sleep(clock)

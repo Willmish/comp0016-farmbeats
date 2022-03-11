@@ -3,6 +3,7 @@ from analyser.analyser import Analyser
 from pid.pid import PID
 import time
 
+
 class HumidityPidAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
         super().__init__(["sensor_data.humidity_sensor"])
@@ -22,5 +23,5 @@ class HumidityPidAnalyser(Analyser):
             feedback = humidity
             pid.update(feedback)
             output = (100 - pid.output)/100
-            pub.sendMessage("actuator.light_status", args=output) #fan on
+            pub.sendMessage("actuator.light_status", args=output)  # fan on
             time.sleep(clock)
