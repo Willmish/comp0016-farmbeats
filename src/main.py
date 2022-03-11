@@ -30,8 +30,8 @@ if __name__ == "__main__":
         lights = LEDLights()
 
         # Analyser fans object
-        #humidity_analyser = HumidityAnalyser()
-        #brightness_analyser = BrightnessAnalyser()
+        # humidity_analyser = HumidityAnalyser()
+        # brightness_analyser = BrightnessAnalyser()
         water_analyser = WaterAnalyser()
 
         # Sensor DHT11 object

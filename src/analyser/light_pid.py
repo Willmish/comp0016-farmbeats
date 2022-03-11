@@ -22,6 +22,6 @@ class LightPidAnalyser(Analyser):
         while True:
             feedback = brightness
             pid.update(feedback)
-            output = (100 - pid.output)/100  # fill in maximam sensor number
+            output = (100 - pid.output) / 100  # fill in maximam sensor number
             pub.sendMessage("actuator.light_status", args=output)  # pump on
             time.sleep(clock)

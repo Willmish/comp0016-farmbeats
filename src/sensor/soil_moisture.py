@@ -9,7 +9,7 @@ from grove.adc import ADC
 class WaterLevel(Sensor):
     SOIL_MOISTURE_PIN = 0
     soil_moisture = ADC()
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(("soilmoisture"), *args, **kwargs)
 

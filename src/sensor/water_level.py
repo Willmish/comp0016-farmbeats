@@ -9,7 +9,7 @@ from grove.adc import ADC
 class WaterLevel(Sensor):
     WATER_LEVEL_PIN = 2
     water_level = ADC()
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(("waterlevel"), *args, **kwargs)
 

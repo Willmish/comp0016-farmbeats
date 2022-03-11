@@ -22,6 +22,6 @@ class HumidityPidAnalyser(Analyser):
         while True:
             feedback = humidity
             pid.update(feedback)
-            output = (100 - pid.output)/100
+            output = (100 - pid.output) / 100
             pub.sendMessage("actuator.light_status", args=output)  # fan on
             time.sleep(clock)
