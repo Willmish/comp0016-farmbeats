@@ -62,7 +62,7 @@ class GuiDatabaseManager(DatabaseManager):
             WHERE Timestamp = (SELECT MAX(Timestamp) """
             + "FROM dbo.SensorData b WHERE b.SensorType = '"
             + subsys_name
-            + "') AND a.SensorType = '"
+            + "'AND b.ActuatorValue IS NOT NULL) AND a.SensorType = '"
             + subsys_name
             + "';"
         ):

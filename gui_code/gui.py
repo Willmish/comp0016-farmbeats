@@ -277,7 +277,7 @@ class FarmBeatsApp:
 
         actuatorTitle.grid(
             row=0, column=0, sticky="news",
-            pady=PADDING, padx=PADDING
+            padx=PADDING
         )
 
         mode_switch_frame = Frame(self.actuator_frame, bg=BACKGROUND)
@@ -290,7 +290,7 @@ class FarmBeatsApp:
 
         mode_switch_frame.grid(
             row=1, column=0, sticky="news",
-            pady=PADDING, padx=PADDING
+            padx=PADDING
         )
 
         self.curr_actuator_value_label = Label(
@@ -301,9 +301,8 @@ class FarmBeatsApp:
 
         self.curr_actuator_value_label.grid(
             row=2, column=0, sticky="news",
-            pady=PADDING, padx=PADDING
+            padx=PADDING
         )
-
 
         if self.is_water:
             self.actuator_frame.grid(
@@ -312,7 +311,6 @@ class FarmBeatsApp:
                 sticky="news",
                 pady=PADDING,
                 padx=PADDING,
-                rowspan=2,
             )
             self.water_level_frame_setup()
         else:
@@ -322,20 +320,23 @@ class FarmBeatsApp:
                 sticky="news",
                 pady=PADDING,
                 padx=PADDING,
-                rowspan=4,
+                rowspan=2
             )
 
     def water_level_frame_setup(self):
+
+        water_level_value = 50 # dummy data for now
 
         self.water_level_frame = Frame(self.profile_frame, bg=BACKGROUND)
         self.water_level_frame.grid_columnconfigure(0, weight=1)
         self.water_level_frame.grid_rowconfigure(0, weight=1)
         self.water_level_frame.grid_rowconfigure(1, weight=3)
+        self.water_level_frame.grid_rowconfigure(2, weight=1)
 
 
         water_level_title = Label(
             self.water_level_frame,
-            text= "Water Level"
+            text= "Water Level: " + str(water_level_value) + "%"
         )
 
         water_level_title.config(
@@ -344,49 +345,70 @@ class FarmBeatsApp:
 
         water_level_title.grid(
             row=0, column=0, sticky="news",
-            pady=PADDING, padx=PADDING
+            padx=PADDING
         )
 
         scale_frame = Frame(self.water_level_frame)
 
+        h = 200
+        y_offset = 20
+        x_offset = 10
+
         scale_canvas = tkinter.Canvas(
-            scale_frame, height=230, width=50
+            scale_frame, height=h+y_offset, width=80+(2*x_offset)
         )
 
-        water_level_value = 50 # dummy data for now
-        length = (water_level_value/100)
+        length = (water_level_value/100)*h
 
         scale_canvas.create_rectangle(
-            0 , 0,50, 200, width=0
+            x_offset , y_offset,50+x_offset, h+y_offset, width=0
         )
         scale_canvas.create_rectangle(
-            0 , 200,50, 200-water_level_value, fill='#B7DEF2', width=0
+            x_offset , h+y_offset,50+x_offset, h-length+y_offset, fill='#B7DEF2', width=0
         )
         scale_canvas.create_line(
-            4, 200, 4, 0, fill='#000000', width=3
+            x_offset, h+y_offset, x_offset, y_offset, fill='#000000', width=3
         )
         scale_canvas.create_line(
-            48, 200, 48, 0, fill='#000000', width=3
+            49+x_offset, h+y_offset, 49+x_offset, y_offset, fill='#000000', width=3
         )
         scale_canvas.create_line(
-            50, 200, 0, 200, fill='#000000', width=3
+            50+x_offset, h+y_offset, x_offset, h+y_offset, fill='#000000', width=3
         )
-
-        
+        scale_canvas.create_text(
+            50+(2*x_offset)+10, y_offset, text="100%",
+            fill="black", font=("Courier")
+        )
+        scale_canvas.create_text(
+            50+(2*x_offset)+10, h//2+y_offset-5, text="50%",
+            fill="black", font=("Courier")
+        )
+        scale_canvas.create_text(
+            50+(2*x_offset)+10, h+y_offset-5, text="0%",
+            fill="black", font=("Courier")
+        )
 
         scale_canvas.pack()
         scale_frame.grid(
             row=1, column=0, sticky="news",
-            pady=PADDING, padx=PADDING,
+            padx=PADDING,
+        )
+
+        water_level_title.config(
+            background=BACKGROUND, font=("Courier", 15)
+        )
+
+        water_level_title.grid(
+            row=0, column=0, sticky="news",
+            padx=PADDING
         )
 
         self.water_level_frame.grid(
-            row=2,
+            row=1,
             column=1,
             sticky="news",
             pady=PADDING,
             padx=PADDING,
-            rowspan=2,
         )
 
     def profile_setup(self, profile_name):
@@ -408,10 +430,8 @@ class FarmBeatsApp:
 
         for n in range(2):
             self.profile_frame.grid_columnconfigure(n, weight=1)
-        for n in range(5):
+        for n in range(3):
             self.profile_frame.grid_rowconfigure(n, weight=1)
-
-        
 
         self.sensor_frame = Frame(self.profile_frame, bg=BACKGROUND)
 
@@ -442,7 +462,7 @@ class FarmBeatsApp:
             sticky="news",
             pady=PADDING,
             padx=PADDING,
-            rowspan=5,
+            rowspan=3,
         )
 
         # actuator_frame set up
@@ -461,7 +481,7 @@ class FarmBeatsApp:
         message_frame.pack()
 
         self.suggestion_frame.grid(
-            row=4, column=1, sticky="news", pady=PADDING, padx=PADDING
+            row=2, column=1, sticky="news", pady=PADDING, padx=PADDING
         )
 
         # Display on profile_frame
@@ -473,17 +493,18 @@ class FarmBeatsApp:
         self.fig = plt.figure(
             figsize=(5, 4), dpi=100, tight_layout=True
         )
-        self.axs = plt.axes()
+        self.axs = self.fig.add_subplot(111)
         self.axs.plot(self.profile.time_list, self.profile.val_list)
-        self.axs.set(
-            xlabel="Time (ms)", ylabel=y_label,
-            title=self.profile.graph_title
-        )
+        
         self.canvas = FigureCanvasTkAgg(self.fig, frame)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(pady=15, padx=15)
         self.animation = FuncAnimation(
             self.fig, self.animate, interval=TIME_INTERVAL
+        )
+        self.axs.set(
+            xlabel="Time (ms)", ylabel=y_label,
+            title=self.profile.graph_title
         )
         self.fig.tight_layout()
 
