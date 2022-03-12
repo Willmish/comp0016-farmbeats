@@ -3,8 +3,6 @@ from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
 
-# Actuator Interface
-
 
 class LEDLights(Actuator):
     LED_PIN = 5

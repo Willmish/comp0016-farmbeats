@@ -23,5 +23,3 @@ class HumidityAnalyser(Analyser):
         else:
             sensor_data.actuator_value = 0
             pub.sendMessage("actuator.fans_status", args=sensor_data)
-            # FailsafeDefault value (for safety reasons,
-            # keep it as 0, as per our security module :)
