@@ -1,5 +1,6 @@
 from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT, Tk
 import tkinter
+import black
 import matplotlib.pyplot as plt
 from profileInformation import ProfileInformation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -11,7 +12,7 @@ import time
 
 style.use("ggplot")
 
-PADDING = 25
+PADDING = 15
 GREEN = "#64975E"
 AMBER = "#D2A833"
 RED = "#C34A4D"
@@ -35,6 +36,9 @@ class FarmBeatsApp:
         self.curr_actuator_value_label = None
         self.actuator_frame = None
         self.suggestion_frame = None
+
+        self.water_level_frame = None
+        self.is_water = False
 
         # for graph display
         self.current_profile = None
@@ -171,50 +175,8 @@ class FarmBeatsApp:
             expand=True, fill=BOTH,
             pady=15, padx=15
         )
-
-    def profile_setup(self, profile_name):
-        self.profile = ProfileInformation(profile_name)
-        self.label.config(text=self.profile.title)
-        img = Image.open("assets/homeIcon.png")
-        home_icon = ImageTk.PhotoImage(img)
-
-        home_button = Button(self.label_frame, image=home_icon, borderwidth=0)
-        home_button.image = home_icon
-
-        home_button[
-            "command"
-        ] = lambda idx="Home", \
-            binst=home_button: self.home_button_action(binst)
-
-        home_button.pack()
-        home_button.place(bordermode=INSIDE, x=5, y=5)
-
-        for n in range(2):
-            self.profile_frame.grid_columnconfigure(n, weight=1)
-        for n in range(4):
-            self.profile_frame.grid_rowconfigure(n, weight=1)
-
-        # sensor_frame set up
-
-        self.sensor_frame = Frame(self.profile_frame, bg=BACKGROUND)
-
-        sensor_title = Label(
-            self.sensor_frame, text=self.profile.sensor_frame_title
-        )
-
-        sensor_title.config(background=BACKGROUND, font=("Courier", 15))
-        sensor_title.pack()
-
-        self.curr_sensor_value_label = Label(
-            self.sensor_frame, text=self.profile.sensor_value_description
-        )
-
-        self.curr_sensor_value_label.config(background=BACKGROUND)
-        self.curr_sensor_value_label.config(font=("Courier", 15))
-        self.curr_sensor_value_label.pack()
-
-        # scale_frame set up
-
+    
+    def scale_setup(self):
         scale_frame = Frame(self.sensor_frame, bg=BACKGROUND)
         offset = 25
         range_ = self.profile.bound[1] - self.profile.bound[0]
@@ -296,19 +258,8 @@ class FarmBeatsApp:
 
         scale_canvas.pack()
         scale_frame.pack()
-
-        self.graph_display(self.sensor_frame)
-
-        self.sensor_frame.grid(
-            row=0,
-            column=0,
-            sticky="news",
-            pady=PADDING,
-            padx=PADDING,
-            rowspan=4,
-        )
-
-        # actuator_frame set up
+    
+    def general_actuation_setup(self):
 
         self.actuator_frame = Frame(self.profile_frame, bg=BACKGROUND)
         self.actuator_frame.grid_columnconfigure(0, weight=1)
@@ -353,14 +304,150 @@ class FarmBeatsApp:
             pady=PADDING, padx=PADDING
         )
 
-        self.actuator_frame.grid(
-            row=0,
+
+        if self.is_water:
+            self.actuator_frame.grid(
+                row=0,
+                column=1,
+                sticky="news",
+                pady=PADDING,
+                padx=PADDING,
+                rowspan=2,
+            )
+            self.water_level_frame_setup()
+        else:
+            self.actuator_frame.grid(
+                row=0,
+                column=1,
+                sticky="news",
+                pady=PADDING,
+                padx=PADDING,
+                rowspan=4,
+            )
+
+    def water_level_frame_setup(self):
+
+        self.water_level_frame = Frame(self.profile_frame, bg=BACKGROUND)
+        self.water_level_frame.grid_columnconfigure(0, weight=1)
+        self.water_level_frame.grid_rowconfigure(0, weight=1)
+        self.water_level_frame.grid_rowconfigure(1, weight=3)
+
+
+        water_level_title = Label(
+            self.water_level_frame,
+            text= "Water Level"
+        )
+
+        water_level_title.config(
+            background=BACKGROUND, font=("Courier", 15)
+        )
+
+        water_level_title.grid(
+            row=0, column=0, sticky="news",
+            pady=PADDING, padx=PADDING
+        )
+
+        scale_frame = Frame(self.water_level_frame)
+
+        scale_canvas = tkinter.Canvas(
+            scale_frame, height=230, width=50
+        )
+
+        water_level_value = 50 # dummy data for now
+        length = (water_level_value/100)
+
+        scale_canvas.create_rectangle(
+            0 , 0,50, 200, width=0
+        )
+        scale_canvas.create_rectangle(
+            0 , 200,50, 200-water_level_value, fill='#B7DEF2', width=0
+        )
+        scale_canvas.create_line(
+            4, 200, 4, 0, fill='#000000', width=3
+        )
+        scale_canvas.create_line(
+            48, 200, 48, 0, fill='#000000', width=3
+        )
+        scale_canvas.create_line(
+            50, 200, 0, 200, fill='#000000', width=3
+        )
+
+        
+
+        scale_canvas.pack()
+        scale_frame.grid(
+            row=1, column=0, sticky="news",
+            pady=PADDING, padx=PADDING,
+        )
+
+        self.water_level_frame.grid(
+            row=2,
             column=1,
             sticky="news",
             pady=PADDING,
             padx=PADDING,
-            rowspan=3,
+            rowspan=2,
         )
+
+    def profile_setup(self, profile_name):
+        self.profile = ProfileInformation(profile_name)
+        self.label.config(text=self.profile.title)
+        img = Image.open("assets/homeIcon.png")
+        home_icon = ImageTk.PhotoImage(img)
+
+        home_button = Button(self.label_frame, image=home_icon, borderwidth=0)
+        home_button.image = home_icon
+
+        home_button[
+            "command"
+        ] = lambda idx="Home", \
+            binst=home_button: self.home_button_action(binst)
+
+        home_button.pack()
+        home_button.place(bordermode=INSIDE, x=5, y=5)
+
+        for n in range(2):
+            self.profile_frame.grid_columnconfigure(n, weight=1)
+        for n in range(5):
+            self.profile_frame.grid_rowconfigure(n, weight=1)
+
+        
+
+        self.sensor_frame = Frame(self.profile_frame, bg=BACKGROUND)
+
+        sensor_title = Label(
+            self.sensor_frame, text=self.profile.sensor_frame_title
+        )
+
+        sensor_title.config(background=BACKGROUND, font=("Courier", 15))
+        sensor_title.pack()
+
+        self.curr_sensor_value_label = Label(
+            self.sensor_frame, text=self.profile.sensor_value_description
+        )
+
+        self.curr_sensor_value_label.config(background=BACKGROUND)
+        self.curr_sensor_value_label.config(font=("Courier", 15))
+        self.curr_sensor_value_label.pack()
+
+        # scale_frame set up
+
+        self.scale_setup()
+
+        self.graph_display(self.sensor_frame)
+
+        self.sensor_frame.grid(
+            row=0,
+            column=0,
+            sticky="news",
+            pady=PADDING,
+            padx=PADDING,
+            rowspan=5,
+        )
+
+        # actuator_frame set up
+
+        self.general_actuation_setup()
 
         # suggestion_frame set up
 
@@ -374,7 +461,7 @@ class FarmBeatsApp:
         message_frame.pack()
 
         self.suggestion_frame.grid(
-            row=3, column=1, sticky="news", pady=PADDING, padx=PADDING
+            row=4, column=1, sticky="news", pady=PADDING, padx=PADDING
         )
 
         # Display on profile_frame
@@ -424,6 +511,7 @@ class FarmBeatsApp:
         self.axs.plot(xar, yar)
 
     def home_button_action(self, binst):
+        self.is_water = False
         self.animation.event_source.stop()
         self.profile_frame.pack_forget()
         self.option_frame.pack(
@@ -446,6 +534,7 @@ class FarmBeatsApp:
         self.profile_setup("Brightness")
 
     def water_button_action(self):
+        self.is_water = True
         self.option_frame.pack_forget()
         self.profile_setup("Water")
 
