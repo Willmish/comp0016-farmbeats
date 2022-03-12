@@ -29,6 +29,8 @@ class AzureDatabaseManager(DatabaseManager):
         +-----------+----------+------------+-------+---------------+
         |  INTEGER  | INTEGER  |    TEXT    |  REAL |      REAL     |
         +-----------+----------+------------+-------+---------------+
+        |  VALUE    | VALUE    |    VALUE   | VALUE |     [NULL]    |
+        +-----------+----------+------------+-------+---------------+
         """
         self._cursor.execute(
             """
@@ -39,7 +41,7 @@ class AzureDatabaseManager(DatabaseManager):
                     [SensorID] INT NOT NULL,
                     [SensorType] VARCHAR(256) NOT NULL,
                     [Value] REAL NOT NULL,
-                    [ActuatorValue] REAL NOT NULL,
+                    [ActuatorValue] REAL,
                     CONSTRAINT SensorData_pk PRIMARY KEY (Timestamp, SensorID)
                 );
                 """

@@ -12,7 +12,7 @@ class IoTHubStreamer:
         '"SensorID": {sensor_id},'
         '"SensorType": {sensor_type},'
         '"Value": {value},'
-        '"ActuatorValue: {actuator_value}}}'
+        '"ActuatorValue": {actuator_value}}}'
     )
 
     def __init__(self):
