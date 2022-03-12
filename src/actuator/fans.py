@@ -3,8 +3,6 @@ from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
 
-# Actuator Interface
-
 
 class Fans(Actuator):
     FAN_IN_PIN0 = 6

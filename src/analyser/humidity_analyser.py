@@ -1,8 +1,5 @@
-# from pid.humidity_pid import humidity_pid_control
 from pubsub import pub
 from analyser.analyser import Analyser
-from pid.pid import PID
-import time
 
 
 class HumidityAnalyser(Analyser):
@@ -26,18 +23,3 @@ class HumidityAnalyser(Analyser):
         else:
             sensor_data.actuator_value = 0
             pub.sendMessage("actuator.fans_status", args=sensor_data)
-            # FailsafeDefault value (for safety reasons,
-            # keep it as 0, as per our security module :)
-
-    def pid_control(self, args, temprature, clock):
-        p = 1.2
-        i = 0.5
-        d = 0.001
-        pid = PID(p, i, d)
-        pid.SetPoint = temprature
-        while True:
-            feedback = args.sensor_value
-            pid.update(feedback)
-            output = 100 - pid.output
-            pub.sendMessage("actuator.fans_status", args=output)
-            time.sleep(clock)

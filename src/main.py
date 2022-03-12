@@ -8,8 +8,8 @@ from sensor.dht11 import DHT11
 from sensor.light_sensor import LightSensor
 from sensor.water_level import WaterLevel
 
-# from database.database_manager import DatabaseManager
-from database.iot_hub_streamer import IoTHubStreamer
+# from data_streamer.database_manager import DatabaseManager
+from data_streamer.iot_hub_streamer import IoTHubStreamer
 from pubsub import pub
 import RPi.GPIO as GPIO
 

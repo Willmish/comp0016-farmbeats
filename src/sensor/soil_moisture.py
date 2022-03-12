@@ -11,15 +11,17 @@ class WaterLevel(Sensor):
     soil_moisture = ADC()
 
     def __init__(self, *args, **kwargs):
-        super().__init__(("soilmoisture"), *args, **kwargs)
+        super().__init__(("soil_moisture"), *args, **kwargs)
 
     def collect(self):
         self._status = Status.ENABLED
         pub.sendMessage(
             "sensor_data.soil_moisture_sensor",
             args=SensorData(
-                time(), self._id, self._type,
-                self.water_level.read_raw(self.SOIL_MOISTURE_PIN)
+                time(),
+                self._id,
+                self._type,
+                self.water_level.read_raw(self.SOIL_MOISTURE_PIN),
             ),
         )
 

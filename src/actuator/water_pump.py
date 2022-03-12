@@ -3,8 +3,6 @@ from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
 
-# Actuator Interface
-
 
 class Waterpump(Actuator):
     PUMP_PIN = 10
@@ -20,7 +18,7 @@ class Waterpump(Actuator):
         :type actuator_status: Status
         """
         super().__init__("water_pump", args, kwargs)
-        self._on = 0
+        self._is_on = True
         pub.subscribe(self.water_pump_listener, "actuator.pump_status")
         GPIO.setup(Waterpump.PUMP_PIN, GPIO.OUT)
 
@@ -30,8 +28,7 @@ class Waterpump(Actuator):
 
     def actuate(self):
         """actuate: dummy actuation function, to be overriden by children."""
-        # Turns LED on and off
-        if self._on > 0:
+        if self._is_on is True:
             print("pump on!")
             GPIO.output(Waterpump.LED_PIN, GPIO.HIGH)
         else:

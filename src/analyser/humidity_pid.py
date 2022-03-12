@@ -9,10 +9,7 @@ class HumidityPidAnalyser(Analyser):
         super().__init__(["sensor_data.humidity_sensor"])
 
     def analyser_listener(self, args, rest=None):
-        print(args.sensor_value)
         humidity = args.sensor_value
-        # TODO Do analysing stuff here, currently simple threshold
-        print(humidity)
         p = 1.2
         i = 0.5
         d = 0.001
@@ -23,5 +20,5 @@ class HumidityPidAnalyser(Analyser):
             feedback = humidity
             pid.update(feedback)
             output = (100 - pid.output) / 100
-            pub.sendMessage("actuator.light_status", args=output)  # fan on
+            pub.sendMessage("actuator.light_status", args=output)
             time.sleep(clock)

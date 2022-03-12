@@ -11,7 +11,6 @@ class MoisturePidAnalyser(Analyser):
     def analyser_listener(self, args, rest=None):
         print(args.sensor_value)
         soilmoisture = args.sensor_value
-        # TODO Do analysing stuff here, currently simple threshold
         print(soilmoisture)
         p = 1.2
         i = 0.5

@@ -13,8 +13,6 @@ class MoistureAnalyser(Analyser):
         print(soilmoisture)
         voltage = round(((soilmoisture * 3300) / 1024), 0)
         if voltage < 50:
-            pub.sendMessage("actuator.pump_status", args=1)  # Pump on
+            pub.sendMessage("actuator.pump_status", args=1)
         else:
             pub.sendMessage("actuator.pump_status", args=0.0)
-            # FailsafeDefault value (for safety reasons,
-            # keep it as 0, as per our security module :)

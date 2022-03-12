@@ -11,15 +11,17 @@ class WaterLevel(Sensor):
     water_level = ADC()
 
     def __init__(self, *args, **kwargs):
-        super().__init__(("waterlevel"), *args, **kwargs)
+        super().__init__(("water_level"), *args, **kwargs)
 
     def collect(self):
         self._status = Status.ENABLED
         pub.sendMessage(
             "sensor_data.water_level_sensor",
             args=SensorData(
-                time(), self._id, self._type,
-                self.water_level.read_raw(self.WATER_LEVEL_PIN)
+                time(),
+                self._id,
+                self._type,
+                self.water_level.read_raw(self.WATER_LEVEL_PIN),
             ),
         )
 

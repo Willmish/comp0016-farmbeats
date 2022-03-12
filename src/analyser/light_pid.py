@@ -11,7 +11,6 @@ class LightPidAnalyser(Analyser):
     def analyser_listener(self, args, rest=None):
         print(args.sensor_value)
         brightness = args.sensor_value
-        # TODO Do analysing stuff here, currently simple threshold
         print(brightness)
         p = 1.2
         i = 0.5
@@ -22,6 +21,6 @@ class LightPidAnalyser(Analyser):
         while True:
             feedback = brightness
             pid.update(feedback)
-            output = (100 - pid.output) / 100  # fill in maximam sensor number
-            pub.sendMessage("actuator.light_status", args=output)  # pump on
+            output = (100 - pid.output) / 100  # fill in maximum sensor value
+            pub.sendMessage("actuator.light_status", args=output)
             time.sleep(clock)
