@@ -29,6 +29,7 @@ if __name__ == "__main__":
     with IoTHubStreamer() as db:
         # db.create_sensor_data_table()
         GPIO.setmode(GPIO.BCM)
+
         # Actuator fans object
         fans = Fans()
         lights = LEDLights()
