@@ -66,7 +66,7 @@ if __name__ == "__main__":
             except KeyboardInterrupt:
                 GPIO.cleanup()
                 fans.PWM_cleanup()
-        
+
         def pid():
             try:
                 while 1:
