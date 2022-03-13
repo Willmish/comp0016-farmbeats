@@ -21,6 +21,7 @@ import RPi.GPIO as GPIO
 TIME_INTERVAL_BETWEEN_READINGS = 5
 PID_CLOCK_SPEED = 1
 
+
 def dummy_listener(args, rest=None):
     print("Received message over pubsub:", args.sensor_value)
 
