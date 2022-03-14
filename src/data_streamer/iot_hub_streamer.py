@@ -6,7 +6,7 @@ import os
 
 
 class IoTHubStreamer:
-    sensor_data_topic = "actuator"
+    sensor_data_topic = "database_update.actuator"
     MSG_TEXT = (
         '{{"Timestamp": {timestamp},'
         '"SensorID": {sensor_id},'

@@ -5,6 +5,7 @@ from tools.status import Status
 
 class Actuator:
     """Actuator Interface class, to be overriden by actuator subclasses."""
+    MAIN_LISTEN_TOPIC = "pid_update"
 
     def __init__(
         self,

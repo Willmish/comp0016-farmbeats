@@ -1,3 +1,4 @@
+from json.tool import main
 from time import sleep
 from actuator.fans import Fans
 from actuator.led_lights import LEDLights
@@ -55,7 +56,7 @@ if __name__ == "__main__":
 
         pub.subscribe(dummy_listener, "humidity_sensor")
 
-        def original():
+        def main_loop():
             try:
                 while 1:
                     dht11Sensor.collect(False)  # TODO Move boolean to an Enum
@@ -69,17 +70,20 @@ if __name__ == "__main__":
                 GPIO.cleanup()
                 fans.PWM_cleanup()
 
-        def pid():
+        def system_control_loop():
             try:
                 while 1:
-                    humidity_pid.collect()
-                    light_pid.collect()
-                    water_pid.collect()
+                    dht11Sensor.collect()  # TODO Move boolean to an Enum
+                    light_sensor.collect()
+                    water_level.collect()
                     sleep(PID_CLOCK_SPEED)
             except KeyboardInterrupt:
                 GPIO.cleanup()
-                fans.PWM_cleanup()
 
-        while True:
-            executor.submit(pid)
-            executor.submit(original)
+        try:
+            while True:
+                executor.submit(system_control_loop)
+                executor.submit(main_loop)
+        except KeyboardInterrupt:
+            GPIO.cleanup() # TODO check if necessary
+            executor.shutdown()

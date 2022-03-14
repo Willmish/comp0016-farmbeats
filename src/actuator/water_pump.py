@@ -19,7 +19,7 @@ class Waterpump(Actuator):
         """
         super().__init__("water_pump", args, kwargs)
         self._is_on = True
-        pub.subscribe(self.water_pump_listener, "actuator.pump_status")
+        pub.subscribe(self.water_pump_listener, f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.pump_status")
         GPIO.setup(Waterpump.PUMP_PIN, GPIO.OUT)
 
     def activate(self):

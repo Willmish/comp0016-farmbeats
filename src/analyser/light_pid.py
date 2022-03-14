@@ -24,7 +24,7 @@ class LightPidAnalyser(Analyser):
 
         pub.sendMessage(f"{MAIN_PUBSUB_TOPIC}.actuator.light_status", args=sensor_data)
 
-    def analyser_datastream_update_listener(self, args, rest=None):
+    def datastream_update_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "database_update"
         sensor_data = args
         output = (100 - self._pid.output) / 100
