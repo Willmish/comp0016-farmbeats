@@ -13,7 +13,11 @@ class Analyser:
         self._actuator_type_topics: List[str] = actuator_type_topics
         self._id = analyser_id
         for topic in self._sensor_type_topics:
-            pub.subscribe(self.analyser_listener, topic)
+            pub.subscribe(self.analyser_listener, "database_update." + topic)
+            pub.subscribe(self.analyser_control_update_listener, "pid_update." + topic)
 
     def analyser_listener(self, args, rest=None):
+        pass
+
+    def analyser_control_update_listener(self, args, rest=None):
         pass

@@ -13,10 +13,11 @@ class LightSensor(Sensor):
         super().__init__(("brightness"), *args, **kwargs)
         self.SI1145 = grove_si114x()
 
-    def collect(self):
+    def collect(self, pid_update: bool = True):
         self._status = Status.ENABLED
+        MODE = "pid_update" if pid_update else "database_update"
         pub.sendMessage(
-            "sensor_data.light_sensor",
+            f"{MODE}.sensor_data.light_sensor",
             args=SensorData(
                 time(), self._id, self._type, (self.SI1145.ReadVisible)
             ),

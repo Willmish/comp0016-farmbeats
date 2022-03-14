@@ -58,9 +58,9 @@ if __name__ == "__main__":
         def original():
             try:
                 while 1:
-                    dht11Sensor.collect()
-                    light_sensor.collect()
-                    water_level.collect()
+                    dht11Sensor.collect(False)  # TODO Move boolean to an Enum
+                    light_sensor.collect(False)
+                    water_level.collect(False)
                     fans.actuate()
                     # lights.actuate()
                     # print(db)
