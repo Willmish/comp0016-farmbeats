@@ -36,4 +36,4 @@ class MoisturePidAnalyser(Analyser):
         output = (100 - self._pid.output) / 100
         sensor_data.actuator_value = output
         # TODO either change to send the on off status (will be inaccurate), or see issue #55
-        pub.sendMessage(f"{MAIN_PUBSUB_TOPIC}.actuator.light_status", args=sensor_data)
+        pub.sendMessage(f"{MAIN_PUBSUB_TOPIC}.actuator.water_pump_status", args=sensor_data)
