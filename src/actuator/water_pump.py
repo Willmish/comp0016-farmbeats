@@ -1,6 +1,7 @@
 from tools.status import Status
 from actuator.actuator import Actuator
 from pubsub import pub
+import time
 import RPi.GPIO as GPIO
 
 
@@ -36,6 +37,10 @@ class Waterpump(Actuator):
             GPIO.output(Waterpump.LED_PIN, GPIO.LOW)
 
     def pump_status_listener(self, args, rest=None):
-        status = args
+        status = args.actuator_value
         print("Received pump vals over pubsub:", status)
-        self._on = status
+        clock = 5
+        self._is_on = True
+        time.sleep(status * clock)
+        self._is_on = False
+        time.sleep(clock - (status * clock))
