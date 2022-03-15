@@ -1,7 +1,6 @@
 from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
-import time
 
 
 class MoisturePidAnalyser(Analyser):
@@ -15,7 +14,6 @@ class MoisturePidAnalyser(Analyser):
         p = 1.2
         i = 0.5
         d = 0.001
-        clock = 5
         pid = PID(p, i, d)
         pid.SetPoint = 50
         voltage = round(((soilmoisture * 3300) / 1024), 0)
@@ -23,4 +21,5 @@ class MoisturePidAnalyser(Analyser):
             feedback = voltage
             pid.update(feedback)
             output = (100 - pid.output) / 100
-            pub.sendMessage("actuator.water_pump_status", args=output)  # percentage
+            pub.sendMessage("actuator.water_pump_status", args=output)
+            # percentage time pump needed to be on
