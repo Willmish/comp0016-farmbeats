@@ -1,15 +1,11 @@
+from message_manager import MessageManager
 from gui_database_manager import GuiDatabaseManager
 
-INPUT = 800
-LOWER = 700
-UPPER = 850
-EXLOWER = 600
-EXUPPER = 950
-ACTUATION = 900
-MESSAGE = "The sensor readings seem good!"
-LOWER_BOUND = 0
-UPPER_BOUND = 1000
-
+RED_LOWER = 0
+AMBER_LOWER = 1
+GREEN = 2
+AMBER_UPPER = 3
+RED_UPPER = 4
 
 class ProfileInformation:
     def __init__(self, profile_name):
@@ -40,7 +36,6 @@ class ProfileInformation:
                     + str(self.actuator_value)
                     + self.unit
                 )
-                self.suggestion = MESSAGE
 
             elif profile_name == "Humidity":
                 self.sensor_frame_title = "DH11 Sensor Information"
@@ -73,8 +68,6 @@ class ProfileInformation:
                     + self.unit
                 )
 
-                self.suggestion = MESSAGE
-
             elif profile_name == "Temperature":
                 self.sensor_frame_title = "DH11 Sensor Information"
                 self.sensor_value = \
@@ -104,9 +97,7 @@ class ProfileInformation:
                     + str(self.actuator_value)
                     + self.unit
                 )
-
-                self.suggestion = MESSAGE
-            elif profile_name == "Water":
+            elif profile_name == "Water Level":
                 self.sensor_frame_title = \
                     "Soil moisture Sensor Information"
                 self.sensor_value = \
@@ -119,8 +110,8 @@ class ProfileInformation:
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
-                self.extr = [EXLOWER, LOWER, UPPER, EXUPPER]
-                self.bound = [LOWER_BOUND, UPPER_BOUND]
+                self.extr = [10, 18, 44, 50]
+                self.bound = [0, 100]
 
                 self.time_list = db.get_time_and_val_list("water level")[1]
                 self.val_list = db.get_time_and_val_list("water level")[0]
@@ -135,8 +126,7 @@ class ProfileInformation:
                     + str(self.actuator_value)
                     + self.unit
                 )
-
-                self.suggestion = MESSAGE
+            self.suggestion = MessageManager(profile_name, self.get_status()).message
 
     def update_from_db(self, profile_name):
         with GuiDatabaseManager() as db:
@@ -165,7 +155,7 @@ class ProfileInformation:
                 self.actuator_value = db.get_curr_actuation_val_single_subsys(
                     "temperature"
                 )
-            elif profile_name == "Water":
+            elif profile_name == "Water Level":
                 self.sensor_value = db.get_curr_val_single_subsys(
                     "water level"
                 )
@@ -174,3 +164,20 @@ class ProfileInformation:
                 self.actuator_value = db.get_curr_actuation_val_single_subsys(
                     "water level"
                 )
+    def get_status(self):
+        if self.sensor_value < self.extr[0]:
+            return  RED_LOWER
+        elif self.sensor_value < self.extr[1]:
+            return AMBER_LOWER
+        elif self.sensor_value < self.extr[2]:
+            return GREEN
+        elif self.sensor_value < self.extr[3]:
+            return AMBER_UPPER
+        else:
+            return RED_UPPER
+ 
+
+
+
+
+

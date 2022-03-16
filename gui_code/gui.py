@@ -1,6 +1,7 @@
 from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT, Tk
 import tkinter
 import matplotlib.pyplot as plt
+from sensor_value_scale import SensorValueScale
 from profileInformation import ProfileInformation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from PIL import Image
@@ -132,7 +133,7 @@ class FarmBeatsApp:
 
         waterButton.image = water_img
         waterButton.grid(
-            ow=1, column=0, sticky="news",
+            row=1, column=0, sticky="news",
             pady=PADDING, padx=PADDING
         )
 
@@ -171,91 +172,6 @@ class FarmBeatsApp:
         )
 
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
-
-    def scale_setup(self):
-        scale_frame = Frame(self.sensor_frame, bg=BACKGROUND)
-        offset = 25
-        range_ = self.profile.bound[1] - self.profile.bound[0]
-        l1 = (((self.profile.extr[0] - self.profile.bound[0])
-              / range_) * 400) + offset
-        l2 = (((self.profile.extr[1] - self.profile.bound[0])
-              / range_) * 400) + offset
-        l3 = (((self.profile.extr[2] - self.profile.bound[0])
-              / range_) * 400) + offset
-        l4 = (((self.profile.extr[3] - self.profile.bound[0])
-              / range_) * 400) + offset
-
-        if self.profile.sensor_value:
-            line = ((self.profile.sensor_value - self.profile.bound[0])
-                    / range_) * 400
-        else:
-            line = 0
-
-        scale_canvas = tkinter.Canvas(
-            scale_frame,
-            height=50,
-            width=400 + 2 * offset,
-            background=BACKGROUND,
-            highlightthickness=0,
-        )
-
-        scale_canvas.create_rectangle(
-            0 + offset, 0, l1, 30, fill=RED, width=0
-        )
-        scale_canvas.create_rectangle(
-            l1, 0, l2, 30, fill=AMBER, width=0
-        )
-        scale_canvas.create_rectangle(
-            l2, 0, l3, 30, fill=GREEN, width=0
-        )
-        scale_canvas.create_rectangle(
-            l3, 0, l4, 30, fill=AMBER, width=0
-        )
-        scale_canvas.create_rectangle(
-            l4, 0, 400 + offset, 30, fill=RED, width=0
-        )
-        scale_canvas.create_line(
-            offset, 15, line + offset, 15, width=3
-        )
-        scale_canvas.create_text(
-            offset, 35, text=str(self.profile.bound[0]),
-            fill="black", font=("Courier")
-        )
-        scale_canvas.create_text(
-            l1, 45, text=str(self.profile.extr[0]),
-            fill="black", font=("Courier")
-        )
-        scale_canvas.create_line(
-            l1 - 1, 30, l1 - 1, 40, fill="grey"
-        )
-        scale_canvas.create_text(
-            l2, 35, text=str(self.profile.extr[1]),
-            fill="black", font=("Courier")
-        )
-        scale_canvas.create_text(
-            l3, 45, text=str(self.profile.extr[2]),
-            fill="black", font=("Courier")
-        )
-        scale_canvas.create_line(
-            l3 - 1, 30, l3 - 1, 40, fill="grey"
-        )
-        scale_canvas.create_text(
-            l4, 35, text=str(self.profile.extr[3]),
-            fill="black", font=("Courier")
-        )
-        scale_canvas.create_text(
-            400 + offset,
-            45,
-            text=str(self.profile.bound[1]),
-            fill="black",
-            font=("Courier"),
-        )
-        scale_canvas.create_line(
-            400 + offset - 1, 30, 400 + offset - 1, 40, fill="grey"
-        )
-
-        scale_canvas.pack()
-        scale_frame.pack()
 
     def general_actuation_setup(self):
 
@@ -457,7 +373,7 @@ class FarmBeatsApp:
 
         # scale_frame set up
 
-        self.scale_setup()
+        SensorValueScale(self.profile, self.sensor_frame)
 
         self.graph_display()
 
@@ -575,7 +491,7 @@ class FarmBeatsApp:
     def water_button_action(self):
         self.is_water = True
         self.option_frame.pack_forget()
-        self.profile_setup("Water")
+        self.profile_setup("Water Level")
 
     def ai_camera_button_action(self):
         self.label.config(text="AI Camera Button Clicked")
