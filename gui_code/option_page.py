@@ -1,45 +1,19 @@
-from tkinter import Frame, Label, Button, BOTH, Tk
+from tkinter import Button, BOTH
 from PIL import Image
 from PIL import ImageTk
-from matplotlib import style
-import time
-
+import globals
 from profile_page import ProfilePage
 
-style.use("ggplot")
+class OptionPage:
+    def __init__(self, option_frame, profile_frame, label_frame, label):
+        self.option_frame = option_frame
+        self.profile_frame = profile_frame
+        self.label_frame = label_frame
+        self.label = label
 
-PADDING = 15
-GREEN = "#64975E"
-AMBER = "#D2A833"
-RED = "#C34A4D"
-BACKGROUND = "#E7F5EF"
-TIME_INTERVAL = 1
-TIME_AT_START = time.time()
-
-
-class FarmBeatsApp:
-    def __init__(self, master):
-        self.u = 0
-        self.main = master
-        self.label_frame = Frame(self.main)
-        self.label_frame_setup()
-        self.option_frame = Frame(self.main, bg="white")
         self.option_frame_setup()
-        self.profile_frame = Frame(self.main, bg="white")
 
-    def label_frame_setup(self):
-        self.label = Label(self.label_frame, text="IoT FarmBeats", width=60)
-        self.label.config(background=BACKGROUND, font=("Courier", 25))
-        self.label.pack()
-        self.label_frame.pack()
-
-    def get_menu_button(self, image_name):
-        width = 240
-        height = 220
-        img = Image.open(image_name)
-        img = img.resize((width, height), Image.ANTIALIAS)
-        return ImageTk.PhotoImage(img)
-
+    
     def option_frame_setup(self):
         for n in range(3):
             self.option_frame.grid_columnconfigure(n, weight=1, uniform="row")
@@ -60,7 +34,7 @@ class FarmBeatsApp:
 
         tempButton.image = temp_img
         tempButton.grid(
-            row=0, column=0, sticky="news", pady=PADDING, padx=PADDING
+            row=0, column=0, sticky="news", pady=globals.padding, padx=globals.padding
         )
 
         humidity_img = self.get_menu_button(
@@ -76,7 +50,7 @@ class FarmBeatsApp:
 
         humidityButton.image = humidity_img
         humidityButton.grid(
-            row=0, column=1, sticky="news", pady=PADDING, padx=PADDING
+            row=0, column=1, sticky="news", pady=globals.padding, padx=globals.padding
         )
 
         brightness_img = self.get_menu_button(
@@ -91,7 +65,7 @@ class FarmBeatsApp:
         )
         brightnessButton.image = brightness_img
         brightnessButton.grid(
-            row=0, column=2, sticky="news", pady=PADDING, padx=PADDING
+            row=0, column=2, sticky="news", pady=globals.padding, padx=globals.padding
         )
 
         water_img = self.get_menu_button(
@@ -107,7 +81,7 @@ class FarmBeatsApp:
 
         waterButton.image = water_img
         waterButton.grid(
-            row=1, column=0, sticky="news", pady=PADDING, padx=PADDING
+            row=1, column=0, sticky="news", pady=globals.padding, padx=globals.padding
         )
 
         aiCamera_img = self.get_menu_button(
@@ -123,7 +97,7 @@ class FarmBeatsApp:
 
         aiCameraButton.image = aiCamera_img
         aiCameraButton.grid(
-            row=1, column=1, sticky="news", pady=PADDING, padx=PADDING
+            row=1, column=1, sticky="news", pady=globals.padding, padx=globals.padding
         )
 
         system_img = self.get_menu_button(
@@ -139,10 +113,17 @@ class FarmBeatsApp:
 
         sysVisualButton.image = system_img
         sysVisualButton.grid(
-            row=1, column=2, sticky="news", pady=PADDING, padx=PADDING
+            row=1, column=2, sticky="news", pady=globals.padding, padx=globals.padding
         )
 
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
+
+    def get_menu_button(self, image_name):
+        width = 240
+        height = 220
+        img = Image.open(image_name)
+        img = img.resize((width, height), Image.ANTIALIAS)
+        return ImageTk.PhotoImage(img)
 
     def temp_button_action(self):
         self.option_frame.pack_forget()
@@ -190,17 +171,3 @@ class FarmBeatsApp:
 
     def sys_visual_button_action(self):
         self.label.config(text="System Visualisation Button Clicked")
-
-
-def main():
-    root = Tk()
-    root.geometry("900x600")
-    root.config(bg=BACKGROUND)
-    root.resizable(False, False)
-    FarmBeatsApp(root)
-
-    root.mainloop()
-
-
-if __name__ == "__main__":
-    main()
