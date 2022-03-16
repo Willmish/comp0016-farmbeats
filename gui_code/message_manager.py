@@ -1,4 +1,3 @@
-
 class MessageManager:
     def __init__(self, profile_name, status):
         self.message = ""
@@ -40,6 +39,10 @@ class MessageManager:
             elif status == 1:
                 self.message = "Please add a bit more water."
             elif status == 3:
-                self.message = "No need to water. Moisture level is a little high."
+                self.message = (
+                    "No need to water. Moisture level is a little high."
+                )
             elif status == 4:
-                self.message = "No need to water. Moisture level is very little high."
+                self.message = (
+                    "No need to water. Moisture level is very little high."
+                )
