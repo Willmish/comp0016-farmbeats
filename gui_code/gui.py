@@ -1,7 +1,6 @@
-from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT, Tk
+from tkinter import Frame, Label, Button, BOTH, Tk
 from PIL import Image
 from PIL import ImageTk
-from matplotlib.animation import FuncAnimation
 from matplotlib import style
 import time
 
@@ -27,7 +26,6 @@ class FarmBeatsApp:
         self.option_frame = Frame(self.main, bg="white")
         self.option_frame_setup()
         self.profile_frame = Frame(self.main, bg="white")
-
 
     def label_frame_setup(self):
         self.label = Label(self.label_frame, text="IoT FarmBeats", width=60)
@@ -144,24 +142,48 @@ class FarmBeatsApp:
             row=1, column=2, sticky="news", pady=PADDING, padx=PADDING
         )
 
-        self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)  
+        self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
 
     def temp_button_action(self):
         self.option_frame.pack_forget()
-        ProfilePage("Temperature", self.profile_frame, self.label_frame, self.label, self.option_frame)
+        ProfilePage(
+            "Temperature",
+            self.profile_frame,
+            self.label_frame,
+            self.label,
+            self.option_frame,
+        )
 
     def humidity_button_action(self):
         self.option_frame.pack_forget()
-        ProfilePage("Humidity", self.profile_frame, self.label_frame, self.label, self.option_frame)
+        ProfilePage(
+            "Humidity",
+            self.profile_frame,
+            self.label_frame,
+            self.label,
+            self.option_frame,
+        )
 
     def brightness_button_action(self):
         self.option_frame.pack_forget()
-        ProfilePage("Brightness", self.profile_frame, self.label_frame, self.label, self.option_frame)
+        ProfilePage(
+            "Brightness",
+            self.profile_frame,
+            self.label_frame,
+            self.label,
+            self.option_frame,
+        )
 
     def water_button_action(self):
         self.is_water = True
         self.option_frame.pack_forget()
-        ProfilePage("Water Level", self.profile_frame, self.label_frame, self.label, self.option_frame)
+        ProfilePage(
+            "Water Level",
+            self.profile_frame,
+            self.label_frame,
+            self.label,
+            self.option_frame,
+        )
 
     def ai_camera_button_action(self):
         self.label.config(text="AI Camera Button Clicked")

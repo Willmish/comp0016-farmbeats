@@ -10,14 +10,17 @@ from matplotlib.animation import FuncAnimation
 import time
 import globals
 
+
 class ProfilePage:
-    def __init__(self, profile_name, profile_frame, title_frame, label, option_frame):
+    def __init__(
+        self, profile_name, profile_frame, title_frame, label, option_frame
+    ):
         self.profile = ProfileInformation(profile_name)
         self.option_frame = option_frame
-        self.profile_frame =  profile_frame
+        self.profile_frame = profile_frame
         self.label_frame = title_frame
         self.label = label
-        
+
         self.sensor_frame = None
         self.curr_sensor_value_label = None
         self.curr_actuator_value_label = None
@@ -37,7 +40,7 @@ class ProfilePage:
         self.canvas = None
         self.animation = None
         self.profile_setup()
-    
+
     def profile_setup(self):
         self.label.config(text=self.profile.title)
 
@@ -67,7 +70,9 @@ class ProfilePage:
             self.sensor_frame, text=self.profile.sensor_frame_title
         )
 
-        sensor_title.config(background=globals.background, font=("Courier", 15))
+        sensor_title.config(
+            background=globals.background, font=("Courier", 15)
+        )
         sensor_title.pack()
 
         self.curr_sensor_value_label = Label(
@@ -81,7 +86,7 @@ class ProfilePage:
         # scale_frame set up
 
         SensorValueScale(self.profile, self.sensor_frame)
-    
+
         self.graph_display()
 
         self.sensor_frame.grid(
@@ -99,9 +104,13 @@ class ProfilePage:
 
         # suggestion_frame set up
 
-        self.suggestion_frame = Frame(self.profile_frame, bg=globals.background)
+        self.suggestion_frame = Frame(
+            self.profile_frame, bg=globals.background
+        )
         suggestion_label = Label(self.suggestion_frame, text="Suggestion")
-        suggestion_label.config(background=globals.background, font=("Courier", 15))
+        suggestion_label.config(
+            background=globals.background, font=("Courier", 15)
+        )
         suggestion_label.pack()
         message_frame = Frame(self.suggestion_frame, bg="#FFFFFF", height=400)
         msg = Label(message_frame, text=self.profile.suggestion)
@@ -109,7 +118,11 @@ class ProfilePage:
         message_frame.pack()
 
         self.suggestion_frame.grid(
-            row=2, column=1, sticky="news", pady=globals.padding, padx=globals.padding
+            row=2,
+            column=1,
+            sticky="news",
+            pady=globals.padding,
+            padx=globals.padding,
         )
 
         # Display on profile_frame
@@ -174,7 +187,7 @@ class ProfilePage:
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
         binst.destroy()
         self.label.config(text="IoT FarmBeats")
-    
+
     def general_actuation_setup(self):
 
         self.actuator_frame = Frame(self.profile_frame, bg=globals.background)
@@ -186,19 +199,27 @@ class ProfilePage:
             self.actuator_frame, text=self.profile.actuator_frame_title
         )
 
-        actuatorTitle.config(background=globals.background, font=("Courier", 15))
+        actuatorTitle.config(
+            background=globals.background, font=("Courier", 15)
+        )
 
-        actuatorTitle.grid(row=0, column=0, sticky="news", padx=globals.padding)
+        actuatorTitle.grid(
+            row=0, column=0, sticky="news", padx=globals.padding
+        )
 
         mode_switch_frame = Frame(self.actuator_frame, bg=globals.background)
         manual_mode = Label(mode_switch_frame, text="Manual")
         manual_mode.config(background="#CEE5DB", font=("Courier", 15))
         manual_mode.pack(side=RIGHT)
         automatic_mode = Button(mode_switch_frame, text="Automatic")
-        automatic_mode.config(background=globals.background, font=("Courier", 15))
+        automatic_mode.config(
+            background=globals.background, font=("Courier", 15)
+        )
         automatic_mode.pack(side=LEFT)
 
-        mode_switch_frame.grid(row=1, column=0, sticky="news", padx=globals.padding)
+        mode_switch_frame.grid(
+            row=1, column=0, sticky="news", padx=globals.padding
+        )
 
         self.curr_actuator_value_label = Label(
             self.actuator_frame, text=self.profile.actuator_value_description
@@ -235,7 +256,9 @@ class ProfilePage:
 
         water_level_value = 50  # dummy data for now
 
-        self.water_level_frame = Frame(self.profile_frame, bg=globals.background)
+        self.water_level_frame = Frame(
+            self.profile_frame, bg=globals.background
+        )
         self.water_level_frame.grid_columnconfigure(0, weight=1)
         self.water_level_frame.grid_rowconfigure(0, weight=1)
         self.water_level_frame.grid_rowconfigure(1, weight=3)
@@ -246,9 +269,13 @@ class ProfilePage:
             text="Water Level: " + str(water_level_value) + "%",
         )
 
-        water_level_title.config(background=globals.background, font=("Courier", 15))
+        water_level_title.config(
+            background=globals.background, font=("Courier", 15)
+        )
 
-        water_level_title.grid(row=0, column=0, sticky="news", padx=globals.padding)
+        water_level_title.grid(
+            row=0, column=0, sticky="news", padx=globals.padding
+        )
 
         scale_frame = Frame(self.water_level_frame)
 
@@ -324,9 +351,13 @@ class ProfilePage:
             padx=globals.padding,
         )
 
-        water_level_title.config(background=globals.background, font=("Courier", 15))
+        water_level_title.config(
+            background=globals.background, font=("Courier", 15)
+        )
 
-        water_level_title.grid(row=0, column=0, sticky="news", padx=globals.padding)
+        water_level_title.grid(
+            row=0, column=0, sticky="news", padx=globals.padding
+        )
 
         self.water_level_frame.grid(
             row=1,

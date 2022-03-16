@@ -1,4 +1,3 @@
-from ast import Constant
 from tkinter import Frame
 import tkinter
 import globals
