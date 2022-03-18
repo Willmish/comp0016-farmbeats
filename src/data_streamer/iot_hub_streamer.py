@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from pubsub import pub
 from datetime import datetime
 import os
-
+import tools.config
 
 class IoTHubStreamer:
     sensor_data_topic = "actuator"
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
         while 1:
             pub.sendMessage(
-                "actuator_value",
+                tools.config.actuator['actuator_value'],
                 args=SensorData(time(), -1, "test_sensor_type", -999, 50),
             )
             sleep(5)

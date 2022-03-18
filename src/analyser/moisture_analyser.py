@@ -1,10 +1,10 @@
 from pubsub import pub
 from analyser.analyser import Analyser
-
+import tools.config
 
 class MoistureAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
-        super().__init__(["sensor_data.soil_moisture_sensor"])
+        super().__init__([tools.config.sensor['soil_moisture_sensor']])
 
     def analyser_listener(self, args, rest=None):
         print(args.sensor_value)

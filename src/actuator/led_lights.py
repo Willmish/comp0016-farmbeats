@@ -2,7 +2,7 @@ from tools.status import Status
 from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
-
+import tools.config
 
 class LEDLights(Actuator):
     LED_PIN = 5
@@ -19,7 +19,7 @@ class LEDLights(Actuator):
         """
         super().__init__("led_lights", args, kwargs)
         self._brightness = 0
-        pub.subscribe(self.light_status_listener, "actuator.light_status")
+        pub.subscribe(self.light_status_listener, tools.config.status['light_status'])
         GPIO.setup(LEDLights.LED_PIN, GPIO.OUT)
 
     def activate(self):

@@ -3,10 +3,10 @@ from database_manager import DatabaseManager
 from dotenv import load_dotenv
 import os
 import pyodbc
-
+import tools.config
 
 class AzureDatabaseManager(DatabaseManager):
-    sensor_data_topic = "actuator"
+    sensor_data_topic = tools.config.actuator['actuator']
 
     def __init__(self, database_path: str = "test.db"):
         super().__init__("azure_db")
@@ -111,7 +111,7 @@ if __name__ == "__main__":
         db.create_sensor_data_table()
         print(get_current_time_iso_cut())
         pub.sendMessage(
-            "actuator",
+            tools.config.actuator['actuator'],
             args=SensorData(
                 get_current_time_iso_cut(), -1, "test_sensor_type", -999, 50
             ),
@@ -120,25 +120,25 @@ if __name__ == "__main__":
         val = 0
         for x in range(3):
             pub.sendMessage(
-                "actuator",
+                tools.config.actuator['actuator'],
                 args=SensorData(
                     get_current_time_iso_cut(), 1, "brightness", 900 + val, 50
                 ),
             )
             pub.sendMessage(
-                "actuator",
+                tools.config.actuator['actuator'],
                 args=SensorData(
                     get_current_time_iso_cut(), 2, "humidity", 55 + val, 50
                 ),
             )
             pub.sendMessage(
-                "actuator",
+                tools.config.actuator['actuator'],
                 args=SensorData(
                     get_current_time_iso_cut(), 3, "temperature", 20 + val, 50
                 ),
             )
             pub.sendMessage(
-                "actuator",
+                tools.config.actuator['actuator'],
                 args=SensorData(
                     get_current_time_iso_cut(), 4, "water level", 15 + val, 50
                 ),

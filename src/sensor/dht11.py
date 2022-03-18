@@ -4,7 +4,7 @@ from sensor.sensor import Sensor
 from tools.status import Status
 from tools.sensor_data import SensorData
 from time import time
-
+import tools.config
 
 class DHT11(Sensor):
     DHT11_PIN = 16
@@ -20,11 +20,11 @@ class DHT11(Sensor):
         # maybe keep all as enums?
         # (Problematic with mixed type sensors)
         pub.sendMessage(
-            "sensor_data.humidity_sensor",
+            tools.config.sensor['humidity_sensor'],
             args=SensorData(time(), self._id, self._type[0], humidity),
         )
         pub.sendMessage(
-            "sensor_data.ambient_temperature_sensor",
+            tools.config.sensor['temperature_sensor'],
             args=SensorData(time(), self._id, self._type[1], temp),
         )
 

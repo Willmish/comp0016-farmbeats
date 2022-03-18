@@ -1,10 +1,10 @@
 # from pubsub import pub
 from analyser.analyser import Analyser
-
+import tools.config
 
 class WaterCapacityAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
-        super().__init__(["sensor_data.water_level_sensor"])
+        super().__init__([tools.config.sensor['water_level_sensor']])
 
     def analyser_listener(self, args, rest=None):
         print(args.sensor_value)

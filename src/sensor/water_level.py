@@ -4,7 +4,7 @@ from sensor.sensor import Sensor
 from tools.status import Status
 from tools.sensor_data import SensorData
 from grove.adc import ADC
-
+import tools.config
 
 class WaterLevel(Sensor):
     WATER_LEVEL_PIN = 2
@@ -16,7 +16,7 @@ class WaterLevel(Sensor):
     def collect(self):
         self._status = Status.ENABLED
         pub.sendMessage(
-            "sensor_data.water_level_sensor",
+            tools.config.sensor['water_level_sensor'],
             args=SensorData(
                 time(),
                 self._id,

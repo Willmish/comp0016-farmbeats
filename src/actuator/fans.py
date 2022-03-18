@@ -2,7 +2,7 @@ from tools.status import Status
 from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
-
+import tools.config
 
 class Fans(Actuator):
     FAN_IN_PIN0 = 6
@@ -23,7 +23,7 @@ class Fans(Actuator):
         super().__init__("fans", args, kwargs)
         self._fan_in_speed: float = 0.0
         self._fan_out_speed: float = 0.0
-        pub.subscribe(self.fan_status_listener, "actuator.fans_status")
+        pub.subscribe(self.fan_status_listener, tools.config.status['humidity_status'])
         GPIO.setup(Fans.FAN_IN_PIN0, GPIO.OUT)
         GPIO.setup(Fans.FAN_IN_PIN1, GPIO.OUT)
         GPIO.setup(Fans.FAN_OUT_PIN0, GPIO.OUT)

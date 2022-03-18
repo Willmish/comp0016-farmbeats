@@ -2,11 +2,11 @@ from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
 import time
-
+import tools.config
 
 class MoisturePidAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
-        super().__init__(["sensor_data.soil_moisture_sensor"])
+        super().__init__([tools.config.sensor['soil_moisture_sensor']])
 
     def analyser_listener(self, args, rest=None):
         print(args.sensor_value)
@@ -23,7 +23,7 @@ class MoisturePidAnalyser(Analyser):
             feedback = voltage
             pid.update(feedback)
             output = (100 - pid.output) / 100
-            pub.sendMessage("actuator.water_pump_status", args=1.0)  # pump on
+            pub.sendMessage(tools.config.status['water_status'], args=1.0)  # pump on
             time.sleep(output * clock)
-            pub.sendMessage("actuator.water_pump_status", args=0)  # pump off
+            pub.sendMessage(tools.config.status['water_status'], args=0)  # pump off
             time.sleep(clock - (output * clock))

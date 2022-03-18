@@ -4,7 +4,7 @@ from pubsub import pub
 from sensor.sensor import Sensor
 from tools.status import Status
 from tools.sensor_data import SensorData
-
+import tools.config
 
 class LightSensor(Sensor):
     LIGHT_SENSOR_PIN = 0
@@ -16,7 +16,7 @@ class LightSensor(Sensor):
     def collect(self):
         self._status = Status.ENABLED
         pub.sendMessage(
-            "sensor_data.light_sensor",
+            tools.config.sensor['light_sensor'],
             args=SensorData(
                 time(), self._id, self._type, (self.SI1145.ReadVisible)
             ),

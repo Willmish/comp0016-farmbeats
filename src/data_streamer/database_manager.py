@@ -1,9 +1,9 @@
 import sqlite3
 from pubsub import pub
-
+import tools.config
 
 class DatabaseManager:
-    sensor_data_topic = "actuator"
+    sensor_data_topic = tools.config.actuator['actuator']
 
     def __init__(self, database_path: str = "test.db"):
         self._database_path: str = database_path
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     with DatabaseManager() as db:
         db.create_sensor_data_table()
         pub.sendMessage(
-            "actuator",
+            tools.config.actuator['actuator'],
             args=SensorData(time(), -1, "test_sensor_type", -999, 50),
         )
         print(db)

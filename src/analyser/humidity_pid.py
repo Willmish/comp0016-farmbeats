@@ -2,7 +2,7 @@ from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
 import time
-
+import tools.config
 
 class HumidityPidAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
@@ -20,5 +20,5 @@ class HumidityPidAnalyser(Analyser):
             feedback = humidity
             pid.update(feedback)
             output = (100 - pid.output) / 100
-            pub.sendMessage("actuator.light_status", args=output)
+            pub.sendMessage(tools.config.status['light_status'], args=output)
             time.sleep(clock)

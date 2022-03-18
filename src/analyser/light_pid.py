@@ -2,11 +2,11 @@ from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
 import time
-
+import tools.config
 
 class LightPidAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
-        super().__init__(["sensor_data.light_sensor"])
+        super().__init__([tools.config.sensor['light_sensor']])
 
     def analyser_listener(self, args, rest=None):
         print(args.sensor_value)
