@@ -57,20 +57,41 @@ if __name__ == "__main__":
         light_sensor = LightSensor(sensor_id=0)
 
         # Create Threads
-        #executor = futures.ThreadPoolExecutor(max_workers=2)
+        executor = futures.ThreadPoolExecutor(max_workers=2)
 
         #pub.subscribe(dummy_listener, "database_update")
         #pub.subscribe(dummy_listener_pid, "pid_update")
+        def main_loop():
+            try:
+                while 1:
+                    dht11Sensor.collect(False)  # TODO Move boolean to an Enum
+                    light_sensor.collect(False)
+                    #water_level.collect(False)
+                    fans.actuate()
+                    # lights.actuate()
+                    # print(db)
+                    sleep(TIME_INTERVAL_BETWEEN_READINGS)
+            except KeyboardInterrupt:
+                GPIO.cleanup()
+                fans.PWM_cleanup()
+
+        def system_control_loop():
+            try:
+                while 1:
+                    dht11Sensor.collect()  # TODO Move boolean to an Enum
+                    light_sensor.collect()
+                    fans.actuate()
+                    #water_level.collect()
+                    sleep(PID_CLOCK_SPEED)
+            except KeyboardInterrupt:
+                GPIO.cleanup()
 
         try:
-            while 1:
-                dht11Sensor.collect(False)  # TODO Move boolean to an Enum
-                light_sensor.collect(False)
-                #water_level.collect(False)
-                fans.actuate()
-                # lights.actuate()
-                # print(db)
-                sleep(TIME_INTERVAL_BETWEEN_READINGS)
+            system_control_loop()
+            #main_loop()
+            #while True:
+            #    #executor.submit(system_control_loop)
+            #    executor.submit(main_loop)
         except KeyboardInterrupt:
-            GPIO.cleanup()
-            fans.PWM_cleanup()
+            GPIO.cleanup() # TODO check if necessary
+            executor.shutdown()
