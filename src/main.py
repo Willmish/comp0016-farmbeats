@@ -11,7 +11,8 @@ from analyser.light_pid import LightPidAnalyser
 from actuator.led_lights import LEDLights
 
 #from sensor.soil_moisture import MoistureSensor
-#from sensor.water_level import WaterLevel
+from sensor.water_level import WaterLevel
+from analyser.water_level_analyser import WaterLevelAnalyser
 #from analyser.moisture_analyser import MoistureAnalyser 
 #from analyser.water_pid import MoisturePidAnalyser
 
@@ -47,11 +48,12 @@ if __name__ == "__main__":
         #brightness_analyser = BrightnessAnalyser()
         humidity_pid = HumidityPidAnalyser()
         light_pid = LightPidAnalyser()
+        water_level_analyser = WaterLevelAnalyser()
         #water_pid = MoisturePidAnalyser()
 
         # Sensor DHT11 object
         dht11Sensor = DHT11(sensor_id=1)
-        #water_level = WaterLevel(sensor_id=2)
+        water_level = WaterLevel(sensor_id=2)
 
         # Light Sensor object
         light_sensor = LightSensor(sensor_id=0)
@@ -66,7 +68,7 @@ if __name__ == "__main__":
                 while 1:
                     dht11Sensor.collect(False)  # TODO Move boolean to an Enum
                     light_sensor.collect(False)
-                    #water_level.collect(False)
+                    water_level.collect(False)
                     fans.actuate()
                     # lights.actuate()
                     # print(db)
@@ -80,18 +82,18 @@ if __name__ == "__main__":
                 while 1:
                     dht11Sensor.collect()  # TODO Move boolean to an Enum
                     light_sensor.collect()
+                    water_level.collect()
                     fans.actuate()
-                    #water_level.collect()
                     sleep(PID_CLOCK_SPEED)
             except KeyboardInterrupt:
                 GPIO.cleanup()
 
         try:
-            system_control_loop()
-            #main_loop()
-            #while True:
-            #    #executor.submit(system_control_loop)
-            #    executor.submit(main_loop)
+            #system_control_loop()
+            main_loop()
+            #executor.submit(system_control_loop)
+            sleep(0.1)
+            #executor.submit(main_loop)
         except KeyboardInterrupt:
             GPIO.cleanup() # TODO check if necessary
             executor.shutdown()
