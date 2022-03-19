@@ -1,4 +1,3 @@
-from tkinter.tix import MAIN
 from pubsub import pub
 from analyser.analyser import Analyser
 
