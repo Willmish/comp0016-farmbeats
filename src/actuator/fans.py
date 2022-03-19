@@ -82,6 +82,7 @@ class Fans(Actuator):
     def fan_status_listener(self, args, rest=None):
         speed = args.actuator_value
         print("Received speed vals over pubsub:", speed)
+        print(args)
         assert 0 <= speed <= 100
         self._fan_out_speed = speed
         self._fan_in_speed = speed

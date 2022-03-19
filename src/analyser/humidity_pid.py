@@ -29,4 +29,5 @@ class HumidityPidAnalyser(Analyser):
         sensor_data = args
         output = (100 - self._pid.output) / 100
         sensor_data.actuator_value = output
+        print("DB update: ", sensor_data)
         pub.sendMessage(f"{MAIN_PUBSUB_TOPIC}.actuator.fans_status", args=sensor_data)

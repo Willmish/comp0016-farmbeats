@@ -27,6 +27,11 @@ import RPi.GPIO as GPIO
 TIME_INTERVAL_BETWEEN_READINGS = 5
 PID_CLOCK_SPEED = 1
 
+def dummy_listener(args):
+    print("Listening all database_update: " , args)
+
+def dummy_listener_pid(args):
+    print("Listening all pid_update: " , args)
 
 if __name__ == "__main__":
     with IoTHubStreamer() as db:
@@ -38,8 +43,8 @@ if __name__ == "__main__":
         lights = LEDLights()
 
         # Analyser fans object
-        humidity_analyser = HumidityAnalyser()
-        brightness_analyser = BrightnessAnalyser()
+        #humidity_analyser = HumidityAnalyser()
+        #brightness_analyser = BrightnessAnalyser()
         humidity_pid = HumidityPidAnalyser()
         light_pid = LightPidAnalyser()
         #water_pid = MoisturePidAnalyser()
@@ -52,38 +57,20 @@ if __name__ == "__main__":
         light_sensor = LightSensor(sensor_id=0)
 
         # Create Threads
-        executor = futures.ThreadPoolExecutor(max_workers=2)
+        #executor = futures.ThreadPoolExecutor(max_workers=2)
 
-
-        def main_loop():
-            try:
-                while 1:
-                    dht11Sensor.collect(False)  # TODO Move boolean to an Enum
-                    light_sensor.collect(False)
-                    #water_level.collect(False)
-                    fans.actuate()
-                    # lights.actuate()
-                    # print(db)
-                    sleep(TIME_INTERVAL_BETWEEN_READINGS)
-            except KeyboardInterrupt:
-                GPIO.cleanup()
-                fans.PWM_cleanup()
-
-        def system_control_loop():
-            try:
-                while 1:
-                    dht11Sensor.collect()  # TODO Move boolean to an Enum
-                    light_sensor.collect()
-                    #water_level.collect()
-                    sleep(PID_CLOCK_SPEED)
-            except KeyboardInterrupt:
-                GPIO.cleanup()
+        #pub.subscribe(dummy_listener, "database_update")
+        #pub.subscribe(dummy_listener_pid, "pid_update")
 
         try:
-            main_loop()
-            #while True:
-            #    #executor.submit(system_control_loop)
-            #    executor.submit(main_loop)
+            while 1:
+                dht11Sensor.collect(False)  # TODO Move boolean to an Enum
+                light_sensor.collect(False)
+                #water_level.collect(False)
+                fans.actuate()
+                # lights.actuate()
+                # print(db)
+                sleep(TIME_INTERVAL_BETWEEN_READINGS)
         except KeyboardInterrupt:
-            GPIO.cleanup() # TODO check if necessary
-            executor.shutdown()
+            GPIO.cleanup()
+            fans.PWM_cleanup()
