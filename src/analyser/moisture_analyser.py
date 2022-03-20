@@ -25,7 +25,8 @@ class MoisturePidAnalyser(Analyser):
         sensor_data.actuator_value = output
 
         # TODO change so can work asynchronously (clock needs to be passed from
-        # outside loop, actuator has to be working asynchronously and monitor/on/off state)
+        # outside loop, actuator has to be working asynchronously and
+        # monitor/on/off state)
         clock = 5
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.water_pump_status", args=1.0
@@ -41,7 +42,8 @@ class MoisturePidAnalyser(Analyser):
         sensor_data = args
         output = (100 - self._pid.output) / 100
         sensor_data.actuator_value = output
-        # TODO either change to send the on off status (will be inaccurate), or see issue #55
+        # TODO either change to send the on off status (will be inaccurate)
+        # , or see issue #55
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.water_pump_status", args=sensor_data
         )

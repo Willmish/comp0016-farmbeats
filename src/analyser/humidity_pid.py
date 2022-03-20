@@ -1,7 +1,6 @@
 from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
-import time
 
 
 class HumidityPidAnalyser(Analyser):

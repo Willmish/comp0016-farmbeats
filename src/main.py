@@ -1,28 +1,23 @@
 from time import sleep, time
 
 from sensor.dht11 import DHT11
-from analyser.humidity_analyser import HumidityAnalyser
 from analyser.humidity_pid import HumidityPidAnalyser
 from actuator.fans import Fans
 
 from sensor.light_sensor import LightSensor
-from analyser.brightness_analyser import BrightnessAnalyser
 from analyser.brightness_pid import BrightnessPidAnalyser
 from actuator.led_lights import LEDLights
 
 # from sensor.soil_moisture import MoistureSensor
 from sensor.water_level import WaterLevel
 from analyser.water_level_analyser import WaterLevelAnalyser
-from analyser.moisture_analyser import MoisturePidAnalyser
+
+# from analyser.moisture_analyser import MoisturePidAnalyser
 
 # from analyser.water_pid import MoisturePidAnalyser
 
-
-from concurrent import futures
-
 # from data_streamer.database_manager import DatabaseManager
 from data_streamer.iot_hub_streamer import IoTHubStreamer
-from pubsub import pub
 import RPi.GPIO as GPIO
 
 
