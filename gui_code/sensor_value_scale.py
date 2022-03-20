@@ -1,7 +1,7 @@
 from tkinter import Frame
 import tkinter
-import globals
-from profileInformation import ProfileInformation
+from constants import Constants
+from profile_information import ProfileInformation
 
 
 class SensorValueScale:
@@ -34,23 +34,23 @@ class SensorValueScale:
 
         scale_canvas.create_rectangle(
             0 + offset, 0, l1, 30,
-            fill=globals.red, width=0
+            fill=Constants.RED_RGB, width=0
         )
         scale_canvas.create_rectangle(
             l1, 0, l2, 30,
-            fill=globals.amber, width=0
+            fill=Constants.AMBER_RGB, width=0
         )
         scale_canvas.create_rectangle(
             l2, 0, l3, 30,
-            fill=globals.green, width=0
+            fill=Constants.GREEN_RGB, width=0
         )
         scale_canvas.create_rectangle(
             l3, 0, l4, 30,
-            fill=globals.amber, width=0
+            fill=Constants.AMBER_RGB, width=0
         )
         scale_canvas.create_rectangle(
             l4, 0, 400 + offset, 30,
-            fill=globals.red, width=0
+            fill=Constants.RED_RGB, width=0
         )
         scale_canvas.create_line(
             offset, 15, line + offset, 15, width=3

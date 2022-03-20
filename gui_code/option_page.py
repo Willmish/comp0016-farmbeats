@@ -1,8 +1,9 @@
 from tkinter import Button, BOTH
 from PIL import Image
 from PIL import ImageTk
-import globals
+from constants import Constants
 from profile_page import ProfilePage
+
 
 class OptionPage:
     def __init__(self, option_frame, profile_frame, label_frame, label):
@@ -13,7 +14,6 @@ class OptionPage:
 
         self.option_frame_setup()
 
-    
     def option_frame_setup(self):
         for n in range(3):
             self.option_frame.grid_columnconfigure(n, weight=1, uniform="row")
@@ -34,7 +34,11 @@ class OptionPage:
 
         tempButton.image = temp_img
         tempButton.grid(
-            row=0, column=0, sticky="news", pady=globals.padding, padx=globals.padding
+            row=0,
+            column=0,
+            sticky="news",
+            pady=Constants.PADDING,
+            padx=Constants.PADDING,
         )
 
         humidity_img = self.get_menu_button(
@@ -50,7 +54,11 @@ class OptionPage:
 
         humidityButton.image = humidity_img
         humidityButton.grid(
-            row=0, column=1, sticky="news", pady=globals.padding, padx=globals.padding
+            row=0,
+            column=1,
+            sticky="news",
+            pady=Constants.PADDING,
+            padx=Constants.PADDING,
         )
 
         brightness_img = self.get_menu_button(
@@ -65,7 +73,11 @@ class OptionPage:
         )
         brightnessButton.image = brightness_img
         brightnessButton.grid(
-            row=0, column=2, sticky="news", pady=globals.padding, padx=globals.padding
+            row=0,
+            column=2,
+            sticky="news",
+            pady=Constants.PADDING,
+            padx=Constants.PADDING,
         )
 
         water_img = self.get_menu_button(
@@ -81,7 +93,11 @@ class OptionPage:
 
         waterButton.image = water_img
         waterButton.grid(
-            row=1, column=0, sticky="news", pady=globals.padding, padx=globals.padding
+            row=1,
+            column=0,
+            sticky="news",
+            pady=Constants.PADDING,
+            padx=Constants.PADDING,
         )
 
         aiCamera_img = self.get_menu_button(
@@ -97,7 +113,11 @@ class OptionPage:
 
         aiCameraButton.image = aiCamera_img
         aiCameraButton.grid(
-            row=1, column=1, sticky="news", pady=globals.padding, padx=globals.padding
+            row=1,
+            column=1,
+            sticky="news",
+            pady=Constants.PADDING,
+            padx=Constants.PADDING,
         )
 
         system_img = self.get_menu_button(
@@ -113,7 +133,11 @@ class OptionPage:
 
         sysVisualButton.image = system_img
         sysVisualButton.grid(
-            row=1, column=2, sticky="news", pady=globals.padding, padx=globals.padding
+            row=1,
+            column=2,
+            sticky="news",
+            pady=Constants.PADDING,
+            padx=Constants.PADDING,
         )
 
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)

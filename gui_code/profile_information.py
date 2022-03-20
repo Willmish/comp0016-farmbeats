@@ -1,11 +1,7 @@
 from message_manager import MessageManager
 from gui_database_manager import GuiDatabaseManager
+from constants import Constants
 
-RED_LOWER = 0
-AMBER_LOWER = 1
-GREEN = 2
-AMBER_UPPER = 3
-RED_UPPER = 4
 
 class ProfileInformation:
     def __init__(self, profile_name):
@@ -42,9 +38,7 @@ class ProfileInformation:
                 self.sensor_value = db.get_curr_val_single_subsys("humidity")
                 self.unit = "%"
                 self.sensor_value_description = (
-                    "Current value: "
-                    + str(self.sensor_value)
-                    + self.unit
+                    "Current value: " + str(self.sensor_value) + self.unit
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
@@ -70,14 +64,13 @@ class ProfileInformation:
 
             elif profile_name == "Temperature":
                 self.sensor_frame_title = "DH11 Sensor Information"
-                self.sensor_value = \
-                    db.get_curr_val_single_subsys("temperature")
+                self.sensor_value = db.get_curr_val_single_subsys(
+                    "temperature"
+                )
 
                 self.unit = "°c"
                 self.sensor_value_description = (
-                    "Current value: "
-                    + str(self.sensor_value)
-                    + self.unit
+                    "Current value: " + str(self.sensor_value) + self.unit
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
@@ -93,20 +86,16 @@ class ProfileInformation:
                     "temperature"
                 )
                 self.actuator_value_description = (
-                    "Heater set to: \n"
-                    + str(self.actuator_value)
-                    + self.unit
+                    "Heater set to: \n" + str(self.actuator_value) + self.unit
                 )
             elif profile_name == "Water Level":
-                self.sensor_frame_title = \
-                    "Soil moisture Sensor Information"
-                self.sensor_value = \
-                    db.get_curr_val_single_subsys("water level")
+                self.sensor_frame_title = "Soil moisture Sensor Information"
+                self.sensor_value = db.get_curr_val_single_subsys(
+                    "water level"
+                )
                 self.unit = "%"
                 self.sensor_value_description = (
-                    "Current value: "
-                    + str(self.sensor_value)
-                    + self.unit
+                    "Current value: " + str(self.sensor_value) + self.unit
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
@@ -126,7 +115,9 @@ class ProfileInformation:
                     + str(self.actuator_value)
                     + self.unit
                 )
-            self.suggestion = MessageManager(profile_name, self.get_status()).message
+            self.suggestion = MessageManager(
+                profile_name, self.get_status()
+            ).message
 
     def update_from_db(self, profile_name):
         with GuiDatabaseManager() as db:
@@ -149,9 +140,7 @@ class ProfileInformation:
                     "temperature"
                 )
                 self.time_list = db.get_time_and_val_list("temperature")[1]
-                self.val_list = db.get_time_and_val_list(
-                    "temperature"
-                )[0]
+                self.val_list = db.get_time_and_val_list("temperature")[0]
                 self.actuator_value = db.get_curr_actuation_val_single_subsys(
                     "temperature"
                 )
@@ -164,20 +153,15 @@ class ProfileInformation:
                 self.actuator_value = db.get_curr_actuation_val_single_subsys(
                     "water level"
                 )
+
     def get_status(self):
         if self.sensor_value < self.extr[0]:
-            return  RED_LOWER
+            return Constants.RED_LOWER
         elif self.sensor_value < self.extr[1]:
-            return AMBER_LOWER
+            return Constants.AMBER_LOWER
         elif self.sensor_value < self.extr[2]:
-            return GREEN
+            return Constants.GREEN
         elif self.sensor_value < self.extr[3]:
-            return AMBER_UPPER
+            return Constants.AMBER_UPPER
         else:
-            return RED_UPPER
- 
-
-
-
-
-
+            return Constants.RED_UPPER
