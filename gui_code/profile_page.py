@@ -1,3 +1,4 @@
+from datetime import timedelta
 from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT
 import tkinter
 import matplotlib.pyplot as plt
@@ -39,6 +40,7 @@ class ProfilePage:
         self.data_plot = None
         self.canvas = None
         self.animation = None
+        self.no_xticks = 4
         self.profile_setup()
 
     def profile_setup(self):
@@ -128,26 +130,33 @@ class ProfilePage:
         # Display on profile_frame
 
         self.profile_frame.pack(fill=BOTH, expand=True, pady=15, padx=15)
+    
+    def get_xlabels(self, xar, no_xticks):
+        range_seconds = (max(xar) - min(xar)).total_seconds()
+        interval = range_seconds/(no_xticks-1)
+        curr = min(xar)
+        labels = [curr]
+        for n in range(no_xticks-1):
+            curr = curr + timedelta(seconds= interval)
+            labels.append(curr)
+        return labels
 
     def graph_display(self):
         self.graph_frame = Frame(self.sensor_frame, bg=globals.background)
-
         y_label = self.profile.title + " (" + self.profile.unit + ")"
         xar = self.profile.time_list[-100:]
         yar = self.profile.val_list[-100:]
-        self.fig = plt.figure(figsize=(5, 4), dpi=100, tight_layout=True)
 
+        self.fig = plt.figure(figsize=(5, 4), dpi=100, tight_layout=True)
         self.axs = self.fig.add_subplot(111)
         self.axs.plot(xar, yar)
-
+        self.axs.set_xticks(self.get_xlabels(xar, self.no_xticks))          
         self.canvas = FigureCanvasTkAgg(self.fig, self.graph_frame)
-
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(pady=15, padx=15)
         self.animation = FuncAnimation(
             self.fig, self.animate, interval=globals.time_interval
         )
-
         self.axs.set(
             xlabel="Time (ms)", ylabel=y_label, title=self.profile.graph_title
         )
@@ -163,6 +172,9 @@ class ProfilePage:
             self.curr_actuator_value_label.config(
                 text=self.profile.actuator_value_description
             )
+            print(self.profile.sensor_value_description)
+            print(self.profile.actuator_value_description)
+            print("time: " + str(self.profile.time_list[-1]))
             self.time_since_update = time.time()
 
         if len(self.profile.time_list) < 100:
@@ -174,6 +186,7 @@ class ProfilePage:
 
         self.axs.clear()
         self.axs.plot(xar, yar)
+        self.axs.set_xticks(self.get_xlabels(xar, self.no_xticks))     
         self.axs.set(
             xlabel="Time (ms)",
             ylabel=self.profile.title + " (" + self.profile.unit + ")",
