@@ -23,7 +23,10 @@ class Fans(Actuator):
         super().__init__("fans", args, kwargs)
         self._fan_in_speed: float = 0.0
         self._fan_out_speed: float = 0.0
-        pub.subscribe(self.fan_status_listener, f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.fans_status")
+        pub.subscribe(
+            self.fan_status_listener,
+            f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.fans_status",
+        )
         GPIO.setup(Fans.FAN_IN_PIN0, GPIO.OUT)
         GPIO.setup(Fans.FAN_IN_PIN1, GPIO.OUT)
         GPIO.setup(Fans.FAN_OUT_PIN0, GPIO.OUT)
@@ -45,20 +48,16 @@ class Fans(Actuator):
             print("fans in on!")
             self._PWM_IN.ChangeDutyCycle(self._fan_in_speed)
             GPIO.output(Fans.FAN_IN_PIN1, GPIO.LOW)
-            #GPIO.output(Fans.FAN_IN_PIN0, GPIO.HIGH)
         else:
             print("Fans in off!")
             GPIO.output(Fans.FAN_IN_PIN0, GPIO.LOW)
             self._PWM_IN.ChangeDutyCycle(0)
-            #GPIO.output(Fans.FAN_IN_PIN1, GPIO.LOW)
         if self._fan_out_speed > 0:
             print("fans out on!")
             self._PWM_OUT.ChangeDutyCycle(self._fan_out_speed)
-            #GPIO.output(Fans.FAN_OUT_PIN0, GPIO.HIGH)
             GPIO.output(Fans.FAN_OUT_PIN1, GPIO.LOW)
         else:
             print("Fans out off!")
-            #GPIO.output(Fans.FAN_OUT_PIN0, GPIO.LOW)
             self._PWM_OUT.ChangeDutyCycle(0)
             GPIO.output(Fans.FAN_OUT_PIN1, GPIO.LOW)
 
@@ -67,9 +66,9 @@ class Fans(Actuator):
         self._PWM_OUT.stop()
 
     def fan_status_listener(self, args, rest=None):
-        speed = args.actuator_value*100
+        speed = args.actuator_value
         print("Received speed vals over pubsub:", speed)
         print(args)
-        #assert 0 <= speed <= 100
+        assert 0 <= speed <= 100
         self._fan_out_speed = speed
         self._fan_in_speed = speed

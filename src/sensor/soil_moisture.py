@@ -6,7 +6,7 @@ from tools.sensor_data import SensorData
 from grove.adc import ADC
 
 
-class MoistureSensor(Sensor):
+class SoilMoistureSensor(Sensor):
     SOIL_MOISTURE_PIN = 0
     soil_moisture = ADC()
 

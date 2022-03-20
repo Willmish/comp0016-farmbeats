@@ -25,7 +25,9 @@ class BrightnessAnalyser(Analyser):
             )  # Lights 20% on
         else:
             sensor_data.actuator_value = 0
-            pub.sendMessage(f"{MAIN_PUBSUB_TOPIC}.actuator.light_status", args=sensor_data)
+            pub.sendMessage(
+                f"{MAIN_PUBSUB_TOPIC}.actuator.light_status", args=sensor_data
+            )
 
     def analyser_datastream_update_listener(self, args, rest=None):
         pass

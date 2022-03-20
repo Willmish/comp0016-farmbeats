@@ -19,7 +19,10 @@ class LEDLights(Actuator):
         """
         super().__init__("led_lights", args, kwargs)
         self._brightness = 0
-        pub.subscribe(self.light_status_listener, f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.light_status")
+        pub.subscribe(
+            self.light_status_listener,
+            f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.light_status",
+        )
         GPIO.setup(LEDLights.LED_PIN, GPIO.OUT)
 
     def activate(self):
