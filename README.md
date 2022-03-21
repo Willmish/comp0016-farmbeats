@@ -26,6 +26,10 @@ Follow the guide for your OS to install (it should also include an installtion o
 
 # System design
 
+## Overall system design (target)
+![farmbeats_architecture-gitflow drawio](https://user-images.githubusercontent.com/26546660/159375322-37a150eb-5d5b-4a86-83e2-f3893e6fc923.png)
+Above is the overall target design of the current system.
+
 ## Edge device
 ![farmbeats_architecture-Pubsub message flow drawio](https://user-images.githubusercontent.com/26546660/159303724-5903e01a-397b-4cc7-96f3-81f41a895f9c.png)
 This diagram shows the flow of messages in the system using Publisher-Subscriber design pattern along with basic annotation of key events in the system:
