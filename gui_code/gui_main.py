@@ -1,6 +1,6 @@
 from tkinter import Frame, Label, Tk
-from option_page import OptionPage
-from constants import Constants
+from option_view.option_page import OptionPage
+from tools.constants import Constants
 
 
 class FarmBeatsApp:

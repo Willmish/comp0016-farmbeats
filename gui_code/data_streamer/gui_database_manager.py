@@ -1,4 +1,4 @@
-from database_manager import DatabaseManager
+from data_streamer.database_manager import DatabaseManager
 import pyodbc
 
 server = "iot-farmbeats.database.windows.net"

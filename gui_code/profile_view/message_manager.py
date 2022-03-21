@@ -1,4 +1,4 @@
-from constants import Constants
+from tools.constants import Constants
 
 class MessageManager:
     def __init__(self, profile_name, status):

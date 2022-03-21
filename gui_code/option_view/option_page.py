@@ -1,8 +1,8 @@
 from tkinter import Button, BOTH
 from PIL import Image
 from PIL import ImageTk
-from constants import Constants
-from profile_page import ProfilePage
+from tools.constants import Constants
+from profile_view.profile_page import ProfilePage
 
 
 class OptionPage:

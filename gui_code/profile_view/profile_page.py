@@ -2,14 +2,13 @@ from datetime import timedelta
 from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT
 import tkinter
 import matplotlib.pyplot as plt
-from sensor_value_scale import SensorValueScale
-from profile_information import ProfileInformation
+from profile_view.sensor_value_scale import SensorValueScale
+from profile_view.profile_information import ProfileInformation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from PIL import Image
-from PIL import ImageTk
+from PIL import Image, ImageTk
 from matplotlib.animation import FuncAnimation
 import time
-from constants import Constants
+from tools.constants import Constants
 
 
 class ProfilePage:

@@ -1,6 +1,6 @@
-from message_manager import MessageManager
-from gui_database_manager import GuiDatabaseManager
-from constants import Constants
+from profile_view.message_manager import MessageManager
+from data_streamer.gui_database_manager import GuiDatabaseManager
+from tools.constants import Constants
 
 
 class ProfileInformation:

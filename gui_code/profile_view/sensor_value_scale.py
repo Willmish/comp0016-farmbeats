@@ -1,7 +1,7 @@
 from tkinter import Frame
 import tkinter
-from constants import Constants
-from profile_information import ProfileInformation
+from tools.constants import Constants
+from profile_view.profile_information import ProfileInformation
 
 
 class SensorValueScale:
