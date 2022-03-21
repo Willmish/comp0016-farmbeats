@@ -37,8 +37,8 @@ class OptionPage:
             row=0,
             column=0,
             sticky="news",
-            pady=Constants.PADDING,
-            padx=Constants.PADDING,
+            pady=Constants.PADDING.value,
+            padx=Constants.PADDING.value,
         )
 
         humidity_img = self.get_menu_button(
@@ -57,8 +57,8 @@ class OptionPage:
             row=0,
             column=1,
             sticky="news",
-            pady=Constants.PADDING,
-            padx=Constants.PADDING,
+            pady=Constants.PADDING.value,
+            padx=Constants.PADDING.value,
         )
 
         brightness_img = self.get_menu_button(
@@ -76,8 +76,8 @@ class OptionPage:
             row=0,
             column=2,
             sticky="news",
-            pady=Constants.PADDING,
-            padx=Constants.PADDING,
+            pady=Constants.PADDING.value,
+            padx=Constants.PADDING.value,
         )
 
         water_img = self.get_menu_button(
@@ -96,8 +96,8 @@ class OptionPage:
             row=1,
             column=0,
             sticky="news",
-            pady=Constants.PADDING,
-            padx=Constants.PADDING,
+            pady=Constants.PADDING.value,
+            padx=Constants.PADDING.value,
         )
 
         aiCamera_img = self.get_menu_button(
@@ -116,8 +116,8 @@ class OptionPage:
             row=1,
             column=1,
             sticky="news",
-            pady=Constants.PADDING,
-            padx=Constants.PADDING,
+            pady=Constants.PADDING.value,
+            padx=Constants.PADDING.value,
         )
 
         system_img = self.get_menu_button(
@@ -136,8 +136,8 @@ class OptionPage:
             row=1,
             column=2,
             sticky="news",
-            pady=Constants.PADDING,
-            padx=Constants.PADDING,
+            pady=Constants.PADDING.value,
+            padx=Constants.PADDING.value,
         )
 
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)

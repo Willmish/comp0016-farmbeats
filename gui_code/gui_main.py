@@ -19,7 +19,7 @@ class FarmBeatsApp:
     def label_frame_setup(self):
         self.label = Label(self.label_frame, text="IoT FarmBeats", width=60)
         self.label.config(
-            background=Constants.BACKGROUND, font=("Courier", 25)
+            background=Constants.BACKGROUND.value, font=("Courier", 25)
         )
         self.label.pack()
         self.label_frame.pack()
@@ -28,7 +28,7 @@ class FarmBeatsApp:
 def main():
     root = Tk()
     root.geometry("900x600")
-    root.config(bg=Constants.BACKGROUND)
+    root.config(bg=Constants.BACKGROUND.value)
     root.resizable(False, False)
     FarmBeatsApp(root)
 

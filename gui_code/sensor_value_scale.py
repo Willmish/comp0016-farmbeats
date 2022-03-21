@@ -6,7 +6,7 @@ from profile_information import ProfileInformation
 
 class SensorValueScale:
     def __init__(self, profile: ProfileInformation, parent_frame: Frame):
-        scale_frame = Frame(parent_frame, bg=globals.background)
+        scale_frame = Frame(parent_frame, bg=Constants.BACKGROUND.value)
         offset = 25
         range_ = profile.bound[1] - profile.bound[0]
         l1 = (((profile.extr[0] - profile.bound[0])
@@ -28,29 +28,29 @@ class SensorValueScale:
             scale_frame,
             height=50,
             width=400 + 2 * offset,
-            background=globals.background,
+            background=Constants.BACKGROUND.value,
             highlightthickness=0,
         )
 
         scale_canvas.create_rectangle(
             0 + offset, 0, l1, 30,
-            fill=Constants.RED_RGB, width=0
+            fill=Constants.RED_RGB.value, width=0
         )
         scale_canvas.create_rectangle(
             l1, 0, l2, 30,
-            fill=Constants.AMBER_RGB, width=0
+            fill=Constants.AMBER_RGB.value, width=0
         )
         scale_canvas.create_rectangle(
             l2, 0, l3, 30,
-            fill=Constants.GREEN_RGB, width=0
+            fill=Constants.GREEN_RGB.value, width=0
         )
         scale_canvas.create_rectangle(
             l3, 0, l4, 30,
-            fill=Constants.AMBER_RGB, width=0
+            fill=Constants.AMBER_RGB.value, width=0
         )
         scale_canvas.create_rectangle(
             l4, 0, 400 + offset, 30,
-            fill=Constants.RED_RGB, width=0
+            fill=Constants.RED_RGB.value, width=0
         )
         scale_canvas.create_line(
             offset, 15, line + offset, 15, width=3

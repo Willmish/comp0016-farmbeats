@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class Constants(Enum):
     PADDING = 15
     BACKGROUND = "#E7F5EF"
@@ -13,3 +12,4 @@ class Constants(Enum):
     GREEN = 2
     AMBER_UPPER = 3
     RED_UPPER = 4
+    NO_STATUS = 5

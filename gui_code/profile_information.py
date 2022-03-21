@@ -91,11 +91,14 @@ class ProfileInformation:
             elif profile_name == "Water Level":
                 self.sensor_frame_title = "Soil moisture Sensor Information"
                 self.sensor_value = db.get_curr_val_single_subsys(
-                    "water level"
+                    "soil moisture"
                 )
                 self.unit = "%"
                 self.sensor_value_description = (
                     "Current value: " + str(self.sensor_value) + self.unit
+                )
+                self.water_level_value = db.get_curr_val_single_subsys(
+                    "water level"
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
@@ -146,6 +149,9 @@ class ProfileInformation:
                 )
             elif profile_name == "Water Level":
                 self.sensor_value = db.get_curr_val_single_subsys(
+                    "soil moisture"
+                )
+                self.water_level_value = db.get_curr_actuation_val_single_subsys(
                     "water level"
                 )
                 self.time_list = db.get_time_and_val_list("water level")[1]
@@ -155,13 +161,16 @@ class ProfileInformation:
                 )
 
     def get_status(self):
-        if self.sensor_value < self.extr[0]:
-            return Constants.RED_LOWER
-        elif self.sensor_value < self.extr[1]:
-            return Constants.AMBER_LOWER
-        elif self.sensor_value < self.extr[2]:
-            return Constants.GREEN
-        elif self.sensor_value < self.extr[3]:
-            return Constants.AMBER_UPPER
+        if self.sensor_value:
+            if self.sensor_value < self.extr[0]:
+                return Constants.RED_LOWER.value
+            elif self.sensor_value < self.extr[1]:
+                return Constants.AMBER_LOWER.value
+            elif self.sensor_value < self.extr[2]:
+                return Constants.GREEN.value
+            elif self.sensor_value < self.extr[3]:
+                return Constants.AMBER_UPPER.value
+            else:
+                return Constants.RED_UPPER.value
         else:
-            return Constants.RED_UPPER
+            return Constants.NO_STATUS.value
