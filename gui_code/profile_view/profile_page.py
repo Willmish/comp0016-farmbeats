@@ -180,6 +180,7 @@ class ProfilePage:
             self.curr_actuator_value_label.config(
                 text=self.profile.actuator_value_description
             )
+            print (self.profile.time_list[-1])
             print(self.profile.sensor_value_description)
             print(self.profile.actuator_value_description)
             if len(self.profile.time_list)>0:

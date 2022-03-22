@@ -6,7 +6,7 @@ class Constants(Enum):
     GREEN_RGB = "#64975E"
     AMBER_RGB = "#D2A833"
     RED_RGB = "#C34A4D"
-    TIME_INTERVAL = 1
+    TIME_INTERVAL = 5
     RED_LOWER = 0
     AMBER_LOWER = 1
     GREEN = 2
