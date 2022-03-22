@@ -3,14 +3,16 @@ from PIL import Image
 from PIL import ImageTk
 from tools.constants import Constants
 from profile_view.profile_page import ProfilePage
+from data_streamer.gui_database_manager import GuiDatabaseManager
 
 
 class OptionPage:
-    def __init__(self, option_frame, profile_frame, label_frame, label):
+    def __init__(self, option_frame, profile_frame, label_frame, label, db: GuiDatabaseManager):
         self.option_frame = option_frame
         self.profile_frame = profile_frame
         self.label_frame = label_frame
         self.label = label
+        self._db_manager: GuiDatabaseManager = db
 
         self.option_frame_setup()
 
@@ -157,6 +159,7 @@ class OptionPage:
             self.label_frame,
             self.label,
             self.option_frame,
+            self._db_manager,
         )
 
     def humidity_button_action(self):
@@ -167,6 +170,7 @@ class OptionPage:
             self.label_frame,
             self.label,
             self.option_frame,
+            self._db_manager,
         )
 
     def brightness_button_action(self):
@@ -177,6 +181,7 @@ class OptionPage:
             self.label_frame,
             self.label,
             self.option_frame,
+            self._db_manager,
         )
 
     def water_button_action(self):
@@ -188,6 +193,7 @@ class OptionPage:
             self.label_frame,
             self.label,
             self.option_frame,
+            self._db_manager,
         )
 
     def ai_camera_button_action(self):

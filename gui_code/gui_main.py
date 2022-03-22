@@ -1,10 +1,11 @@
 from tkinter import Frame, Label, Tk
 from option_view.option_page import OptionPage
 from tools.constants import Constants
+from data_streamer.gui_database_manager import GuiDatabaseManager
 
 
 class FarmBeatsApp:
-    def __init__(self, master):
+    def __init__(self, master, db: GuiDatabaseManager):
         self.u = 0
         self.main = master
         self.label_frame = Frame(self.main)
@@ -12,8 +13,9 @@ class FarmBeatsApp:
         self.label_frame_setup()
         self.option_frame = Frame(self.main, bg="white")
         self.profile_frame = Frame(self.main, bg="white")
+        self._db_manager: GuiDatabaseManager = db
         OptionPage(
-            self.option_frame, self.profile_frame, self.label_frame, self.label
+            self.option_frame, self.profile_frame, self.label_frame, self.label, self._db_manager
         )
 
     def label_frame_setup(self):
@@ -26,13 +28,14 @@ class FarmBeatsApp:
 
 
 def main():
-    root = Tk()
-    root.geometry("900x600")
-    root.config(bg=Constants.BACKGROUND.value)
-    root.resizable(False, False)
-    FarmBeatsApp(root)
+    with GuiDatabaseManager() as db:
+        root = Tk()
+        root.geometry("900x600")
+        root.config(bg=Constants.BACKGROUND.value)
+        root.resizable(False, False)
+        FarmBeatsApp(root, db)
 
-    root.mainloop()
+        root.mainloop()
 
 
 if __name__ == "__main__":

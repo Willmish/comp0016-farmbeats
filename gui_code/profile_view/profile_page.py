@@ -9,17 +9,19 @@ from PIL import Image, ImageTk
 from matplotlib.animation import FuncAnimation
 import time
 from tools.constants import Constants
+from data_streamer.gui_database_manager import GuiDatabaseManager
 
 
 class ProfilePage:
     def __init__(
-        self, profile_name, profile_frame, title_frame, label, option_frame
+        self, profile_name, profile_frame, title_frame, label, option_frame, db: GuiDatabaseManager
     ):
-        self.profile = ProfileInformation(profile_name)
+        self.profile = ProfileInformation(profile_name, db)
         self.option_frame = option_frame
         self.profile_frame = profile_frame
         self.label_frame = title_frame
         self.label = label
+        self._db_manager: GuiDatabaseManager = db
 
         self.sensor_frame = None
         self.curr_sensor_value_label = None
@@ -187,12 +189,12 @@ class ProfilePage:
                 print("time: " + str(self.profile.time_list[-1]))
             self.time_since_update = time.time()
 
-        if len(self.profile.time_list) < 100:
+        if len(self.profile.time_list) < 5:
             xar = self.profile.time_list
             yar = self.profile.val_list
         else:
-            xar = self.profile.time_list[-100:]
-            yar = self.profile.val_list[-100:]
+            xar = self.profile.time_list[-5:]
+            yar = self.profile.val_list[-5:]
 
         self.axs.clear()
         self.axs.plot(xar, yar)
