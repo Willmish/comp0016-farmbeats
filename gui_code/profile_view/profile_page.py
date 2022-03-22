@@ -45,6 +45,8 @@ class ProfilePage:
         self.canvas = None
         self.animation = None
         self.no_xticks = 4
+
+        self.sensor_scale = None
         self.profile_setup()
 
     def profile_setup(self):
@@ -91,7 +93,7 @@ class ProfilePage:
 
         # scale_frame set up
 
-        SensorValueScale(self.profile, self.sensor_frame)
+        self.sensor_scale = SensorValueScale(self.profile, self.sensor_frame)
 
         self.graph_display()
 
@@ -179,16 +181,18 @@ class ProfilePage:
             self.curr_sensor_value_label.config(
                 text=self.profile.sensor_value_description
             )
+            
+            self.sensor_scale.update(self.profile.sensor_value)
             self.curr_actuator_value_label.config(
                 text=self.profile.actuator_value_description
             )
             print (self.profile.time_list[-1])
+            print ("!!!!! " + str(self.profile.sensor_value))
             print(self.profile.sensor_value_description)
             print(self.profile.actuator_value_description)
             if len(self.profile.time_list)>0:
                 print("time: " + str(self.profile.time_list[-1]))
             self.time_since_update = time.time()
-
         if len(self.profile.time_list) < 5:
             xar = self.profile.time_list
             yar = self.profile.val_list
