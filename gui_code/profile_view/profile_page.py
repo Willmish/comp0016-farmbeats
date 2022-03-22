@@ -138,13 +138,15 @@ class ProfilePage:
             range_seconds = (max(xar) - min(xar)).total_seconds()
             interval = range_seconds / (no_xticks - 1)
             curr = min(xar)
-            labels = [curr]
+            locs = [curr]
+            labels = [curr.strftime("%H:%M")]
             for n in range(no_xticks - 1):
                 curr = curr + timedelta(seconds=interval)
-                labels.append(curr)
-            return labels
+                locs.append(curr)
+                labels.append(curr.strftime("%H:%M"))
+            return (locs, labels)
         else:
-            return []
+            return ([],[])
 
     def graph_display(self):
         self.graph_frame = Frame(self.sensor_frame, bg=Constants.BACKGROUND.value)
@@ -155,7 +157,8 @@ class ProfilePage:
         self.fig = plt.figure(figsize=(5, 4), dpi=100, tight_layout=True)
         self.axs = self.fig.add_subplot(111)
         self.axs.plot(xar, yar)
-        self.axs.set_xticks(self.get_xlabels(xar, self.no_xticks))
+        self.axs.set_xticks(self.get_xlabels(xar, self.no_xticks)[0])
+        self.axs.set_xticklabels(self.get_xlabels(xar, self.no_xticks)[1])
         self.canvas = FigureCanvasTkAgg(self.fig, self.graph_frame)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(pady=15, padx=15)
@@ -192,7 +195,8 @@ class ProfilePage:
 
         self.axs.clear()
         self.axs.plot(xar, yar)
-        self.axs.set_xticks(self.get_xlabels(xar, self.no_xticks))
+        self.axs.set_xticks(self.get_xlabels(xar, self.no_xticks)[0])
+        self.axs.set_xticklabels(self.get_xlabels(xar, self.no_xticks)[1])
         self.axs.set(
             xlabel="Time (ms)",
             ylabel=self.profile.title + " (" + self.profile.unit + ")",

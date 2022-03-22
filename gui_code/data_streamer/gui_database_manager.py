@@ -48,7 +48,7 @@ class GuiDatabaseManager(DatabaseManager):
             total += row[0]
             count += 1
         if count > 0:
-            return total / count
+            return round(total / count, 2)
         else:
             return None
 
@@ -69,7 +69,7 @@ class GuiDatabaseManager(DatabaseManager):
             total += row[0]
             count += 1
         if count > 0:
-            return total / count
+            return round(total / count, 2)
         else:
             return None
 
