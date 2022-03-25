@@ -16,6 +16,13 @@ class SensorValueScale:
     LABEL_LINE_HEIGHT = 30
 
     def __init__(self, profile: ProfileInformation, parent_frame: Frame):
+        """
+        __init__ Displays sensor scale to show current sensor value and state.
+        :param profile:
+        :type profile: ProfileInformation
+        :param parent_frame:
+        :type parent_frame: Frame
+        """
         self.profile = profile
         self.scale_frame = Frame(parent_frame, bg=Constants.BACKGROUND.value)
         self.range_ = profile.bound[1] - profile.bound[0]
@@ -169,6 +176,13 @@ class SensorValueScale:
         self.scale_frame.pack()
 
     def update(self, new_value):
+        """
+        update allows the scale to update 
+        every time the graph is animated.
+
+        :param new_value:
+        :type new_value: Float
+        """
         if not new_value:
             new_value = 0
         self.scale_canvas.delete(self.line)

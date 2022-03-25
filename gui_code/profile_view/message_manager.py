@@ -2,10 +2,17 @@ from tools.constants import Constants
 
 class MessageManager:
     def __init__(self, profile_name, status):
-        self.message = ""
-        self.get_message(profile_name, status)
+        """
+        __init__ creates MessageManager object that will get
+        an appropriate message corresponding with the status.
 
-    def get_message(self, profile_name, status):
+        :param profile_name:
+        :type profile_name: Str
+        :param status:
+        :type status: Int
+        """
+        self.message = ""
+        
         if status == Constants.GREEN.value:
             self.message = "Sensor reading seems good!"
         elif status == Constants.NO_STATUS.value:

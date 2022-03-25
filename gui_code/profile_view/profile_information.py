@@ -5,6 +5,15 @@ from tools.constants import Constants
 
 class ProfileInformation:
     def __init__(self, profile_name, db: GuiDatabaseManager):
+        """
+        __init__ creates a profile that allows 
+        GUI to access profile information for each subsystem.
+
+        :param profile_name:
+        :type profile_name: Str
+        :param db:
+        :type db: GuiDatabaseManager
+        """
         self.title = profile_name
         self._db_manager: GuiDatabaseManager() = db
         if profile_name == "Brightness":
@@ -149,6 +158,14 @@ class ProfileInformation:
         ).message
 
     def update_from_db(self, profile_name):
+        """
+        update_from_db allows information to be 
+        up to date with the database.
+
+        :param profile_name:
+        :type profile_name: Str
+        """
+
         if profile_name == "Brightness":
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "brightness"
@@ -217,6 +234,10 @@ class ProfileInformation:
         ).message
 
     def get_status(self):
+        """
+        get_status returns the state for the message 
+        manager to output the correct message.
+        """
         if self.sensor_value:
             if self.sensor_value < self.extr[0]:
                 return Constants.RED_LOWER.value
