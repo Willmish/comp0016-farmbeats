@@ -6,6 +6,7 @@ class Constants(Enum):
     GREEN_RGB = "#64975E"
     AMBER_RGB = "#D2A833"
     RED_RGB = "#C34A4D"
+    BLUE_RGB = "#B7DEF2"
     TIME_INTERVAL = 1
     RED_LOWER = 0
     AMBER_LOWER = 1
@@ -13,4 +14,5 @@ class Constants(Enum):
     AMBER_UPPER = 3
     RED_UPPER = 4
     NO_STATUS = 5
-    NUM_OF_DATA = 20
+    FONT_SIZE = 15
+    FONT_STYLE = "Courier"

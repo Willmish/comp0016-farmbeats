@@ -45,7 +45,7 @@ class WaterScale:
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET,
             WaterScale.CONTAINER_HEIGHT - length + WaterScale.Y_OFFSET,
-            fill="#B7DEF2",
+            fill=Constants.BLUE_RGB.value,
             width=0,
         )
         scale_canvas.create_line(
@@ -53,7 +53,7 @@ class WaterScale:
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             WaterScale.X_OFFSET,
             WaterScale.Y_OFFSET,
-            fill="#000000",
+            fill="black",
             width=3,
         )
         scale_canvas.create_line(
@@ -61,7 +61,7 @@ class WaterScale:
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET - 1,
             WaterScale.Y_OFFSET,
-            fill="#000000",
+            fill="black",
             width=WaterScale.LINE_WIDTH,
         )
         scale_canvas.create_line(
@@ -69,7 +69,7 @@ class WaterScale:
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             WaterScale.X_OFFSET,
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
-            fill="#000000",
+            fill="black",
             width=WaterScale.LINE_WIDTH,
         )
         scale_canvas.create_text(
@@ -79,7 +79,7 @@ class WaterScale:
             WaterScale.Y_OFFSET,
             text="100%",
             fill="black",
-            font=("Courier"),
+            font=(Constants.FONT_STYLE.value),
         )
         scale_canvas.create_text(
             WaterScale.CONTAINER_WIDTH
@@ -90,7 +90,7 @@ class WaterScale:
             - WaterScale.TEXT_Y_OFFSET,
             text="50%",
             fill="black",
-            font=("Courier"),
+            font=(Constants.FONT_STYLE.value),
         )
         scale_canvas.create_text(
             WaterScale.CONTAINER_WIDTH
@@ -101,7 +101,7 @@ class WaterScale:
             - WaterScale.TEXT_Y_OFFSET,
             text="0%",
             fill="black",
-            font=("Courier"),
+            font=(Constants.FONT_STYLE.value),
         )
 
         scale_canvas.pack()

@@ -17,8 +17,32 @@ class ProfilePage:
     NUM_OF_DATA = 20
 
     def __init__(
-        self, profile_name, profile_frame, title_frame, label, option_frame, db: GuiDatabaseManager
+        self,
+        profile_name,
+        profile_frame,
+        title_frame,
+        label,
+        option_frame,
+        db: GuiDatabaseManager,
     ):
+
+        """__init__ Displays profile page.
+        :param profile_name:
+        :type profile_name: Str
+        :param profile_frame:
+        :type profile_frame: Frame
+        :param title_frame:
+        :type title_frame: Frame
+        :param title_frame:
+        :type title_frame: Frame
+        :param label:
+        :type label: Str
+        :param option_frame:
+        :type option_frame: Frame
+        :param db:
+        :type db: GuiDatabaseManager
+        """
+
         self.profile = ProfileInformation(profile_name, db)
         self.option_frame = option_frame
         self.profile_frame = profile_frame
@@ -32,7 +56,7 @@ class ProfilePage:
         self.actuator_frame = None
         self.suggestion_frame = None
 
-        if profile_name == 'Water Level':   
+        if profile_name == "Water Level":
             self.is_water = True
         else:
             self.is_water = False
@@ -48,6 +72,9 @@ class ProfilePage:
         self.profile_setup()
 
     def profile_setup(self):
+        """
+        profile_setup fills in the profile frame before displaying
+        """
         self.label.config(text=self.profile.title)
 
         img = Image.open("assets/homeIcon.png")
@@ -70,14 +97,17 @@ class ProfilePage:
         for n in range(3):
             self.profile_frame.grid_rowconfigure(n, weight=1)
 
-        self.sensor_frame = Frame(self.profile_frame, bg=Constants.BACKGROUND.value)
+        self.sensor_frame = Frame(
+            self.profile_frame, bg=Constants.BACKGROUND.value
+        )
 
         sensor_title = Label(
             self.sensor_frame, text=self.profile.sensor_frame_title
         )
 
         sensor_title.config(
-            background=Constants.BACKGROUND.value, font=("Courier", 15)
+            background=Constants.BACKGROUND.value,
+            font=(Constants.FONT_STYLE.value, 15),
         )
         sensor_title.pack()
 
@@ -85,7 +115,8 @@ class ProfilePage:
             self.sensor_frame, text=self.profile.sensor_value_description
         )
         self.curr_sensor_value_label.config(
-            background=Constants.BACKGROUND.value, font=("Courier", 15)
+            background=Constants.BACKGROUND.value,
+            font=(Constants.FONT_STYLE.value, 15),
         )
         self.curr_sensor_value_label.pack()
 
@@ -115,10 +146,11 @@ class ProfilePage:
         )
         suggestion_label = Label(self.suggestion_frame, text="Suggestion")
         suggestion_label.config(
-            background=Constants.BACKGROUND.value, font=("Courier", 15)
+            background=Constants.BACKGROUND.value,
+            font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
         suggestion_label.pack()
-        message_frame = Frame(self.suggestion_frame, bg="#FFFFFF", height=400)
+        message_frame = Frame(self.suggestion_frame, height=400)
         self.msg = Label(message_frame, text=self.profile.suggestion)
         self.msg.pack()
         message_frame.pack()
@@ -133,10 +165,24 @@ class ProfilePage:
 
         # Display on profile_frame
 
-        self.profile_frame.pack(fill=BOTH, expand=True, pady=15, padx=15)
+        self.profile_frame.pack(
+            fill=BOTH,
+            expand=True,
+            pady=Constants.PADDING.value,
+            padx=Constants.PADDING.value,
+        )
 
     def get_xlabels(self, xar, no_xticks):
-        if len(xar)>0:
+        """
+        get_xlabels Gets a list of x
+        labels for x ticks of graph.
+
+        :param xar:
+        :type xar: list of floats
+        :param no_xticks:
+        :type no_xticks: Int
+        """
+        if len(xar) > 0:
             range_seconds = (max(xar) - min(xar)).total_seconds()
             interval = range_seconds / (no_xticks - 1)
             curr = min(xar)
@@ -148,19 +194,27 @@ class ProfilePage:
                 labels.append(curr.strftime("%H:%M"))
             return (locs, labels)
         else:
-            return ([],[])
+            return ([], [])
 
     def graph_display(self):
-        self.graph_frame = Frame(self.sensor_frame, bg=Constants.BACKGROUND.value)
+        """
+        graph_display displays graph of sensor value
+        over time with animated value updates.
+        """
+        self.graph_frame = Frame(
+            self.sensor_frame, bg=Constants.BACKGROUND.value
+        )
         y_label = self.profile.title + " (" + self.profile.unit + ")"
-        xar = self.profile.time_list[-(ProfilePage.NUM_OF_DATA):]
-        yar = self.profile.val_list[-(ProfilePage.NUM_OF_DATA):]
+        xar = self.profile.time_list[-ProfilePage.NUM_OF_DATA:]
+        yar = self.profile.val_list[-ProfilePage.NUM_OF_DATA:]
 
         self.fig = plt.figure(figsize=(5, 4), dpi=100, tight_layout=True)
         self.axs = self.fig.add_subplot(111)
         self.axs.plot(xar, yar)
         self.axs.set_xticks(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[0])
-        self.axs.set_xticklabels(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1])
+        self.axs.set_xticklabels(
+            self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1]
+        )
         self.canvas = FigureCanvasTkAgg(self.fig, self.graph_frame)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(pady=15, padx=15)
@@ -168,13 +222,22 @@ class ProfilePage:
             self.fig, self.animate, interval=Constants.TIME_INTERVAL.value
         )
         self.axs.set(
-            xlabel="Time (HH:MM)", ylabel=y_label, title=self.profile.graph_title
+            xlabel="Time (HH:MM)",
+            ylabel=y_label,
+            title=self.profile.graph_title,
         )
 
         self.graph_frame.pack()
 
     def animate(self, i):
-        if time.time() - self.time_since_update >= Constants.TIME_INTERVAL.value:
+        """
+        animate is the method called by FuncAnimation
+        constantly update graph every time interval.
+        """
+        if (
+            time.time() - self.time_since_update
+            >= Constants.TIME_INTERVAL.value
+        ):
             self.profile.update_from_db(self.profile.title)
             self.curr_sensor_value_label.config(
                 text=self.profile.sensor_value_description
@@ -183,23 +246,25 @@ class ProfilePage:
             self.curr_actuator_value_label.config(
                 text=self.profile.actuator_value_description
             )
-            self.msg.config(text= self.profile.suggestion)
+            self.msg.config(text=self.profile.suggestion)
             print(self.profile.sensor_value_description)
             print(self.profile.actuator_value_description)
-            if len(self.profile.time_list)>0:
+            if len(self.profile.time_list) > 0:
                 print("time: " + str(self.profile.time_list[-1]))
             self.time_since_update = time.time()
         if len(self.profile.time_list) < ProfilePage.NUM_OF_DATA:
             xar = self.profile.time_list
             yar = self.profile.val_list
         else:
-            xar = self.profile.time_list[-(Constants.NUM_OF_DATA).value:]
-            yar = self.profile.val_list[-(Constants.NUM_OF_DATA).value:]
+            xar = self.profile.time_list[-ProfilePage.NUM_OF_DATA:]
+            yar = self.profile.val_list[-ProfilePage.NUM_OF_DATA:]
 
         self.axs.clear()
         self.axs.plot(xar, yar)
         self.axs.set_xticks(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[0])
-        self.axs.set_xticklabels(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1])
+        self.axs.set_xticklabels(
+            self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1]
+        )
         self.axs.set(
             xlabel="Time (ms)",
             ylabel=self.profile.title + " (" + self.profile.unit + ")",
@@ -210,12 +275,20 @@ class ProfilePage:
         self.is_water = False
         self.animation.event_source.stop()
         self.profile_frame.pack_forget()
-        self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
+        self.option_frame.pack(
+            expand=True,
+            fill=BOTH,
+            pady=Constants.PADDING.value,
+            padx=Constants.PADDING.value,
+        )
         binst.destroy()
         self.label.config(text="IoT FarmBeats")
 
     def general_actuation_setup(self):
-
+        """
+        general_actuation_setup fills in the actuation
+        frame before being added to profile frame.
+        """
         self.actuator_frame = Frame(
             self.profile_frame, bg=Constants.BACKGROUND.value
         )
@@ -228,20 +301,27 @@ class ProfilePage:
         )
 
         actuatorTitle.config(
-            background=Constants.BACKGROUND.value, font=("Courier", 15)
+            background=Constants.BACKGROUND.value,
+            font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
 
         actuatorTitle.grid(
             row=0, column=0, sticky="news", padx=Constants.PADDING.value
         )
 
-        mode_switch_frame = Frame(self.actuator_frame, bg=Constants.BACKGROUND.value)
+        mode_switch_frame = Frame(
+            self.actuator_frame, bg=Constants.BACKGROUND.value
+        )
         manual_mode = Label(mode_switch_frame, text="Manual")
-        manual_mode.config(background="#CEE5DB", font=("Courier", 15))
+        manual_mode.config(
+            background="#CEE5DB",
+            font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
+        )
         manual_mode.pack(side=RIGHT)
         automatic_mode = Button(mode_switch_frame, text="Automatic")
         automatic_mode.config(
-            background=Constants.BACKGROUND.value, font=("Courier", 15)
+            background=Constants.BACKGROUND.value,
+            font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
         automatic_mode.pack(side=LEFT)
 
@@ -254,7 +334,8 @@ class ProfilePage:
         )
 
         self.curr_actuator_value_label.config(
-            background=Constants.BACKGROUND.value, font=("Courier", 15)
+            background=Constants.BACKGROUND.value,
+            font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
 
         self.curr_actuator_value_label.grid(
@@ -281,9 +362,15 @@ class ProfilePage:
             )
 
     def water_level_frame_setup(self):
+        """
+        water_level_frame_setup sets up the extra water
+        level frame for the water level subsystem
+        """
 
         if self.profile.water_level_value:
-            water_level_value = self.profile.water_level_value  # dummy data for now
+            water_level_value = (
+                self.profile.water_level_value
+            )  # dummy data for now
         else:
             water_level_value = 0
 
@@ -301,18 +388,19 @@ class ProfilePage:
         )
 
         water_level_title.config(
-            background=Constants.BACKGROUND.value, font=("Courier", 15)
+            background=Constants.BACKGROUND.value,
+            font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
 
         water_level_title.grid(
             row=0, column=0, sticky="news", padx=Constants.PADDING.value
         )
 
-        ##scale
         WaterScale(water_level_frame, water_level_value)
 
         water_level_title.config(
-            background=Constants.BACKGROUND.value, font=("Courier", 15)
+            background=Constants.BACKGROUND.value,
+            font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
 
         water_level_title.grid(
