@@ -5,19 +5,20 @@ from profile_view.profile_information import ProfileInformation
 
 
 class SensorValueScale:
+    OFFSET = 25
+
     def __init__(self, profile: ProfileInformation, parent_frame: Frame):
         self.profile = profile
         self.scale_frame = Frame(parent_frame, bg=Constants.BACKGROUND.value)
-        self.offset = 25
         self.range_ = profile.bound[1] - profile.bound[0]
         l1 = (((profile.extr[0] - profile.bound[0])
-              / self.range_) * 400) + self.offset
+              / self.range_) * 400) + SensorValueScale.OFFSET
         l2 = (((profile.extr[1] - profile.bound[0])
-              / self.range_) * 400) + self.offset
+              / self.range_) * 400) + SensorValueScale.OFFSET
         l3 = (((profile.extr[2] - profile.bound[0])
-              / self.range_) * 400) + self.offset
+              / self.range_) * 400) + SensorValueScale.OFFSET
         l4 = (((profile.extr[3] - profile.bound[0])
-              / self.range_) * 400) + self.offset
+              / self.range_) * 400) + SensorValueScale.OFFSET
 
         if profile.sensor_value:
             line = ((profile.sensor_value - profile.bound[0])
@@ -28,13 +29,13 @@ class SensorValueScale:
         self.scale_canvas = tkinter.Canvas(
             self.scale_frame,
             height=50,
-            width=400 + 2 * self.offset,
+            width=400 + 2 * SensorValueScale.OFFSET,
             background=Constants.BACKGROUND.value,
             highlightthickness=0,
         )
 
         self.scale_canvas.create_rectangle(
-            0 + self.offset, 0, l1, 30,
+            0 + SensorValueScale.OFFSET, 0, l1, 30,
             fill=Constants.RED_RGB.value, width=0
         )
         self.scale_canvas.create_rectangle(
@@ -50,14 +51,14 @@ class SensorValueScale:
             fill=Constants.AMBER_RGB.value, width=0
         )
         self.scale_canvas.create_rectangle(
-            l4, 0, 400 + self.offset, 30,
+            l4, 0, 400 + SensorValueScale.OFFSET, 30,
             fill=Constants.RED_RGB.value, width=0
         )
         self.line = self.scale_canvas.create_line(
-            self.offset, 15, line + self.offset, 15, width=3
+            SensorValueScale.OFFSET, 15, line + SensorValueScale.OFFSET, 15, width=3
         )
         self.scale_canvas.create_text(
-            self.offset, 35, text=str(profile.bound[0]),
+            SensorValueScale.OFFSET, 35, text=str(profile.bound[0]),
             fill="black", font=("Courier")
         )
         self.scale_canvas.create_text(
@@ -83,15 +84,15 @@ class SensorValueScale:
             fill="black", font=("Courier")
         )
         self.scale_canvas.create_text(
-            400 + self.offset,
+            400 + SensorValueScale.OFFSET,
             45,
             text=str(profile.bound[1]),
             fill="black",
             font=("Courier"),
         )
         self.scale_canvas.create_line(
-            400 + self.offset - 1, 30,
-            400 + self.offset - 1, 40,
+            400 + SensorValueScale.OFFSET - 1, 30,
+            400 + SensorValueScale.OFFSET - 1, 40,
             fill="grey"
         )
 
@@ -99,11 +100,13 @@ class SensorValueScale:
         self.scale_frame.pack()
     
     def update(self, new_value):
+        if not new_value:
+            new_value = 0
         self.scale_canvas.delete(self.line)
         line = ((new_value - self.profile.bound[0])
                     / self.range_) * 400
         self.line = self.scale_canvas.create_line(
-            self.offset, 15, line + self.offset, 15, width=3
+            SensorValueScale.OFFSET, 15, line + SensorValueScale.OFFSET, 15, width=3
         )
         
 

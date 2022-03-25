@@ -1,7 +1,7 @@
 from datetime import timedelta
 from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT
-import tkinter
 import matplotlib.pyplot as plt
+from profile_view.water_scale import WaterScale
 from profile_view.sensor_value_scale import SensorValueScale
 from profile_view.profile_information import ProfileInformation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -13,6 +13,9 @@ from data_streamer.gui_database_manager import GuiDatabaseManager
 
 
 class ProfilePage:
+    NO_XTICKS = 4
+    NUM_OF_DATA = 20
+
     def __init__(
         self, profile_name, profile_frame, title_frame, label, option_frame, db: GuiDatabaseManager
     ):
@@ -29,7 +32,6 @@ class ProfilePage:
         self.actuator_frame = None
         self.suggestion_frame = None
 
-        self.water_level_frame = None
         if profile_name == 'Water Level':   
             self.is_water = True
         else:
@@ -37,14 +39,10 @@ class ProfilePage:
 
         # for graph display
         self.graph_frame = None
-        self.current_profile = None
         self.time_since_update = time.time()
         self.fig = None
-        self.plot = None
-        self.data_plot = None
         self.canvas = None
         self.animation = None
-        self.no_xticks = 4
 
         self.sensor_scale = None
         self.profile_setup()
@@ -155,14 +153,14 @@ class ProfilePage:
     def graph_display(self):
         self.graph_frame = Frame(self.sensor_frame, bg=Constants.BACKGROUND.value)
         y_label = self.profile.title + " (" + self.profile.unit + ")"
-        xar = self.profile.time_list[-(Constants.NUM_OF_DATA.value):]
-        yar = self.profile.val_list[-(Constants.NUM_OF_DATA.value):]
+        xar = self.profile.time_list[-(ProfilePage.NUM_OF_DATA):]
+        yar = self.profile.val_list[-(ProfilePage.NUM_OF_DATA):]
 
         self.fig = plt.figure(figsize=(5, 4), dpi=100, tight_layout=True)
         self.axs = self.fig.add_subplot(111)
         self.axs.plot(xar, yar)
-        self.axs.set_xticks(self.get_xlabels(xar, self.no_xticks)[0])
-        self.axs.set_xticklabels(self.get_xlabels(xar, self.no_xticks)[1])
+        self.axs.set_xticks(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[0])
+        self.axs.set_xticklabels(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1])
         self.canvas = FigureCanvasTkAgg(self.fig, self.graph_frame)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(pady=15, padx=15)
@@ -186,13 +184,12 @@ class ProfilePage:
                 text=self.profile.actuator_value_description
             )
             self.msg.config(text= self.profile.suggestion)
-            print (self.profile.time_list[-1])
             print(self.profile.sensor_value_description)
             print(self.profile.actuator_value_description)
             if len(self.profile.time_list)>0:
                 print("time: " + str(self.profile.time_list[-1]))
             self.time_since_update = time.time()
-        if len(self.profile.time_list) < Constants.NUM_OF_DATA.value:
+        if len(self.profile.time_list) < ProfilePage.NUM_OF_DATA:
             xar = self.profile.time_list
             yar = self.profile.val_list
         else:
@@ -201,8 +198,8 @@ class ProfilePage:
 
         self.axs.clear()
         self.axs.plot(xar, yar)
-        self.axs.set_xticks(self.get_xlabels(xar, self.no_xticks)[0])
-        self.axs.set_xticklabels(self.get_xlabels(xar, self.no_xticks)[1])
+        self.axs.set_xticks(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[0])
+        self.axs.set_xticklabels(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1])
         self.axs.set(
             xlabel="Time (ms)",
             ylabel=self.profile.title + " (" + self.profile.unit + ")",
@@ -290,16 +287,16 @@ class ProfilePage:
         else:
             water_level_value = 0
 
-        self.water_level_frame = Frame(
+        water_level_frame = Frame(
             self.profile_frame, bg=Constants.BACKGROUND.value
         )
-        self.water_level_frame.grid_columnconfigure(0, weight=1)
-        self.water_level_frame.grid_rowconfigure(0, weight=1)
-        self.water_level_frame.grid_rowconfigure(1, weight=3)
-        self.water_level_frame.grid_rowconfigure(2, weight=1)
+        water_level_frame.grid_columnconfigure(0, weight=1)
+        water_level_frame.grid_rowconfigure(0, weight=1)
+        water_level_frame.grid_rowconfigure(1, weight=3)
+        water_level_frame.grid_rowconfigure(2, weight=1)
 
         water_level_title = Label(
-            self.water_level_frame,
+            water_level_frame,
             text="Water Level: " + str(water_level_value) + "%",
         )
 
@@ -311,79 +308,8 @@ class ProfilePage:
             row=0, column=0, sticky="news", padx=Constants.PADDING.value
         )
 
-        scale_frame = Frame(self.water_level_frame)
-
-        h = 200
-        y_offset = 20
-        x_offset = 10
-
-        scale_canvas = tkinter.Canvas(
-            scale_frame,
-            height=h + y_offset,
-            width=80 + (2 * x_offset),
-        )
-
-        length = (water_level_value / 100) * h
-
-        scale_canvas.create_rectangle(
-            x_offset, y_offset, 50 + x_offset, h + y_offset, width=0
-        )
-        scale_canvas.create_rectangle(
-            x_offset,
-            h + y_offset,
-            50 + x_offset,
-            h - length + y_offset,
-            fill="#B7DEF2",
-            width=0,
-        )
-        scale_canvas.create_line(
-            x_offset, h + y_offset, x_offset, y_offset, fill="#000000", width=3
-        )
-        scale_canvas.create_line(
-            49 + x_offset,
-            h + y_offset,
-            49 + x_offset,
-            y_offset,
-            fill="#000000",
-            width=3,
-        )
-        scale_canvas.create_line(
-            50 + x_offset,
-            h + y_offset,
-            x_offset,
-            h + y_offset,
-            fill="#000000",
-            width=3,
-        )
-        scale_canvas.create_text(
-            50 + (2 * x_offset) + 10,
-            y_offset,
-            text="100%",
-            fill="black",
-            font=("Courier"),
-        )
-        scale_canvas.create_text(
-            50 + (2 * x_offset) + 10,
-            h // 2 + y_offset - 5,
-            text="50%",
-            fill="black",
-            font=("Courier"),
-        )
-        scale_canvas.create_text(
-            50 + (2 * x_offset) + 10,
-            h + y_offset - 5,
-            text="0%",
-            fill="black",
-            font=("Courier"),
-        )
-
-        scale_canvas.pack()
-        scale_frame.grid(
-            row=1,
-            column=0,
-            sticky="news",
-            padx=Constants.PADDING.value,
-        )
+        ##scale
+        WaterScale(water_level_frame, water_level_value)
 
         water_level_title.config(
             background=Constants.BACKGROUND.value, font=("Courier", 15)
@@ -393,7 +319,7 @@ class ProfilePage:
             row=0, column=0, sticky="news", padx=Constants.PADDING.value
         )
 
-        self.water_level_frame.grid(
+        water_level_frame.grid(
             row=1,
             column=1,
             sticky="news",
