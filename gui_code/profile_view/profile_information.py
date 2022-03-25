@@ -42,7 +42,7 @@ class ProfileInformation:
             )
 
             # [extreme_lower, lower, upper, extreme_upper]
-            self.extr = [50, 60, 70, 80]
+            self.extr = [40, 50, 60, 75]
             self.bound = [0, 100]
 
             self.time_list = self._db_manager.get_time_and_val_list("humidity")[1]
@@ -98,7 +98,7 @@ class ProfileInformation:
                 "Current value: " + str(self.sensor_value) + self.unit
             )
             self.water_level_value = self._db_manager.get_curr_val_single_subsys(
-                "water level"
+                "water_level"
             )
 
             # [extreme_lower, lower, upper, extreme_upper]
@@ -111,7 +111,7 @@ class ProfileInformation:
 
             self.actuator_frame_title = "Sprinkler Information"
             self.actuator_value = self._db_manager.get_curr_actuation_val_single_subsys(
-                "water level"
+                "water_level"
             )
             self.actuator_value_description = (
                 "Amount of water added: \n"
@@ -162,6 +162,9 @@ class ProfileInformation:
             + str(self.actuator_value)
             + self.unit
         )
+        self.suggestion = MessageManager(
+            profile_name, self.get_status()
+        ).message
 
     def get_status(self):
         if self.sensor_value:

@@ -121,8 +121,8 @@ class ProfilePage:
         )
         suggestion_label.pack()
         message_frame = Frame(self.suggestion_frame, bg="#FFFFFF", height=400)
-        msg = Label(message_frame, text=self.profile.suggestion)
-        msg.pack()
+        self.msg = Label(message_frame, text=self.profile.suggestion)
+        self.msg.pack()
         message_frame.pack()
 
         self.suggestion_frame.grid(
@@ -155,8 +155,8 @@ class ProfilePage:
     def graph_display(self):
         self.graph_frame = Frame(self.sensor_frame, bg=Constants.BACKGROUND.value)
         y_label = self.profile.title + " (" + self.profile.unit + ")"
-        xar = self.profile.time_list[-100:]
-        yar = self.profile.val_list[-100:]
+        xar = self.profile.time_list[-(Constants.NUM_OF_DATA.value):]
+        yar = self.profile.val_list[-(Constants.NUM_OF_DATA.value):]
 
         self.fig = plt.figure(figsize=(5, 4), dpi=100, tight_layout=True)
         self.axs = self.fig.add_subplot(111)
@@ -170,7 +170,7 @@ class ProfilePage:
             self.fig, self.animate, interval=Constants.TIME_INTERVAL.value
         )
         self.axs.set(
-            xlabel="Time (ms)", ylabel=y_label, title=self.profile.graph_title
+            xlabel="Time (HH:MM)", ylabel=y_label, title=self.profile.graph_title
         )
 
         self.graph_frame.pack()
@@ -181,24 +181,23 @@ class ProfilePage:
             self.curr_sensor_value_label.config(
                 text=self.profile.sensor_value_description
             )
-            
             self.sensor_scale.update(self.profile.sensor_value)
             self.curr_actuator_value_label.config(
                 text=self.profile.actuator_value_description
             )
+            self.msg.config(text= self.profile.suggestion)
             print (self.profile.time_list[-1])
-            print ("!!!!! " + str(self.profile.sensor_value))
             print(self.profile.sensor_value_description)
             print(self.profile.actuator_value_description)
             if len(self.profile.time_list)>0:
                 print("time: " + str(self.profile.time_list[-1]))
             self.time_since_update = time.time()
-        if len(self.profile.time_list) < 5:
+        if len(self.profile.time_list) < Constants.NUM_OF_DATA.value:
             xar = self.profile.time_list
             yar = self.profile.val_list
         else:
-            xar = self.profile.time_list[-5:]
-            yar = self.profile.val_list[-5:]
+            xar = self.profile.time_list[-(Constants.NUM_OF_DATA).value:]
+            yar = self.profile.val_list[-(Constants.NUM_OF_DATA).value:]
 
         self.axs.clear()
         self.axs.plot(xar, yar)
