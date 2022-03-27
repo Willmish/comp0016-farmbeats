@@ -6,17 +6,18 @@ from tools.sensor_data import SensorData
 from grove.adc import ADC
 
 
-class WaterLevel(Sensor):
+class SoilMoistureSensor(Sensor):
     SOIL_MOISTURE_PIN = 0
     soil_moisture = ADC()
 
     def __init__(self, *args, **kwargs):
         super().__init__(("soil_moisture"), *args, **kwargs)
 
-    def collect(self):
+    def collect(self, pid_update: bool = True):
         self._status = Status.ENABLED
+        MODE = "pid_update" if pid_update else "database_update"
         pub.sendMessage(
-            "sensor_data.soil_moisture_sensor",
+            f"{MODE}.sensor_data.soil_moisture_sensor",
             args=SensorData(
                 time(),
                 self._id,

@@ -6,7 +6,7 @@ import os
 
 
 class IoTHubStreamer:
-    sensor_data_topic = "actuator"
+    sensor_data_topic = "database_update.actuator"
     MSG_TEXT = (
         '{{"Timestamp": {timestamp},'
         '"SensorID": {sensor_id},'
@@ -43,8 +43,9 @@ class IoTHubStreamer:
             sensor_id=args.sensor_id,
             sensor_type='"' + args.sensor_type + '"',
             value=args.sensor_value,
-            actuator_value=args.actuator_value,
+            actuator_value='"' + str(args.actuator_value) + '"',
         )
+        print(msg_text_formatted)
         message = Message(msg_text_formatted)
         self._client.send_message(message)
 

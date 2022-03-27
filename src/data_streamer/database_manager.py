@@ -3,7 +3,7 @@ from pubsub import pub
 
 
 class DatabaseManager:
-    sensor_data_topic = "actuator"
+    sensor_data_topic = "database_update.actuator"
 
     def __init__(self, database_path: str = "test.db"):
         self._database_path: str = database_path
