@@ -6,7 +6,7 @@ import pyodbc
 
 
 class AzureDatabaseManager(DatabaseManager):
-    sensor_data_topic = "actuator"
+    sensor_data_topic = "database_update.actuator"
 
     def __init__(self, database_path: str = "test.db"):
         super().__init__("azure_db")

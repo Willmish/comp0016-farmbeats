@@ -13,10 +13,11 @@ class WaterLevel(Sensor):
     def __init__(self, *args, **kwargs):
         super().__init__(("water_level"), *args, **kwargs)
 
-    def collect(self):
+    def collect(self, pid_update: bool = True):
         self._status = Status.ENABLED
+        MODE = "pid_update" if pid_update else "database_update"
         pub.sendMessage(
-            "sensor_data.water_level_sensor",
+            f"{MODE}.sensor_data.water_level_sensor",
             args=SensorData(
                 time(),
                 self._id,
