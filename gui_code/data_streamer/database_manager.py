@@ -78,22 +78,3 @@ class DatabaseManager:
             res += str(row) + "\n"
         return res
 
-
-if __name__ == "__main__":
-    # Test the DB, and clean up afterwards.
-    # Should print the whole db with new test entry added
-    import sys
-    from time import time
-
-    sys.path.insert(0, "..")
-    from tools.sensor_data import SensorData
-
-    with DatabaseManager() as db:
-        db.create_sensor_data_table()
-        pub.sendMessage(
-            "sensor_data",
-            args=SensorData(time(), -1, "test_sensor_type", -999),
-        )
-        print(db)
-        db._remove_data_by_id_type(-1, "test_sensor_type")
-        print(db)

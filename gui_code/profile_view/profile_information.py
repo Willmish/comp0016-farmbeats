@@ -1,7 +1,7 @@
 from profile_view.message_manager import MessageManager
 from data_streamer.gui_database_manager import GuiDatabaseManager
 from tools.constants import Constants
-
+import tools.config as config
 
 class ProfileInformation:
     def __init__(self, profile_name, db: GuiDatabaseManager):
@@ -27,8 +27,8 @@ class ProfileInformation:
             )
 
             # [extreme_lower, lower, upper, extreme_upper]
-            self.extr = [100, 200, 250, 400]
-            self.bound = [0, 500]
+            self.extr = config.brightness_extr
+            self.bound = config.brightness_bound
 
             self.time_list = self._db_manager.get_time_and_val_list(
                 "brightness"
@@ -59,8 +59,8 @@ class ProfileInformation:
             )
 
             # [extreme_lower, lower, upper, extreme_upper]
-            self.extr = [40, 50, 60, 75]
-            self.bound = [0, 100]
+            self.extr = config.humidity_extr
+            self.bound = config.humidity_bound
 
             self.time_list = self._db_manager.get_time_and_val_list(
                 "humidity"
@@ -97,8 +97,8 @@ class ProfileInformation:
             )
 
             # [extreme_lower, lower, upper, extreme_upper]
-            self.extr = [10, 16, 25, 30]
-            self.bound = [0, 40]
+            self.extr = config.temperature_extr
+            self.bound = config.temperature_bound
 
             self.time_list = self._db_manager.get_time_and_val_list(
                 "temperature"
@@ -131,8 +131,8 @@ class ProfileInformation:
             )
 
             # [extreme_lower, lower, upper, extreme_upper]
-            self.extr = [10, 18, 44, 50]
-            self.bound = [0, 100]
+            self.extr = config.water_level_extr
+            self.bound = config.water_level_bound
 
             self.time_list = self._db_manager.get_time_and_val_list(
                 "water level"
@@ -217,7 +217,7 @@ class ProfileInformation:
             (
                 self.val_list,
                 self.time_list,
-            ) = self._db_manager.get_time_and_val_list("water_level")
+            ) = self._db_manager.get_time_and_val_list("soil moisture")
             self.actuator_value = (
                 self._db_manager.get_curr_actuation_val_single_subsys(
                     "water_level"
