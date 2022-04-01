@@ -14,13 +14,9 @@ class Sensor:
         self._id: int = sensor_id
         self._status: Status = sensor_status
 
-    def collect(self):
+    def collect(self, pid_update: bool = True):
         self._status = Status.ENABLED
         self.clockspeed = 1
-
-    def sensor(self):
-        """dummy one"""
-        pass
 
     def random_generator(self):
         output = random()

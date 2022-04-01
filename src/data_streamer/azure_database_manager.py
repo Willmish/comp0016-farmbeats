@@ -6,7 +6,7 @@ import pyodbc
 
 
 class AzureDatabaseManager(DatabaseManager):
-    sensor_data_topic = "sensor_data"
+    sensor_data_topic = "database_update.actuator"
 
     def __init__(self, database_path: str = "test.db"):
         super().__init__("azure_db")
@@ -24,11 +24,13 @@ class AzureDatabaseManager(DatabaseManager):
     def create_sensor_data_table(self):
         """
         Table structure:
-        +-----------+----------+------------+-------+
-        | Timestamp | SensorID | SensorType | Value |
-        +-----------+----------+------------+-------+
-        |  INTEGER  | INTEGER  |    TEXT    |  REAL |
-        +-----------+----------+------------+-------+
+        +-----------+----------+------------+-------+---------------+
+        | Timestamp | SensorID | SensorType | Value | ActuatorValue |
+        +-----------+----------+------------+-------+---------------+
+        |  INTEGER  | INTEGER  |    TEXT    |  REAL |      REAL     |
+        +-----------+----------+------------+-------+---------------+
+        |  VALUE    | VALUE    |    VALUE   | VALUE |     [NULL]    |
+        +-----------+----------+------------+-------+---------------+
         """
         self._cursor.execute(
             """
@@ -39,6 +41,7 @@ class AzureDatabaseManager(DatabaseManager):
                     [SensorID] INT NOT NULL,
                     [SensorType] VARCHAR(256) NOT NULL,
                     [Value] REAL NOT NULL,
+                    [ActuatorValue] REAL,
                     CONSTRAINT SensorData_pk PRIMARY KEY (Timestamp, SensorID)
                 );
                 """
@@ -46,13 +49,18 @@ class AzureDatabaseManager(DatabaseManager):
         self._azure_conn.commit()
 
     def add_sensor_data(
-        self, timestamp, sensor_id: int, sensor_type: str, sensor_value: float
+        self,
+        timestamp,
+        sensor_id: int,
+        sensor_type: str,
+        sensor_value: float,
+        actuator_value: float,
     ):
         self._cursor.execute(
             """
-                INSERT INTO dbo.SensorData VALUES (?, ?, ?, ?)
+                INSERT INTO dbo.SensorData VALUES (?, ?, ?, ?, ?)
                 """,
-            (timestamp, sensor_id, sensor_type, sensor_value),
+            (timestamp, sensor_id, sensor_type, sensor_value, actuator_value),
         )
         self._azure_conn.commit()
 
@@ -69,7 +77,11 @@ class AzureDatabaseManager(DatabaseManager):
     def sensor_data_listener(self, args):
         print("Received data over pubsub: ", args)
         self.add_sensor_data(
-            args.timestamp, args.sensor_id, args.sensor_type, args.sensor_value
+            args.timestamp,
+            args.sensor_id,
+            args.sensor_type,
+            args.sensor_value,
+            args.actuator_value,
         )
 
     def __repr__(self) -> str:
@@ -99,36 +111,36 @@ if __name__ == "__main__":
         db.create_sensor_data_table()
         print(get_current_time_iso_cut())
         pub.sendMessage(
-            "sensor_data",
+            "actuator",
             args=SensorData(
-                get_current_time_iso_cut(), -1, "test_sensor_type", -999
+                get_current_time_iso_cut(), -1, "test_sensor_type", -999, 50
             ),
         )
 
         val = 0
         for x in range(3):
             pub.sendMessage(
-                "sensor_data",
+                "actuator",
                 args=SensorData(
-                    get_current_time_iso_cut(), 1, "brightness", 900 + val
+                    get_current_time_iso_cut(), 1, "brightness", 900 + val, 50
                 ),
             )
             pub.sendMessage(
-                "sensor_data",
+                "actuator",
                 args=SensorData(
-                    get_current_time_iso_cut(), 2, "humidity", 55 + val
+                    get_current_time_iso_cut(), 2, "humidity", 55 + val, 50
                 ),
             )
             pub.sendMessage(
-                "sensor_data",
+                "actuator",
                 args=SensorData(
-                    get_current_time_iso_cut(), 3, "temperature", 20 + val
+                    get_current_time_iso_cut(), 3, "temperature", 20 + val, 50
                 ),
             )
             pub.sendMessage(
-                "sensor_data",
+                "actuator",
                 args=SensorData(
-                    get_current_time_iso_cut(), 4, "water level", 15 + val
+                    get_current_time_iso_cut(), 4, "water level", 15 + val, 50
                 ),
             )
             val += 1

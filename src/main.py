@@ -1,51 +1,82 @@
-from time import sleep
-from actuator.fans import Fans
-from actuator.led_lights import LEDLights
-from analyser.humidty_analyser import HumidityAnalyser
-from analyser.brightness_analyser import BrightnessAnalyser
-from sensor.dht11 import DHT11
-from sensor.light_sensor import LightSensor
+from time import sleep, time
 
-# from database.database_manager import DatabaseManager
-from database.iot_hub_streamer import IoTHubStreamer
-from pubsub import pub
+from sensor.dht11 import DHT11
+from analyser.humidity_pid import HumidityPidAnalyser
+from actuator.fans import Fans
+
+from sensor.light_sensor import LightSensor
+from analyser.brightness_pid import BrightnessPidAnalyser
+from actuator.led_lights import LEDLights
+
+# from sensor.soil_moisture import MoistureSensor
+from sensor.water_level import WaterLevel
+from analyser.water_level_analyser import WaterLevelAnalyser
+
+# from analyser.moisture_analyser import MoisturePidAnalyser
+
+# from analyser.water_pid import MoisturePidAnalyser
+
+# from data_streamer.database_manager import DatabaseManager
+from data_streamer.iot_hub_streamer import IoTHubStreamer
 import RPi.GPIO as GPIO
 
 
 TIME_INTERVAL_BETWEEN_READINGS = 5
+PID_CLOCK_SPEED = 1
 
 
-def dummy_listener(args, rest=None):
-    print("Received message over pubsub:", args.sensor_value)
+def dummy_listener(args):
+    print("Listening all database_update: ", args)
+
+
+def dummy_listener_pid(args):
+    print("Listening all pid_update: ", args)
 
 
 if __name__ == "__main__":
     with IoTHubStreamer() as db:
         # db.create_sensor_data_table()
         GPIO.setmode(GPIO.BCM)
-        # Actuator fans object
+
+        # Actuator objects
         fans = Fans()
         lights = LEDLights()
 
-        # Analyser fans object
-        humidity_analyser = HumidityAnalyser()
-        brightness_analyser = BrightnessAnalyser()
+        # Analyser objects
+        # humidity_analyser = HumidityAnalyser()
+        # brightness_analyser = BrightnessAnalyser()
+        humidity_pid = HumidityPidAnalyser()
+        brightness_pid = BrightnessPidAnalyser()
+        water_level_analyser = WaterLevelAnalyser()
+        # water_pid = MoisturePidAnalyser()
 
-        # Sensor DHT11 object
+        # Sensor objects
         dht11Sensor = DHT11(sensor_id=1)
-
-        # Light Sensor object
+        water_level = WaterLevel(sensor_id=2)
         light_sensor = LightSensor(sensor_id=0)
 
-        pub.subscribe(dummy_listener, "humidity_sensor")
+        # pub.subscribe(dummy_listener, "database_update")
+        # pub.subscribe(dummy_listener_pid, "pid_update")
+        time_since_db_update = time()
+        PID_UPDATE = True
         try:
             while 1:
-                dht11Sensor.collect()
-                light_sensor.collect()
+                if (
+                    time() - time_since_db_update
+                    >= TIME_INTERVAL_BETWEEN_READINGS
+                ):
+                    print(
+                        "++++++++++++++++++++++++++++\n UPDATE DB\n"
+                        "++++++++++++++++++++++++++++"
+                    )
+                    time_since_db_update = time()
+                    PID_UPDATE = False
+                dht11Sensor.collect(PID_UPDATE)
+                light_sensor.collect(PID_UPDATE)
+                water_level.collect(PID_UPDATE)
                 fans.actuate()
-                # lights.actuate()
-                # print(db)
-                sleep(TIME_INTERVAL_BETWEEN_READINGS)
+                PID_UPDATE = True
+                sleep(PID_CLOCK_SPEED)
+
         except KeyboardInterrupt:
             GPIO.cleanup()
-            fans.PWM_cleanup()

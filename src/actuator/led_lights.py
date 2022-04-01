@@ -3,8 +3,6 @@ from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
 
-# Actuator Interface
-
 
 class LEDLights(Actuator):
     LED_PIN = 5
@@ -21,7 +19,10 @@ class LEDLights(Actuator):
         """
         super().__init__("led_lights", args, kwargs)
         self._brightness = 0
-        pub.subscribe(self.light_status_listener, "actuator.light_status")
+        pub.subscribe(
+            self.light_status_listener,
+            f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.light_status",
+        )
         GPIO.setup(LEDLights.LED_PIN, GPIO.OUT)
 
     def activate(self):
@@ -39,6 +40,6 @@ class LEDLights(Actuator):
             GPIO.output(LEDLights.LED_PIN, GPIO.LOW)
 
     def light_status_listener(self, args, rest=None):
-        brightness = args
+        brightness = args.actuator_value
         print("Received brightness vals over pubsub:", brightness)
         self._brightness = brightness
