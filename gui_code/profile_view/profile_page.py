@@ -85,7 +85,9 @@ class ProfilePage:
 
         home_button[
             "command"
-        ] = lambda idx="Home", binst=home_button: self.home_button_action(binst)
+        ] = lambda idx="Home", binst=home_button: self.home_button_action(
+            binst
+        )
 
         home_button.pack()
         home_button.place(bordermode=INSIDE, x=5, y=5)
@@ -95,9 +97,13 @@ class ProfilePage:
         for n in range(3):
             self.profile_frame.grid_rowconfigure(n, weight=1)
 
-        self.sensor_frame = Frame(self.profile_frame, bg=Constants.BACKGROUND.value)
+        self.sensor_frame = Frame(
+            self.profile_frame, bg=Constants.BACKGROUND.value
+        )
 
-        sensor_title = Label(self.sensor_frame, text=self.profile.sensor_frame_title)
+        sensor_title = Label(
+            self.sensor_frame, text=self.profile.sensor_frame_title
+        )
 
         sensor_title.config(
             background=Constants.BACKGROUND.value,
@@ -135,7 +141,9 @@ class ProfilePage:
 
         # suggestion_frame set up
 
-        self.suggestion_frame = Frame(self.profile_frame, bg=Constants.BACKGROUND.value)
+        self.suggestion_frame = Frame(
+            self.profile_frame, bg=Constants.BACKGROUND.value
+        )
         suggestion_label = Label(self.suggestion_frame, text="Suggestion")
         suggestion_label.config(
             background=Constants.BACKGROUND.value,
@@ -193,7 +201,9 @@ class ProfilePage:
         graph_display displays graph of sensor value
         over time with animated value updates.
         """
-        self.graph_frame = Frame(self.sensor_frame, bg=Constants.BACKGROUND.value)
+        self.graph_frame = Frame(
+            self.sensor_frame, bg=Constants.BACKGROUND.value
+        )
         y_label = self.profile.title + " (" + self.profile.unit + ")"
         xar = self.profile.time_list[-ProfilePage.NUM_OF_DATA:]
         yar = self.profile.val_list[-ProfilePage.NUM_OF_DATA:]
@@ -202,7 +212,9 @@ class ProfilePage:
         self.axs = self.fig.add_subplot(111)
         self.axs.plot(xar, yar)
         self.axs.set_xticks(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[0])
-        self.axs.set_xticklabels(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1])
+        self.axs.set_xticklabels(
+            self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1]
+        )
         self.canvas = FigureCanvasTkAgg(self.fig, self.graph_frame)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(pady=15, padx=15)
@@ -222,7 +234,10 @@ class ProfilePage:
         animate is the method called by FuncAnimation
         constantly update graph every time interval.
         """
-        if time.time() - self.time_since_update >= Constants.TIME_INTERVAL.value:
+        if (
+            time.time() - self.time_since_update
+            >= Constants.TIME_INTERVAL.value
+        ):
             self.profile.update_from_db(self.profile.title)
             self.curr_sensor_value_label.config(
                 text=self.profile.sensor_value_description
@@ -247,7 +262,9 @@ class ProfilePage:
         self.axs.clear()
         self.axs.plot(xar, yar)
         self.axs.set_xticks(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[0])
-        self.axs.set_xticklabels(self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1])
+        self.axs.set_xticklabels(
+            self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1]
+        )
         self.axs.set(
             xlabel="Time (ms)",
             ylabel=self.profile.title + " (" + self.profile.unit + ")",
@@ -272,7 +289,9 @@ class ProfilePage:
         general_actuation_setup fills in the actuation
         frame before being added to profile frame.
         """
-        self.actuator_frame = Frame(self.profile_frame, bg=Constants.BACKGROUND.value)
+        self.actuator_frame = Frame(
+            self.profile_frame, bg=Constants.BACKGROUND.value
+        )
         self.actuator_frame.grid_columnconfigure(0, weight=1)
         for n in range(3):
             self.actuator_frame.grid_rowconfigure(n, weight=1)
@@ -286,9 +305,13 @@ class ProfilePage:
             font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
 
-        actuatorTitle.grid(row=0, column=0, sticky="news", padx=Constants.PADDING.value)
+        actuatorTitle.grid(
+            row=0, column=0, sticky="news", padx=Constants.PADDING.value
+        )
 
-        mode_switch_frame = Frame(self.actuator_frame, bg=Constants.BACKGROUND.value)
+        mode_switch_frame = Frame(
+            self.actuator_frame, bg=Constants.BACKGROUND.value
+        )
         manual_mode = Label(mode_switch_frame, text="Manual")
         manual_mode.config(
             background="#CEE5DB",
@@ -345,11 +368,15 @@ class ProfilePage:
         """
 
         if self.profile.water_level_value:
-            water_level_value = self.profile.water_level_value  # dummy data for now
+            water_level_value = (
+                self.profile.water_level_value
+            )  # dummy data for now
         else:
             water_level_value = 0
 
-        water_level_frame = Frame(self.profile_frame, bg=Constants.BACKGROUND.value)
+        water_level_frame = Frame(
+            self.profile_frame, bg=Constants.BACKGROUND.value
+        )
         water_level_frame.grid_columnconfigure(0, weight=1)
         water_level_frame.grid_rowconfigure(0, weight=1)
         water_level_frame.grid_rowconfigure(1, weight=3)

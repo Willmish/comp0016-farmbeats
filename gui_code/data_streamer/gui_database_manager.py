@@ -1,30 +1,17 @@
 from data_streamer.database_manager import DatabaseManager
+import os
+from dotenv import load_dotenv
 import pyodbc
-
-server = "iot-farmbeats.database.windows.net"
-database = "iot-farmbeats"
-username = "iotFarmBeats2022"
-password = "{plantGrowth22}"
-driver = "{ODBC Driver 18 for SQL Server}"
 
 
 class GuiDatabaseManager(DatabaseManager):
     def __init__(self):
         super().__init__("azure_db")
+        load_dotenv()
+        self._connection_string = os.getenv("DATABASE_CONNECTION_STRING")
 
     def __enter__(self):
-        self._azure_conn = pyodbc.connect(
-            "DRIVER="
-            + driver
-            + ";SERVER=tcp:"
-            + server
-            + ";PORT=1433;DATABASE="
-            + database
-            + ";UID="
-            + username
-            + ";PWD="
-            + password
-        )
+        self._azure_conn = pyodbc.connect(self._connection_string)
         self._cursor = self._azure_conn.cursor()
         return self
 
