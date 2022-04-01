@@ -8,7 +8,7 @@ class BrightnessAnalyser(Analyser):
 
     def analyser_listener(self, args, rest=None):
         print(args.sensor_value)
-        brightness = args.sensor_value[0]
+        brightness = args.sensor_value
         # TODO Do analysing stuff here, currently simple threshold
         print(brightness)
         if brightness > 270:
