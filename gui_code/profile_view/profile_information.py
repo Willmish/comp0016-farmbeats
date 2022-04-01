@@ -3,10 +3,11 @@ from data_streamer.gui_database_manager import GuiDatabaseManager
 from tools.constants import Constants
 import tools.config as config
 
+
 class ProfileInformation:
     def __init__(self, profile_name, db: GuiDatabaseManager):
         """
-        __init__ creates a profile that allows 
+        __init__ creates a profile that allows
         GUI to access profile information for each subsystem.
 
         :param profile_name:
@@ -159,7 +160,7 @@ class ProfileInformation:
 
     def update_from_db(self, profile_name):
         """
-        update_from_db allows information to be 
+        update_from_db allows information to be
         up to date with the database.
 
         :param profile_name:
@@ -235,7 +236,7 @@ class ProfileInformation:
 
     def get_status(self):
         """
-        get_status returns the state for the message 
+        get_status returns the state for the message
         manager to output the correct message.
         """
         if self.sensor_value:

@@ -77,4 +77,3 @@ class DatabaseManager:
         for row in self._cursor.execute("SELECT * FROM SensorData;"):
             res += str(row) + "\n"
         return res
-

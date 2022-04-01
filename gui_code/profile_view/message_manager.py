@@ -1,5 +1,6 @@
 from tools.constants import Constants
 
+
 class MessageManager:
     def __init__(self, profile_name, status):
         """
@@ -12,7 +13,7 @@ class MessageManager:
         :type status: Int
         """
         self.message = ""
-        
+
         if status == Constants.GREEN.value:
             self.message = "Sensor reading seems good!"
         elif status == Constants.NO_STATUS.value:

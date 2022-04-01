@@ -162,12 +162,8 @@ class TestProfilePage:
         if time.time() - self.time_since_update >= globals.time_interval:
             self.x_vals.append(self.x_vals[-1] + 1)
             self.y_vals.append(self.y_vals[-1] + 1)
-            self.curr_sensor_value_label.config(
-                text= str(self.count)
-            )
-            self.curr_actuator_value_label.config(
-                text= str(self.count)
-            )
+            self.curr_sensor_value_label.config(text=str(self.count))
+            self.curr_actuator_value_label.config(text=str(self.count))
             self.time_since_update = time.time()
             self.count += 1
             self.time_since_update = time.time()
@@ -182,8 +178,9 @@ class TestProfilePage:
         self.axs.clear()
         self.axs.plot(xar, yar)
         self.axs.set(
-            xlabel="Time (ms)", ylabel=self.profile.title + " (" + self.profile.unit + ")",
-            title=self.profile.graph_title
+            xlabel="Time (ms)",
+            ylabel=self.profile.title + " (" + self.profile.unit + ")",
+            title=self.profile.graph_title,
         )
 
     def home_button_action(self, binst):

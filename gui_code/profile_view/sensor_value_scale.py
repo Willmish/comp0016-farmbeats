@@ -177,7 +177,7 @@ class SensorValueScale:
 
     def update(self, new_value):
         """
-        update allows the scale to update 
+        update allows the scale to update
         every time the graph is animated.
 
         :param new_value:

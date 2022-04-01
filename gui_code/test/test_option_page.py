@@ -5,6 +5,7 @@ import globals
 from test_profile_page import TestProfilePage
 from profile_page import ProfilePage
 
+
 class OptionPage:
     def __init__(self, option_frame, profile_frame, label_frame, label):
         self.option_frame = option_frame
@@ -14,7 +15,6 @@ class OptionPage:
 
         self.option_frame_setup()
 
-    
     def option_frame_setup(self):
         for n in range(3):
             self.option_frame.grid_columnconfigure(n, weight=1, uniform="row")
@@ -35,7 +35,11 @@ class OptionPage:
 
         tempButton.image = temp_img
         tempButton.grid(
-            row=0, column=0, sticky="news", pady=globals.padding, padx=globals.padding
+            row=0,
+            column=0,
+            sticky="news",
+            pady=globals.padding,
+            padx=globals.padding,
         )
 
         humidity_img = self.get_menu_button(
@@ -51,7 +55,11 @@ class OptionPage:
 
         humidityButton.image = humidity_img
         humidityButton.grid(
-            row=0, column=1, sticky="news", pady=globals.padding, padx=globals.padding
+            row=0,
+            column=1,
+            sticky="news",
+            pady=globals.padding,
+            padx=globals.padding,
         )
 
         brightness_img = self.get_menu_button(
@@ -66,7 +74,11 @@ class OptionPage:
         )
         brightnessButton.image = brightness_img
         brightnessButton.grid(
-            row=0, column=2, sticky="news", pady=globals.padding, padx=globals.padding
+            row=0,
+            column=2,
+            sticky="news",
+            pady=globals.padding,
+            padx=globals.padding,
         )
 
         water_img = self.get_menu_button(
@@ -82,7 +94,11 @@ class OptionPage:
 
         waterButton.image = water_img
         waterButton.grid(
-            row=1, column=0, sticky="news", pady=globals.padding, padx=globals.padding
+            row=1,
+            column=0,
+            sticky="news",
+            pady=globals.padding,
+            padx=globals.padding,
         )
 
         aiCamera_img = self.get_menu_button(
@@ -98,7 +114,11 @@ class OptionPage:
 
         aiCameraButton.image = aiCamera_img
         aiCameraButton.grid(
-            row=1, column=1, sticky="news", pady=globals.padding, padx=globals.padding
+            row=1,
+            column=1,
+            sticky="news",
+            pady=globals.padding,
+            padx=globals.padding,
         )
 
         system_img = self.get_menu_button(
@@ -114,7 +134,11 @@ class OptionPage:
 
         sysVisualButton.image = system_img
         sysVisualButton.grid(
-            row=1, column=2, sticky="news", pady=globals.padding, padx=globals.padding
+            row=1,
+            column=2,
+            sticky="news",
+            pady=globals.padding,
+            padx=globals.padding,
         )
 
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)

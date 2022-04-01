@@ -15,7 +15,11 @@ class FarmBeatsApp:
         self.profile_frame = Frame(self.main, bg="white")
         self._db_manager: GuiDatabaseManager = db
         OptionPage(
-            self.option_frame, self.profile_frame, self.label_frame, self.label, self._db_manager
+            self.option_frame,
+            self.profile_frame,
+            self.label_frame,
+            self.label,
+            self._db_manager,
         )
 
     def label_frame_setup(self):

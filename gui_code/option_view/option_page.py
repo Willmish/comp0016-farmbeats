@@ -7,7 +7,14 @@ from data_streamer.gui_database_manager import GuiDatabaseManager
 
 
 class OptionPage:
-    def __init__(self, option_frame, profile_frame, label_frame, label, db: GuiDatabaseManager):
+    def __init__(
+        self,
+        option_frame,
+        profile_frame,
+        label_frame,
+        label,
+        db: GuiDatabaseManager,
+    ):
         self.option_frame = option_frame
         self.profile_frame = profile_frame
         self.label_frame = label_frame

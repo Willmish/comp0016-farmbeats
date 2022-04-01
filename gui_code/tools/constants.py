@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Constants(Enum):
     PADDING = 15
     BACKGROUND = "#E7F5EF"

@@ -205,8 +205,8 @@ class ProfilePage:
             self.sensor_frame, bg=Constants.BACKGROUND.value
         )
         y_label = self.profile.title + " (" + self.profile.unit + ")"
-        xar = self.profile.time_list[-ProfilePage.NUM_OF_DATA:]
-        yar = self.profile.val_list[-ProfilePage.NUM_OF_DATA:]
+        xar = self.profile.time_list[-ProfilePage.NUM_OF_DATA :]
+        yar = self.profile.val_list[-ProfilePage.NUM_OF_DATA :]
 
         self.fig = plt.figure(figsize=(5, 4), dpi=100, tight_layout=True)
         self.axs = self.fig.add_subplot(111)
@@ -256,8 +256,8 @@ class ProfilePage:
             xar = self.profile.time_list
             yar = self.profile.val_list
         else:
-            xar = self.profile.time_list[-ProfilePage.NUM_OF_DATA:]
-            yar = self.profile.val_list[-ProfilePage.NUM_OF_DATA:]
+            xar = self.profile.time_list[-ProfilePage.NUM_OF_DATA :]
+            yar = self.profile.val_list[-ProfilePage.NUM_OF_DATA :]
 
         self.axs.clear()
         self.axs.plot(xar, yar)
