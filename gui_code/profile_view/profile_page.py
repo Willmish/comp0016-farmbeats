@@ -243,6 +243,9 @@ class ProfilePage:
                 text=self.profile.sensor_value_description
             )
             self.sensor_scale.update(self.profile.sensor_value)
+            if self.is_water:
+                print("AAAAAAAAAAAAAAAAAAAAAAAAA", self.profile.water_level_value)
+                self.water_scale.update(self.profile.water_level_value)
             self.curr_actuator_value_label.config(
                 text=self.profile.actuator_value_description
             )
@@ -370,7 +373,7 @@ class ProfilePage:
         if self.profile.water_level_value:
             water_level_value = (
                 self.profile.water_level_value
-            )  # dummy data for now
+            )
         else:
             water_level_value = 0
 
@@ -396,7 +399,7 @@ class ProfilePage:
             row=0, column=0, sticky="news", padx=Constants.PADDING.value
         )
 
-        WaterScale(water_level_frame, water_level_value)
+        self.water_scale = WaterScale(water_level_frame, water_level_value)
 
         water_level_title.config(
             background=Constants.BACKGROUND.value,

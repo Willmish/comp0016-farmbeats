@@ -136,10 +136,10 @@ class ProfileInformation:
             self.bound = config.water_level_bound
 
             self.time_list = self._db_manager.get_time_and_val_list(
-                "water level"
+                "water_level"
             )[1]
             self.val_list = self._db_manager.get_time_and_val_list(
-                "water level"
+                "water_level"
             )[0]
             self.graph_title = "Soil Moisture over Time"
 
@@ -208,20 +208,20 @@ class ProfileInformation:
             )
         elif profile_name == "Water Level":
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
-                "soil moisture"
+                "water_level"#"soil moisture"
             )
             self.water_level_value = (
-                self._db_manager.get_curr_actuation_val_single_subsys(
+                self._db_manager.get_curr_val_single_subsys(
                     "water_level"
                 )
             )
             (
                 self.val_list,
                 self.time_list,
-            ) = self._db_manager.get_time_and_val_list("soil moisture")
+            ) = self._db_manager.get_time_and_val_list("water_level")#"soil moisture")
             self.actuator_value = (
                 self._db_manager.get_curr_actuation_val_single_subsys(
-                    "water_level"
+                    "soil moisture"
                 )
             )
         self.sensor_value_description = (

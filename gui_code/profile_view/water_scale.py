@@ -15,6 +15,9 @@ class WaterScale:
     TEXT_X_OFFSET = 10
     LINE_WIDTH = 3
 
+    def calculate_water_level_length(self, water_level_value: float) -> float:
+        return (water_level_value / 100) * WaterScale.CONTAINER_HEIGHT
+
     def __init__(self, water_level_frame, water_level_value):
         """__init__ Creates and displays the water scale on water frame.
         :param water_level_frame:
@@ -25,30 +28,30 @@ class WaterScale:
 
         self.scale_frame = Frame(water_level_frame)
 
-        scale_canvas = tkinter.Canvas(
+        self.scale_canvas = tkinter.Canvas(
             self.scale_frame,
             height=WaterScale.CANVAS_HEIGHT + WaterScale.Y_OFFSET,
             width=WaterScale.CANVAS_WIDTH + (2 * WaterScale.X_OFFSET),
         )
 
-        length = (water_level_value / 100) * WaterScale.CONTAINER_HEIGHT
+        self.length = self.calculate_water_level_length(water_level_value)
 
-        scale_canvas.create_rectangle(
+        self.scale_canvas.create_rectangle(
             WaterScale.X_OFFSET,
             WaterScale.Y_OFFSET,
             WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET,
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             width=0,
         )
-        scale_canvas.create_rectangle(
+        self.water_level_rect = self.scale_canvas.create_rectangle(
             WaterScale.X_OFFSET,
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET,
-            WaterScale.CONTAINER_HEIGHT - length + WaterScale.Y_OFFSET,
+            WaterScale.CONTAINER_HEIGHT - self.length + WaterScale.Y_OFFSET,
             fill=Constants.BLUE_RGB.value,
             width=0,
         )
-        scale_canvas.create_line(
+        self.scale_canvas.create_line(
             WaterScale.X_OFFSET,
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             WaterScale.X_OFFSET,
@@ -56,7 +59,7 @@ class WaterScale:
             fill="black",
             width=3,
         )
-        scale_canvas.create_line(
+        self.scale_canvas.create_line(
             WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET - 1,
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET - 1,
@@ -64,7 +67,7 @@ class WaterScale:
             fill="black",
             width=WaterScale.LINE_WIDTH,
         )
-        scale_canvas.create_line(
+        self.scale_canvas.create_line(
             WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET,
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             WaterScale.X_OFFSET,
@@ -72,7 +75,7 @@ class WaterScale:
             fill="black",
             width=WaterScale.LINE_WIDTH,
         )
-        scale_canvas.create_text(
+        self.scale_canvas.create_text(
             WaterScale.CONTAINER_WIDTH
             + (2 * WaterScale.X_OFFSET)
             + WaterScale.TEXT_X_OFFSET,
@@ -81,7 +84,7 @@ class WaterScale:
             fill="black",
             font=(Constants.FONT_STYLE.value),
         )
-        scale_canvas.create_text(
+        self.scale_canvas.create_text(
             WaterScale.CONTAINER_WIDTH
             + (2 * WaterScale.X_OFFSET)
             + WaterScale.TEXT_X_OFFSET,
@@ -92,7 +95,7 @@ class WaterScale:
             fill="black",
             font=(Constants.FONT_STYLE.value),
         )
-        scale_canvas.create_text(
+        self.scale_canvas.create_text(
             WaterScale.CONTAINER_WIDTH
             + (2 * WaterScale.X_OFFSET)
             + WaterScale.TEXT_X_OFFSET,
@@ -104,10 +107,36 @@ class WaterScale:
             font=(Constants.FONT_STYLE.value),
         )
 
-        scale_canvas.pack()
+        self.scale_canvas.pack()
         self.scale_frame.grid(
             row=1,
             column=0,
             sticky="news",
             padx=Constants.PADDING.value,
         )
+    
+    def redraw_scale(self):
+        pass # TODO redraw all elements so it looks the smae
+
+
+    def update(self, new_value):
+        """
+        update allows the scale to update
+        every time the graph is animated.
+
+        :param new_value:
+        :type new_value: Float
+        """
+        if not new_value:
+            new_value = 0
+        self.scale_canvas.delete(self.water_level_rect)
+        self.length = self.calculate_water_level_length(new_value)
+
+        self.water_level_rect = self.scale_canvas.create_rectangle(
+                    WaterScale.X_OFFSET,
+                    WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
+                    WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET,
+                    WaterScale.CONTAINER_HEIGHT - self.length + WaterScale.Y_OFFSET,
+                    fill=Constants.BLUE_RGB.value,
+                    width=0,
+                )

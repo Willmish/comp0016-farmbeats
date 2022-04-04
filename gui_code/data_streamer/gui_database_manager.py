@@ -66,7 +66,7 @@ class GuiDatabaseManager(DatabaseManager):
             self.get_curr_val_single_subsys("brightness"),
             self.get_curr_val_single_subsys("humidity"),
             self.get_curr_val_single_subsys("temperature"),
-            self.get_curr_val_single_subsys("water level"),
+            self.get_curr_val_single_subsys("water_level"),
         ]
         return curr_vals
 
