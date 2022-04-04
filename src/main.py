@@ -12,6 +12,8 @@ from actuator.led_lights import LEDLights
 from sensor.water_level import WaterLevel
 from analyser.water_level_analyser import WaterLevelAnalyser
 
+from analyser.temperature_analyser import TemperatureAnalyser
+
 # from analyser.moisture_analyser import MoisturePidAnalyser
 
 # from analyser.water_pid import MoisturePidAnalyser
@@ -48,6 +50,7 @@ if __name__ == "__main__":
         humidity_pid = HumidityPidAnalyser()
         brightness_pid = BrightnessPidAnalyser()
         water_level_analyser = WaterLevelAnalyser()
+        temperature_analyser = TemperatureAnalyser()
         # water_pid = MoisturePidAnalyser()
 
         # Sensor objects

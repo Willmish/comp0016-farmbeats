@@ -8,7 +8,8 @@ class WaterLevelAnalyser(Analyser):
 
     def analyser_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "pid_update"  # TODO move to enum/config file
-        water_level = round(((args.sensor_value * 3300) / 1024), 0)
+        # 670-2100
+        water_level = args.sensor_value #round(((args.sensor_value * 3300) / 1024), 0)
         sensor_data = args
         if water_level < 50:
             # Send info to gui
@@ -22,6 +23,7 @@ class WaterLevelAnalyser(Analyser):
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.water_level", args=sensor_data
         )
+        print(sensor_data)
 
     def datastream_update_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "database_update"

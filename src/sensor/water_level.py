@@ -16,13 +16,15 @@ class WaterLevel(Sensor):
     def collect(self, pid_update: bool = True):
         self._status = Status.ENABLED
         MODE = "pid_update" if pid_update else "database_update"
+        val = self.water_level.read_raw(self.WATER_LEVEL_PIN)
+        val = self.map_number(val, 2100, 250, 100, 0)
         pub.sendMessage(
             f"{MODE}.sensor_data.water_level_sensor",
             args=SensorData(
                 time(),
                 self._id,
                 self._type,
-                self.water_level.read_raw(self.WATER_LEVEL_PIN),
+                val,
             ),
         )
 
