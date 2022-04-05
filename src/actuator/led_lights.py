@@ -2,6 +2,7 @@ from tools.status import Status
 from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
+import tools.config as config
 
 
 class LEDLights(Actuator):
@@ -21,7 +22,7 @@ class LEDLights(Actuator):
         self._brightness = 0
         pub.subscribe(
             self.light_status_listener,
-            f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.light_status",
+            f"{Actuator.MAIN_LISTEN_TOPIC}.{config.actuator}.{config.light_status}",
         )
         GPIO.setup(LEDLights.LED_PIN, GPIO.OUT)
 

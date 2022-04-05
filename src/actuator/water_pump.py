@@ -2,6 +2,7 @@ from tools.status import Status
 from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
+import tools.config as config
 
 
 class Waterpump(Actuator):
@@ -21,7 +22,7 @@ class Waterpump(Actuator):
         self._is_on = True
         pub.subscribe(
             self.water_pump_listener,
-            f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.pump_status",
+            f"{Actuator.MAIN_LISTEN_TOPIC}.{config.actuator}.{config.water_pump_status}",
         )
         GPIO.setup(Waterpump.PUMP_PIN, GPIO.OUT)
 

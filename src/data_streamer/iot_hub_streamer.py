@@ -3,10 +3,10 @@ from dotenv import load_dotenv
 from pubsub import pub
 from datetime import datetime
 import os
-
+import tools.config as config
 
 class IoTHubStreamer:
-    sensor_data_topic = "database_update.actuator"
+    sensor_data_topic = config.database_update + "." + config.actuator
     MSG_TEXT = (
         '{{"Timestamp": {timestamp},'
         '"SensorID": {sensor_id},'
