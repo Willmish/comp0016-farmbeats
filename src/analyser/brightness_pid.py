@@ -2,17 +2,18 @@ from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
 import tools.config as config
+from tools.analysis_constants import Analysis_Constants as analysis
 
 class BrightnessPidAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
         super().__init__([config.sensor_data + "." + config.light_sensor])
-        self._p_parameter = 1.2
-        self._i_parameter = 0.5
-        self._d_parameter = 0.001
+        self._p_parameter = analysis.BRIGHTNESS_P
+        self._i_parameter = analysis.BRIGHTNESS_I
+        self._d_parameter = analysis.BRIGHTNESS_D
         self._pid = PID(
             self._p_parameter, self._i_parameter, self._d_parameter
         )
-        self._pid.SetPoint = 270
+        self._pid.SetPoint = analysis.BRIGHTNESS_SETPOINT
 
     def analyser_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = config.pid_update  # TODO move to enum/config file
