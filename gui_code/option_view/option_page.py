@@ -3,6 +3,7 @@ from PIL import Image
 from PIL import ImageTk
 from tools.constants import Constants
 from profile_view.profile_page import ProfilePage
+from settings_view.settings_page import SettingsPage
 from data_streamer.gui_database_manager import GuiDatabaseManager
 
 
@@ -10,13 +11,13 @@ class OptionPage:
     def __init__(
         self,
         option_frame,
-        profile_frame,
+        main_frame,
         label_frame,
         label,
         db: GuiDatabaseManager,
     ):
         self.option_frame = option_frame
-        self.profile_frame = profile_frame
+        self.main_frame = main_frame
         self.label_frame = label_frame
         self.label = label
         self._db_manager: GuiDatabaseManager = db
@@ -162,7 +163,7 @@ class OptionPage:
         self.option_frame.pack_forget()
         ProfilePage(
             "Temperature",
-            self.profile_frame,
+            self.main_frame,
             self.label_frame,
             self.label,
             self.option_frame,
@@ -173,7 +174,7 @@ class OptionPage:
         self.option_frame.pack_forget()
         ProfilePage(
             "Humidity",
-            self.profile_frame,
+            self.main_frame,
             self.label_frame,
             self.label,
             self.option_frame,
@@ -184,7 +185,7 @@ class OptionPage:
         self.option_frame.pack_forget()
         ProfilePage(
             "Brightness",
-            self.profile_frame,
+            self.main_frame,
             self.label_frame,
             self.label,
             self.option_frame,
@@ -196,7 +197,7 @@ class OptionPage:
         self.option_frame.pack_forget()
         ProfilePage(
             "Water Level",
-            self.profile_frame,
+            self.main_frame,
             self.label_frame,
             self.label,
             self.option_frame,
@@ -207,4 +208,7 @@ class OptionPage:
         self.label.config(text="AI Camera Button Clicked")
 
     def sys_visual_button_action(self):
-        self.label.config(text="System Visualisation Button Clicked")
+        self.option_frame.pack_forget()
+        SettingsPage(
+            self.main_frame, self.label_frame, self.label, self.option_frame
+        )

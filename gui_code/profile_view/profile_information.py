@@ -134,7 +134,7 @@ class ProfileInformation:
                     "water_level"
                 )
             )
-            
+
         self.actuator_value_description = (
             "Actuator Value set to: \n" + str(self.actuator_value) + self.unit
         )
@@ -192,17 +192,17 @@ class ProfileInformation:
             )
         elif profile_name == "Water Level":
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
-                "water_level"#"soil moisture"
+                "water_level"  # "soil moisture"
             )
             self.water_level_value = (
-                self._db_manager.get_curr_val_single_subsys(
-                    "water_level"
-                )
+                self._db_manager.get_curr_val_single_subsys("water_level")
             )
             (
                 self.val_list,
                 self.time_list,
-            ) = self._db_manager.get_time_and_val_list("water_level")#"soil moisture")
+            ) = self._db_manager.get_time_and_val_list(
+                "water_level"
+            )  # "soil moisture")
             self.actuator_value = (
                 self._db_manager.get_curr_actuation_val_single_subsys(
                     "soil moisture"

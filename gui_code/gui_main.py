@@ -12,15 +12,15 @@ class FarmBeatsApp:
         self.label = None
         self.label_frame_setup()
         self.option_frame = Frame(self.main, bg="white")
-        self.profile_frame = Frame(self.main, bg="white")
         self._db_manager: GuiDatabaseManager = db
         OptionPage(
             self.option_frame,
-            self.profile_frame,
+            self.main,
             self.label_frame,
             self.label,
             self._db_manager,
         )
+        self.reset_plant_profile()
 
     def label_frame_setup(self):
         self.label = Label(self.label_frame, text="IoT FarmBeats", width=60)
@@ -29,6 +29,11 @@ class FarmBeatsApp:
         )
         self.label.pack()
         self.label_frame.pack()
+
+    def reset_plant_profile(self):
+        with open("tools/default_plant_profile_info.ini", "r") as input:
+            with open("tools/plant_profile_info.ini", "w+") as f:
+                f.write(input.read())
 
 
 def main():
@@ -39,7 +44,6 @@ def main():
             root.config(bg=Constants.BACKGROUND.value)
             root.resizable(False, False)
             FarmBeatsApp(root, db)
-
             root.mainloop()
     except KeyboardInterrupt:
         return

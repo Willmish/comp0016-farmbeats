@@ -8,9 +8,11 @@ def get_list(string):
     else:
         return []
 
+
 config = configparser.ConfigParser()
 config.read("tools/plant_profile_info.ini")
 plant_info = config["Plant Information"]
+name = plant_info["name"]
 brightness_extr = get_list(plant_info["brightness_extr"])
 brightness_bound = get_list(plant_info["brightness_bound"])
 brightness_unit = plant_info["brightness_unit"]

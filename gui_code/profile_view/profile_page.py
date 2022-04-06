@@ -19,7 +19,7 @@ class ProfilePage:
     def __init__(
         self,
         profile_name,
-        profile_frame,
+        main_frame,
         title_frame,
         label,
         option_frame,
@@ -29,10 +29,8 @@ class ProfilePage:
         """__init__ Displays profile page.
         :param profile_name:
         :type profile_name: Str
-        :param profile_frame:
-        :type profile_frame: Frame
-        :param title_frame:
-        :type title_frame: Frame
+        :param main_frame:
+        :type main_frame: Frame
         :param title_frame:
         :type title_frame: Frame
         :param label:
@@ -45,7 +43,7 @@ class ProfilePage:
 
         self.profile = ProfileInformation(profile_name, db)
         self.option_frame = option_frame
-        self.profile_frame = profile_frame
+        self.profile_frame = Frame(main_frame, bg="white")
         self.label_frame = title_frame
         self.label = label
         self._db_manager: GuiDatabaseManager = db
@@ -234,9 +232,9 @@ class ProfilePage:
     def animate(self, i):
         """
         animate is the method called by FuncAnimation
-        constantly update graph every time interval. 
-        This function also updates live displayed 
-        sensor and actuator values as well.
+        constantly update graph every time interval.
+        This function also updates live displayed sensor
+         and actuator values as well.
         """
         if (
             time.time() - self.time_since_update
@@ -250,15 +248,13 @@ class ProfilePage:
             if self.is_water:
                 water_level = self.get_water_level()
                 self.water_scale.update(water_level)
-                self.water_level_title.config(text="Water Level: " + str(water_level) + "%")
+                self.water_level_title.config(
+                    text="Water Level: " + str(water_level) + "%"
+                )
             self.curr_actuator_value_label.config(
                 text=self.profile.actuator_value_description
             )
             self.msg.config(text=self.profile.suggestion)
-            # print(self.profile.sensor_value_description)
-            # print(self.profile.actuator_value_description)
-            # if len(self.profile.time_list) > 0:
-            #     print("time: " + str(self.profile.time_list[-1]))
             self.time_since_update = time.time()
         if len(self.profile.time_list) < ProfilePage.NUM_OF_DATA:
             xar = self.profile.time_list
@@ -369,12 +365,11 @@ class ProfilePage:
                 rowspan=2,
             )
 
-
     def get_water_level(self):
         if self.profile.water_level_value:
-            if self.profile.water_level_value >100:
+            if self.profile.water_level_value > 100:
                 return 100
-            elif self.profile.water_level_value <0:
+            elif self.profile.water_level_value < 0:
                 return 0
             else:
                 return self.profile.water_level_value
@@ -386,7 +381,6 @@ class ProfilePage:
         water_level_frame_setup sets up the extra water
         level frame for the water level subsystem
         """
-
 
         water_level_frame = Frame(
             self.profile_frame, bg=Constants.BACKGROUND.value

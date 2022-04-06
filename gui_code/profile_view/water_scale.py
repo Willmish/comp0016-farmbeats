@@ -43,7 +43,7 @@ class WaterScale:
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             width=0,
         )
-        
+
         self.draw_scale()
 
         self.scale_canvas.create_text(
@@ -85,9 +85,9 @@ class WaterScale:
             sticky="news",
             padx=Constants.PADDING.value,
         )
-    
+
     def draw_scale(self):
-        pass # TODO redraw all elements so it looks the smae
+        pass  # TODO redraw all elements so it looks the smae
         self.water_level_rect = self.scale_canvas.create_rectangle(
             WaterScale.X_OFFSET,
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
@@ -121,7 +121,6 @@ class WaterScale:
             width=WaterScale.LINE_WIDTH,
         )
 
-
     def update(self, new_value):
         """
         update allows the scale to update
@@ -138,6 +137,3 @@ class WaterScale:
         self.scale_canvas.delete(self.bottom_line)
         self.length = self.calculate_water_level_length(new_value)
         self.draw_scale()
-
-        
-
