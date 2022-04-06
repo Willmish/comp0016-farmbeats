@@ -48,9 +48,7 @@ class ProfileInformation:
                 self.sensor_value = db.get_curr_val_single_subsys("humidity")
                 self.unit = "%"
                 self.sensor_value_description = (
-                    "Current value: "
-                    + str(self.sensor_value)
-                    + self.unit
+                    "Current value: " + str(self.sensor_value) + self.unit
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
@@ -76,14 +74,13 @@ class ProfileInformation:
 
             elif profile_name == "Temperature":
                 self.sensor_frame_title = "DH11 Sensor Information"
-                self.sensor_value = \
-                    db.get_curr_val_single_subsys("temperature")
+                self.sensor_value = db.get_curr_val_single_subsys(
+                    "temperature"
+                )
 
                 self.unit = "°c"
                 self.sensor_value_description = (
-                    "Current value: "
-                    + str(self.sensor_value)
-                    + self.unit
+                    "Current value: " + str(self.sensor_value) + self.unit
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
@@ -97,22 +94,18 @@ class ProfileInformation:
                 self.actuator_frame_title = "Heater Information"
                 self.actuator_value = ACTUATION
                 self.actuator_value_description = (
-                    "Heater set to: \n"
-                    + str(self.actuator_value)
-                    + self.unit
+                    "Heater set to: \n" + str(self.actuator_value) + self.unit
                 )
 
                 self.suggestion = MESSAGE
             elif profile_name == "Water":
-                self.sensor_frame_title = \
-                    "Soil moisture Sensor Information"
-                self.sensor_value = \
-                    db.get_curr_val_single_subsys("water level")
+                self.sensor_frame_title = "Soil moisture Sensor Information"
+                self.sensor_value = db.get_curr_val_single_subsys(
+                    "water level"
+                )
                 self.unit = "%"
                 self.sensor_value_description = (
-                    "Current value: "
-                    + str(self.sensor_value)
-                    + self.unit
+                    "Current value: " + str(self.sensor_value) + self.unit
                 )
 
                 # [extreme_lower, lower, upper, extreme_upper]
