@@ -34,7 +34,7 @@ class FarmBeatsApp:
 def main():
     with GuiDatabaseManager() as db:
         root = Tk()
-        root.geometry("900x600")
+        root.geometry("1200x600")
         root.config(bg=Constants.BACKGROUND.value)
         root.resizable(False, False)
         FarmBeatsApp(root, db)
