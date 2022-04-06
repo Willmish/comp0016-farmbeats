@@ -234,7 +234,9 @@ class ProfilePage:
     def animate(self, i):
         """
         animate is the method called by FuncAnimation
-        constantly update graph every time interval.
+        constantly update graph every time interval. 
+        This function also updates live displayed 
+        sensor and actuator values as well.
         """
         if (
             time.time() - self.time_since_update
@@ -272,7 +274,7 @@ class ProfilePage:
             self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1]
         )
         self.axs.set(
-            xlabel="Time (ms)",
+            xlabel="Time (HH:MM)",
             ylabel=self.profile.title + " (" + self.profile.unit + ")",
             title=self.profile.graph_title,
         )

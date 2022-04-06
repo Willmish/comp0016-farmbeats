@@ -45,9 +45,6 @@ class ProfileInformation:
                     "brightness"
                 )
             )
-            self.actuator_value_description = (
-                "Brightness set to: \n" + str(self.actuator_value) + self.unit
-            )
 
         elif profile_name == "Humidity":
             self.sensor_frame_title = "DH11 Sensor Information"
@@ -77,15 +74,6 @@ class ProfileInformation:
                     "humidity"
                 )
             )
-            self.actuator_value_description = (
-                "Input speed set to: \n"
-                + str(self.actuator_value)
-                + self.unit
-                + "\n Output speed set to: "
-                + str(self.actuator_value)
-                + self.unit
-            )
-
         elif profile_name == "Temperature":
             self.sensor_frame_title = "DH11 Sensor Information"
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
@@ -114,9 +102,6 @@ class ProfileInformation:
                 self._db_manager.get_curr_actuation_val_single_subsys(
                     "temperature"
                 )
-            )
-            self.actuator_value_description = (
-                "Heater set to: \n" + str(self.actuator_value) + self.unit
             )
         elif profile_name == "Water Level":
             self.sensor_frame_title = "Soil moisture Sensor Information"
@@ -149,11 +134,10 @@ class ProfileInformation:
                     "water_level"
                 )
             )
-            self.actuator_value_description = (
-                "Amount of water added: \n"
-                + str(self.actuator_value)
-                + self.unit
-            )
+            
+        self.actuator_value_description = (
+            "Actuator Value set to: \n" + str(self.actuator_value) + self.unit
+        )
         self.suggestion = MessageManager(
             profile_name, self.get_status()
         ).message
