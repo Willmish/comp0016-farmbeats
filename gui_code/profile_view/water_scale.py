@@ -43,38 +43,9 @@ class WaterScale:
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
             width=0,
         )
-        self.water_level_rect = self.scale_canvas.create_rectangle(
-            WaterScale.X_OFFSET,
-            WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
-            WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET,
-            WaterScale.CONTAINER_HEIGHT - self.length + WaterScale.Y_OFFSET,
-            fill=Constants.BLUE_RGB.value,
-            width=0,
-        )
-        self.scale_canvas.create_line(
-            WaterScale.X_OFFSET,
-            WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
-            WaterScale.X_OFFSET,
-            WaterScale.Y_OFFSET,
-            fill="black",
-            width=3,
-        )
-        self.scale_canvas.create_line(
-            WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET - 1,
-            WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
-            WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET - 1,
-            WaterScale.Y_OFFSET,
-            fill="black",
-            width=WaterScale.LINE_WIDTH,
-        )
-        self.scale_canvas.create_line(
-            WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET,
-            WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
-            WaterScale.X_OFFSET,
-            WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
-            fill="black",
-            width=WaterScale.LINE_WIDTH,
-        )
+        
+        self.draw_scale()
+
         self.scale_canvas.create_text(
             WaterScale.CONTAINER_WIDTH
             + (2 * WaterScale.X_OFFSET)
@@ -115,8 +86,40 @@ class WaterScale:
             padx=Constants.PADDING.value,
         )
     
-    def redraw_scale(self):
+    def draw_scale(self):
         pass # TODO redraw all elements so it looks the smae
+        self.water_level_rect = self.scale_canvas.create_rectangle(
+            WaterScale.X_OFFSET,
+            WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
+            WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET,
+            WaterScale.CONTAINER_HEIGHT - self.length + WaterScale.Y_OFFSET,
+            fill=Constants.BLUE_RGB.value,
+            width=0,
+        )
+        self.left_line = self.scale_canvas.create_line(
+            WaterScale.X_OFFSET,
+            WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
+            WaterScale.X_OFFSET,
+            WaterScale.Y_OFFSET,
+            fill="black",
+            width=3,
+        )
+        self.right_line = self.scale_canvas.create_line(
+            WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET - 1,
+            WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
+            WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET - 1,
+            WaterScale.Y_OFFSET,
+            fill="black",
+            width=WaterScale.LINE_WIDTH,
+        )
+        self.bottom_line = self.scale_canvas.create_line(
+            WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET,
+            WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
+            WaterScale.X_OFFSET,
+            WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
+            fill="black",
+            width=WaterScale.LINE_WIDTH,
+        )
 
 
     def update(self, new_value):
@@ -130,13 +133,11 @@ class WaterScale:
         if not new_value:
             new_value = 0
         self.scale_canvas.delete(self.water_level_rect)
+        self.scale_canvas.delete(self.left_line)
+        self.scale_canvas.delete(self.right_line)
+        self.scale_canvas.delete(self.bottom_line)
         self.length = self.calculate_water_level_length(new_value)
+        self.draw_scale()
 
-        self.water_level_rect = self.scale_canvas.create_rectangle(
-                    WaterScale.X_OFFSET,
-                    WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
-                    WaterScale.CONTAINER_WIDTH + WaterScale.X_OFFSET,
-                    WaterScale.CONTAINER_HEIGHT - self.length + WaterScale.Y_OFFSET,
-                    fill=Constants.BLUE_RGB.value,
-                    width=0,
-                )
+        
+

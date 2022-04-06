@@ -69,6 +69,8 @@ class ProfilePage:
         self.animation = None
 
         self.sensor_scale = None
+        self.water_scale = None
+        self.water_level_title = None
         self.profile_setup()
 
     def profile_setup(self):
@@ -244,16 +246,17 @@ class ProfilePage:
             )
             self.sensor_scale.update(self.profile.sensor_value)
             if self.is_water:
-                print("AAAAAAAAAAAAAAAAAAAAAAAAA", self.profile.water_level_value)
-                self.water_scale.update(self.profile.water_level_value)
+                water_level = self.get_water_level()
+                self.water_scale.update(water_level)
+                self.water_level_title.config(text="Water Level: " + str(water_level) + "%")
             self.curr_actuator_value_label.config(
                 text=self.profile.actuator_value_description
             )
             self.msg.config(text=self.profile.suggestion)
-            print(self.profile.sensor_value_description)
-            print(self.profile.actuator_value_description)
-            if len(self.profile.time_list) > 0:
-                print("time: " + str(self.profile.time_list[-1]))
+            # print(self.profile.sensor_value_description)
+            # print(self.profile.actuator_value_description)
+            # if len(self.profile.time_list) > 0:
+            #     print("time: " + str(self.profile.time_list[-1]))
             self.time_since_update = time.time()
         if len(self.profile.time_list) < ProfilePage.NUM_OF_DATA:
             xar = self.profile.time_list
@@ -364,18 +367,24 @@ class ProfilePage:
                 rowspan=2,
             )
 
+
+    def get_water_level(self):
+        if self.profile.water_level_value:
+            if self.profile.water_level_value >100:
+                return 100
+            elif self.profile.water_level_value <0:
+                return 0
+            else:
+                return self.profile.water_level_value
+        else:
+            return 0
+
     def water_level_frame_setup(self):
         """
         water_level_frame_setup sets up the extra water
         level frame for the water level subsystem
         """
 
-        if self.profile.water_level_value:
-            water_level_value = (
-                self.profile.water_level_value
-            )
-        else:
-            water_level_value = 0
 
         water_level_frame = Frame(
             self.profile_frame, bg=Constants.BACKGROUND.value
@@ -385,28 +394,30 @@ class ProfilePage:
         water_level_frame.grid_rowconfigure(1, weight=3)
         water_level_frame.grid_rowconfigure(2, weight=1)
 
-        water_level_title = Label(
+        water_level = self.get_water_level()
+
+        self.water_level_title = Label(
             water_level_frame,
-            text="Water Level: " + str(water_level_value) + "%",
+            text="Water Level: " + str(water_level) + "%",
         )
 
-        water_level_title.config(
+        self.water_level_title.config(
             background=Constants.BACKGROUND.value,
             font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
 
-        water_level_title.grid(
+        self.water_level_title.grid(
             row=0, column=0, sticky="news", padx=Constants.PADDING.value
         )
 
-        self.water_scale = WaterScale(water_level_frame, water_level_value)
+        self.water_scale = WaterScale(water_level_frame, water_level)
 
-        water_level_title.config(
+        self.water_level_title.config(
             background=Constants.BACKGROUND.value,
             font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
 
-        water_level_title.grid(
+        self.water_level_title.grid(
             row=0, column=0, sticky="news", padx=Constants.PADDING.value
         )
 

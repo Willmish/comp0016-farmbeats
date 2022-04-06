@@ -22,7 +22,7 @@ class ProfileInformation:
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "brightness"
             )
-            self.unit = "cd"
+            self.unit = config.brightness_unit
             self.sensor_value_description = (
                 "Current value: " + str(self.sensor_value) + self.unit
             )
@@ -54,7 +54,7 @@ class ProfileInformation:
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "humidity"
             )
-            self.unit = "%"
+            self.unit = config.humidity_unit
             self.sensor_value_description = (
                 "Current value: " + str(self.sensor_value) + self.unit
             )
@@ -92,7 +92,7 @@ class ProfileInformation:
                 "temperature"
             )
 
-            self.unit = "°c"
+            self.unit = config.temperature_unit
             self.sensor_value_description = (
                 "Current value: " + str(self.sensor_value) + self.unit
             )
@@ -123,7 +123,7 @@ class ProfileInformation:
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "soil moisture"
             )
-            self.unit = "%"
+            self.unit = config.water_level_unit
             self.sensor_value_description = (
                 "Current value: " + str(self.sensor_value) + self.unit
             )
