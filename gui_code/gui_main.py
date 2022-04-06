@@ -32,14 +32,17 @@ class FarmBeatsApp:
 
 
 def main():
-    with GuiDatabaseManager() as db:
-        root = Tk()
-        root.geometry("1200x600")
-        root.config(bg=Constants.BACKGROUND.value)
-        root.resizable(False, False)
-        FarmBeatsApp(root, db)
+    try:
+        with GuiDatabaseManager() as db:
+            root = Tk()
+            root.geometry("1200x600")
+            root.config(bg=Constants.BACKGROUND.value)
+            root.resizable(False, False)
+            FarmBeatsApp(root, db)
 
-        root.mainloop()
+            root.mainloop()
+    except KeyboardInterrupt:
+        return
 
 
 if __name__ == "__main__":
