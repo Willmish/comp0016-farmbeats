@@ -106,7 +106,7 @@ class ProfileInformation:
         elif profile_name == "Water Level":
             self.sensor_frame_title = "Soil moisture Sensor Information"
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
-                "soil moisture"
+                "soil_moisture"
             )
             self.unit = config.water_level_unit
             self.sensor_value_description = (
@@ -121,17 +121,17 @@ class ProfileInformation:
             self.bound = config.water_level_bound
 
             self.time_list = self._db_manager.get_time_and_val_list(
-                "water_level"
+                "soil_moisture"
             )[1]
             self.val_list = self._db_manager.get_time_and_val_list(
-                "water_level"
+                "soil_moisture"
             )[0]
             self.graph_title = "Soil Moisture over Time"
 
             self.actuator_frame_title = "Sprinkler Information"
             self.actuator_value = (
                 self._db_manager.get_curr_actuation_val_single_subsys(
-                    "water_level"
+                    "soil_moisture"
                 )
             )
 
@@ -192,7 +192,7 @@ class ProfileInformation:
             )
         elif profile_name == "Water Level":
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
-                "water_level"  # "soil moisture"
+                "soil_moisture"
             )
             self.water_level_value = (
                 self._db_manager.get_curr_val_single_subsys("water_level")
@@ -200,12 +200,10 @@ class ProfileInformation:
             (
                 self.val_list,
                 self.time_list,
-            ) = self._db_manager.get_time_and_val_list(
-                "water_level"
-            )  # "soil moisture")
+            ) = self._db_manager.get_time_and_val_list("soil_moisture")
             self.actuator_value = (
                 self._db_manager.get_curr_actuation_val_single_subsys(
-                    "soil moisture"
+                    "soil_moisture"
                 )
             )
         self.sensor_value_description = (

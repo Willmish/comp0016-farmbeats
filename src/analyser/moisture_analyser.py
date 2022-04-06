@@ -31,11 +31,14 @@ class MoisturePidAnalyser(Analyser):
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.water_pump_status", args=1.0
         )  # pump on
+        print("SLEEEP SLEEP TIME:",output*clock)
+        """
         time.sleep(output * clock)
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.water_pump_status", args=0
         )  # pump off
         time.sleep(clock - (output * clock))
+        """
 
     def datastream_update_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "database_update"
