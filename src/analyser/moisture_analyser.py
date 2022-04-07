@@ -1,7 +1,6 @@
 from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
-import time
 
 
 class MoisturePidAnalyser(Analyser):
@@ -31,7 +30,7 @@ class MoisturePidAnalyser(Analyser):
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.water_pump_status", args=1.0
         )  # pump on
-        print("SLEEEP SLEEP TIME:",output*clock)
+        print("SLEEEP SLEEP TIME:", output * clock)
         """
         time.sleep(output * clock)
         pub.sendMessage(

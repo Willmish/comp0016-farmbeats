@@ -9,7 +9,9 @@ class WaterLevelAnalyser(Analyser):
     def analyser_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "pid_update"  # TODO move to enum/config file
         # 670-2100
-        water_level = args.sensor_value #round(((args.sensor_value * 3300) / 1024), 0)
+        water_level = (
+            args.sensor_value
+        )  # round(((args.sensor_value * 3300) / 1024), 0)
         sensor_data = args
         if water_level < 50:
             # Send info to gui
