@@ -10,12 +10,12 @@ class FarmBeatsApp:
     instantiated whenever the user starts the app.
     """
 
-    def __init__(self, master, db: GuiDatabaseManager):
+    def __init__(self, master: Tk, db: GuiDatabaseManager):
         """
         __init__ creates an instance of FarmBeatsApp.
 
         :param master: This is the root window of the GUI.
-        :type master: TK
+        :type master: Tk
         :param db: Azure database to access data from
             sensors and actuators.
         :type db: GuiDatabaseManager
