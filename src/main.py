@@ -8,13 +8,13 @@ from sensor.light_sensor import LightSensor
 from analyser.brightness_pid import BrightnessPidAnalyser
 from actuator.led_lights import LEDLights
 
-# from sensor.soil_moisture import MoistureSensor
+from sensor.soil_moisture import SoilMoistureSensor
 from sensor.water_level import WaterLevel
 from analyser.water_level_analyser import WaterLevelAnalyser
 
-# from analyser.moisture_analyser import MoisturePidAnalyser
+from analyser.temperature_analyser import TemperatureAnalyser
 
-# from analyser.water_pid import MoisturePidAnalyser
+from analyser.moisture_analyser import MoisturePidAnalyser
 
 # from data_streamer.database_manager import DatabaseManager
 from data_streamer.iot_hub_streamer import IoTHubStreamer
@@ -48,12 +48,14 @@ if __name__ == "__main__":
         humidity_pid = HumidityPidAnalyser()
         brightness_pid = BrightnessPidAnalyser()
         water_level_analyser = WaterLevelAnalyser()
-        # water_pid = MoisturePidAnalyser()
+        temperature_analyser = TemperatureAnalyser()
+        moisture_analyser = MoisturePidAnalyser()
 
         # Sensor objects
-        dht11Sensor = DHT11(sensor_id=1)
-        water_level = WaterLevel(sensor_id=2)
         light_sensor = LightSensor(sensor_id=0)
+        dht11_sensor = DHT11(sensor_id=1)
+        water_level = WaterLevel(sensor_id=2)
+        moisture_sensor = SoilMoistureSensor(sensor_id=3)
 
         # pub.subscribe(dummy_listener, "database_update")
         # pub.subscribe(dummy_listener_pid, "pid_update")
@@ -71,9 +73,10 @@ if __name__ == "__main__":
                     )
                     time_since_db_update = time()
                     PID_UPDATE = False
-                dht11Sensor.collect(PID_UPDATE)
+                dht11_sensor.collect(PID_UPDATE)
                 light_sensor.collect(PID_UPDATE)
                 water_level.collect(PID_UPDATE)
+                moisture_sensor.collect(PID_UPDATE)
                 fans.actuate()
                 PID_UPDATE = True
                 sleep(PID_CLOCK_SPEED)

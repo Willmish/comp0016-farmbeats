@@ -1,20 +1,26 @@
 from profile_view.message_manager import MessageManager
 from data_streamer.gui_database_manager import GuiDatabaseManager
 from tools.constants import Constants
-import tools.config as config
+from tools.config import Config
 
 
 class ProfileInformation:
-    def __init__(self, profile_name, db: GuiDatabaseManager):
-        """
-        __init__ creates a profile that allows
-        GUI to access profile information for each subsystem.
+    """
+    ProfileInformation creates a profile that allows
+    GUI to access profile information for each subsystem.
+    """
 
-        :param profile_name:
-        :type profile_name: Str
-        :param db:
+    def __init__(self, profile_name: str, db: GuiDatabaseManager):
+        """
+        __init__ creates a ProfileInformation instance.
+
+        :param profile_name: Name of subsystem selected.
+        :type profile_name: str
+        :param db: Instance of GuiDatabaseManager used to
+            communicate with the azure database.
         :type db: GuiDatabaseManager
         """
+        config = Config()
         self.title = profile_name
         self._db_manager: GuiDatabaseManager() = db
         if profile_name == "Brightness":
@@ -22,12 +28,11 @@ class ProfileInformation:
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "brightness"
             )
-            self.unit = "cd"
+            self.unit = config.brightness_unit
             self.sensor_value_description = (
                 "Current value: " + str(self.sensor_value) + self.unit
             )
 
-            # [extreme_lower, lower, upper, extreme_upper]
             self.extr = config.brightness_extr
             self.bound = config.brightness_bound
 
@@ -45,21 +50,17 @@ class ProfileInformation:
                     "brightness"
                 )
             )
-            self.actuator_value_description = (
-                "Brightness set to: \n" + str(self.actuator_value) + self.unit
-            )
 
         elif profile_name == "Humidity":
             self.sensor_frame_title = "DH11 Sensor Information"
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "humidity"
             )
-            self.unit = "%"
+            self.unit = config.humidity_unit
             self.sensor_value_description = (
                 "Current value: " + str(self.sensor_value) + self.unit
             )
 
-            # [extreme_lower, lower, upper, extreme_upper]
             self.extr = config.humidity_extr
             self.bound = config.humidity_bound
 
@@ -77,27 +78,17 @@ class ProfileInformation:
                     "humidity"
                 )
             )
-            self.actuator_value_description = (
-                "Input speed set to: \n"
-                + str(self.actuator_value)
-                + self.unit
-                + "\n Output speed set to: "
-                + str(self.actuator_value)
-                + self.unit
-            )
-
         elif profile_name == "Temperature":
             self.sensor_frame_title = "DH11 Sensor Information"
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "temperature"
             )
 
-            self.unit = "°c"
+            self.unit = config.temperature_unit
             self.sensor_value_description = (
                 "Current value: " + str(self.sensor_value) + self.unit
             )
 
-            # [extreme_lower, lower, upper, extreme_upper]
             self.extr = config.temperature_extr
             self.bound = config.temperature_bound
 
@@ -115,15 +106,12 @@ class ProfileInformation:
                     "temperature"
                 )
             )
-            self.actuator_value_description = (
-                "Heater set to: \n" + str(self.actuator_value) + self.unit
-            )
-        elif profile_name == "Water Level":
+        elif profile_name == "Soil Moisture":
             self.sensor_frame_title = "Soil moisture Sensor Information"
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
-                "soil moisture"
+                "soil_moisture"
             )
-            self.unit = "%"
+            self.unit = config.water_level_unit
             self.sensor_value_description = (
                 "Current value: " + str(self.sensor_value) + self.unit
             )
@@ -131,40 +119,38 @@ class ProfileInformation:
                 self._db_manager.get_curr_val_single_subsys("water_level")
             )
 
-            # [extreme_lower, lower, upper, extreme_upper]
             self.extr = config.water_level_extr
             self.bound = config.water_level_bound
 
             self.time_list = self._db_manager.get_time_and_val_list(
-                "water level"
+                "soil_moisture"
             )[1]
             self.val_list = self._db_manager.get_time_and_val_list(
-                "water level"
+                "soil_moisture"
             )[0]
             self.graph_title = "Soil Moisture over Time"
 
             self.actuator_frame_title = "Sprinkler Information"
             self.actuator_value = (
                 self._db_manager.get_curr_actuation_val_single_subsys(
-                    "water_level"
+                    "soil_moisture"
                 )
             )
-            self.actuator_value_description = (
-                "Amount of water added: \n"
-                + str(self.actuator_value)
-                + self.unit
-            )
+
+        self.actuator_value_description = (
+            "Actuator Value set to: \n" + str(self.actuator_value) + self.unit
+        )
         self.suggestion = MessageManager(
             profile_name, self.get_status()
         ).message
 
-    def update_from_db(self, profile_name):
+    def update_from_db(self, profile_name: str):
         """
         update_from_db allows information to be
         up to date with the database.
 
-        :param profile_name:
-        :type profile_name: Str
+        :param profile_name: Name of subsystem selected.
+        :type profile_name: str
         """
 
         if profile_name == "Brightness":
@@ -206,22 +192,20 @@ class ProfileInformation:
                     "temperature"
                 )
             )
-        elif profile_name == "Water Level":
+        elif profile_name == "Soil Moisture":
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
-                "soil moisture"
+                "soil_moisture"
             )
             self.water_level_value = (
-                self._db_manager.get_curr_actuation_val_single_subsys(
-                    "water_level"
-                )
+                self._db_manager.get_curr_val_single_subsys("water_level")
             )
             (
                 self.val_list,
                 self.time_list,
-            ) = self._db_manager.get_time_and_val_list("soil moisture")
+            ) = self._db_manager.get_time_and_val_list("soil_moisture")
             self.actuator_value = (
                 self._db_manager.get_curr_actuation_val_single_subsys(
-                    "water_level"
+                    "soil_moisture"
                 )
             )
         self.sensor_value_description = (
@@ -234,10 +218,14 @@ class ProfileInformation:
             profile_name, self.get_status()
         ).message
 
-    def get_status(self):
+    def get_status(self) -> int:
         """
         get_status returns the state for the message
         manager to output the correct message.
+
+        :return: Integer representing whether status
+            is green, red or amber.
+        :rtype: int
         """
         if self.sensor_value:
             if self.sensor_value < self.extr[0]:
