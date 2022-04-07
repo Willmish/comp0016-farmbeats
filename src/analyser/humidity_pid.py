@@ -17,7 +17,7 @@ class HumidityPidAnalyser(Analyser):
         self._pid.SetPoint = analysis.HUMIDITY_SETPOINT
 
     def analyser_listener(self, args, rest=None):
-        MAIN_PUBSUB_TOPIC = config.pid_update # TODO move to enum/config file
+        MAIN_PUBSUB_TOPIC = config.pid_update  # TODO move to enum/config file
         humidity = args.sensor_value
         sensor_data = args
         feedback = humidity
@@ -29,7 +29,8 @@ class HumidityPidAnalyser(Analyser):
         sensor_data.actuator_value = output
 
         pub.sendMessage(
-            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.fans_status}", args=sensor_data
+            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.fans_status}",
+            args=sensor_data,
         )
 
     def datastream_update_listener(self, args, rest=None):
@@ -46,5 +47,6 @@ class HumidityPidAnalyser(Analyser):
 
         print("DB update: ", sensor_data)
         pub.sendMessage(
-            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.fans_status}", args=sensor_data
+            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.fans_status}",
+            args=sensor_data,
         )

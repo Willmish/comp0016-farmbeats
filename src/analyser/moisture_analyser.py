@@ -5,9 +5,12 @@ import time
 import tools.config as config
 from tools.analysis_constants import Analysis_Constants as analysis
 
+
 class MoisturePidAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
-        super().__init__([config.sensor_data + "." + config.soil_moisture_sensor])
+        super().__init__(
+            [config.sensor_data + "." + config.soil_moisture_sensor]
+        )
         self._p_parameter = analysis.MOISTURE_P
         self._i_parameter = analysis.MOISTURE_I
         self._d_parameter = analysis.MOISTURE_D
@@ -30,11 +33,15 @@ class MoisturePidAnalyser(Analyser):
         # monitor/on/off state)
         clock = 5
         pub.sendMessage(
-            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.water_pump_status}", args=1.0
+            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}" +
+            f".{config.water_pump_status}",
+            args=1.0,
         )  # pump on
         time.sleep(output * clock)
         pub.sendMessage(
-            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.water_pump_status}", args=0
+            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}" +
+            f".{config.water_pump_status}",
+            args=0,
         )  # pump off
         time.sleep(clock - (output * clock))
 
@@ -46,5 +53,7 @@ class MoisturePidAnalyser(Analyser):
         # TODO either change to send the on off status (will be inaccurate)
         # , or see issue #55
         pub.sendMessage(
-            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.water_pump_status}", args=sensor_data
+            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}" +
+            f".{config.water_pump_status}",
+            args=sensor_data,
         )

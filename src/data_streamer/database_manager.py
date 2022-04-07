@@ -2,6 +2,7 @@ import sqlite3
 from pubsub import pub
 import tools.config as config
 
+
 class DatabaseManager:
     sensor_data_topic = "database_update.actuator"
 

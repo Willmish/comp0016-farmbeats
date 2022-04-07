@@ -22,7 +22,8 @@ class LEDLights(Actuator):
         self._brightness = 0
         pub.subscribe(
             self.light_status_listener,
-            f"{Actuator.MAIN_LISTEN_TOPIC}.{config.actuator}.{config.light_status}",
+            f"{Actuator.MAIN_LISTEN_TOPIC}.{config.actuator}" +
+            f".{config.light_status}",
         )
         GPIO.setup(LEDLights.LED_PIN, GPIO.OUT)
 

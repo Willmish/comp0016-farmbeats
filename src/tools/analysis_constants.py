@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Analysis_Constants(Enum):
 
     # Brightness
@@ -19,8 +20,3 @@ class Analysis_Constants(Enum):
     MOISTURE_I = 0.5
     MOISTURE_D = 0.001
     MOISTURE_SETPOINT = 50
-
-
-
-
-

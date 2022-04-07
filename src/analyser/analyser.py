@@ -15,9 +15,12 @@ class Analyser:
         self._id = analyser_id
         for topic in self._sensor_type_topics:
             pub.subscribe(
-                self.datastream_update_listener, config.database_update +"." + topic
+                self.datastream_update_listener,
+                config.database_update + "." + topic,
             )
-            pub.subscribe(self.analyser_listener, config.pid_update + "." + topic)
+            pub.subscribe(
+                self.analyser_listener, config.pid_update + "." + topic
+            )
 
     def analyser_listener(self, args, rest=None):
         pass

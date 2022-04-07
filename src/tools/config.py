@@ -22,4 +22,3 @@ light_status = actuator_status["light_status"]
 fans_status = actuator_status["fans_status"]
 water_level = actuator_status["water_level"]
 water_pump_status = actuator_status["water_pump_status"]
-

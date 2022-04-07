@@ -5,10 +5,12 @@ import tools.config as config
 
 class WaterLevelAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
-        super().__init__([config.sensor_data + "." + config.water_level_sensor])
+        super().__init__(
+            [config.sensor_data + "." + config.water_level_sensor]
+        )
 
     def analyser_listener(self, args, rest=None):
-        MAIN_PUBSUB_TOPIC = config.pid_update # TODO move to enum/config file
+        MAIN_PUBSUB_TOPIC = config.pid_update  # TODO move to enum/config file
         water_level = round(((args.sensor_value * 3300) / 1024), 0)
         sensor_data = args
         if water_level < 50:
@@ -21,7 +23,8 @@ class WaterLevelAnalyser(Analyser):
             -1
         )  # Set actuator to -1 to avoid null values in DB
         pub.sendMessage(
-            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.water_level}", args=sensor_data
+            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.water_level}",
+            args=sensor_data,
         )
 
     def datastream_update_listener(self, args, rest=None):
@@ -29,5 +32,6 @@ class WaterLevelAnalyser(Analyser):
         sensor_data = args
         sensor_data.actuator_value = -1
         pub.sendMessage(
-            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.water_level}", args=sensor_data
+            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.water_level}",
+            args=sensor_data,
         )

@@ -26,7 +26,8 @@ class Fans(Actuator):
         self._fan_out_speed: float = 0.0
         pub.subscribe(
             self.fan_status_listener,
-            f"{Actuator.MAIN_LISTEN_TOPIC}.{config.actuator}.{config.fan_status}",
+            f"{Actuator.MAIN_LISTEN_TOPIC}.{config.actuator}" +
+            f".{config.fan_status}",
         )
         GPIO.setup(Fans.FAN_IN_PIN0, GPIO.OUT)
         GPIO.setup(Fans.FAN_IN_PIN1, GPIO.OUT)

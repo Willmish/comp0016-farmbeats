@@ -5,6 +5,7 @@ from datetime import datetime
 import os
 import tools.config as config
 
+
 class IoTHubStreamer:
     sensor_data_topic = config.database_update + "." + config.actuator
     MSG_TEXT = (

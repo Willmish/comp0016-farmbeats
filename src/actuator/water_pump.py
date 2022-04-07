@@ -22,7 +22,8 @@ class Waterpump(Actuator):
         self._is_on = True
         pub.subscribe(
             self.water_pump_listener,
-            f"{Actuator.MAIN_LISTEN_TOPIC}.{config.actuator}.{config.water_pump_status}",
+            f"{Actuator.MAIN_LISTEN_TOPIC}.{config.actuator}" +
+            f".{config.water_pump_status}",
         )
         GPIO.setup(Waterpump.PUMP_PIN, GPIO.OUT)
 

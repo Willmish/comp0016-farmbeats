@@ -1,8 +1,5 @@
 from distutils.command.config import config
 from tools.status import Status
-import tools.config as config
-
-# Actuator Interface
 
 
 class Actuator:

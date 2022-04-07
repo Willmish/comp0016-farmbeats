@@ -4,6 +4,7 @@ from pid.pid import PID
 import tools.config as config
 from tools.analysis_constants import Analysis_Constants as analysis
 
+
 class BrightnessPidAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
         super().__init__([config.sensor_data + "." + config.light_sensor])
@@ -28,7 +29,8 @@ class BrightnessPidAnalyser(Analyser):
         sensor_data.actuator_value = output
 
         pub.sendMessage(
-            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.light_status}", args=sensor_data
+            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.light_status}",
+            args=sensor_data,
         )
 
     def datastream_update_listener(self, args, rest=None):
@@ -43,5 +45,6 @@ class BrightnessPidAnalyser(Analyser):
         output = max(0, min(output, 100))
         sensor_data.actuator_value = output
         pub.sendMessage(
-            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.light_status}", args=sensor_data
+            f"{MAIN_PUBSUB_TOPIC}.{config.actuator}.{config.light_status}",
+            args=sensor_data,
         )
