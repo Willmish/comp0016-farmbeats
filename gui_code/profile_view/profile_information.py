@@ -5,14 +5,19 @@ import tools.config as config
 
 
 class ProfileInformation:
+    """
+    ProfileInformation creates a profile that allows
+    GUI to access profile information for each subsystem.
+    """
+
     def __init__(self, profile_name, db: GuiDatabaseManager):
         """
-        __init__ creates a profile that allows
-        GUI to access profile information for each subsystem.
+        __init__ creates a ProfileInformation instance.
 
-        :param profile_name:
-        :type profile_name: Str
-        :param db:
+        :param profile_name: Name of subsystem selected.
+        :type profile_name: str
+        :param db: Instance of GuiDatabaseManager used to
+            communicate with the azure database.
         :type db: GuiDatabaseManager
         """
         self.title = profile_name
@@ -27,7 +32,6 @@ class ProfileInformation:
                 "Current value: " + str(self.sensor_value) + self.unit
             )
 
-            # [extreme_lower, lower, upper, extreme_upper]
             self.extr = config.brightness_extr
             self.bound = config.brightness_bound
 
@@ -56,7 +60,6 @@ class ProfileInformation:
                 "Current value: " + str(self.sensor_value) + self.unit
             )
 
-            # [extreme_lower, lower, upper, extreme_upper]
             self.extr = config.humidity_extr
             self.bound = config.humidity_bound
 
@@ -85,7 +88,6 @@ class ProfileInformation:
                 "Current value: " + str(self.sensor_value) + self.unit
             )
 
-            # [extreme_lower, lower, upper, extreme_upper]
             self.extr = config.temperature_extr
             self.bound = config.temperature_bound
 
@@ -103,7 +105,7 @@ class ProfileInformation:
                     "temperature"
                 )
             )
-        elif profile_name == "Water Level":
+        elif profile_name == "Soil Moisture":
             self.sensor_frame_title = "Soil moisture Sensor Information"
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "soil_moisture"
@@ -116,7 +118,6 @@ class ProfileInformation:
                 self._db_manager.get_curr_val_single_subsys("water_level")
             )
 
-            # [extreme_lower, lower, upper, extreme_upper]
             self.extr = config.water_level_extr
             self.bound = config.water_level_bound
 
@@ -147,8 +148,8 @@ class ProfileInformation:
         update_from_db allows information to be
         up to date with the database.
 
-        :param profile_name:
-        :type profile_name: Str
+        :param profile_name: Name of subsystem selected.
+        :type profile_name: str
         """
 
         if profile_name == "Brightness":
@@ -190,7 +191,7 @@ class ProfileInformation:
                     "temperature"
                 )
             )
-        elif profile_name == "Water Level":
+        elif profile_name == "Soil Moisture":
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "soil_moisture"
             )
@@ -216,10 +217,14 @@ class ProfileInformation:
             profile_name, self.get_status()
         ).message
 
-    def get_status(self):
+    def get_status(self) -> int:
         """
         get_status returns the state for the message
         manager to output the correct message.
+
+        :return: Integer representing whether status
+            is green, red or amber.
+        :rtype: int
         """
         if self.sensor_value:
             if self.sensor_value < self.extr[0]:

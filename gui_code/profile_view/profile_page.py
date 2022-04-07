@@ -13,6 +13,11 @@ from data_streamer.gui_database_manager import GuiDatabaseManager
 
 
 class ProfilePage:
+    """
+    Displays profile page with live updated sensor,
+    actuator and suggestion frames.
+    """
+
     NO_XTICKS = 4
     NUM_OF_DATA = 20
 
@@ -26,18 +31,24 @@ class ProfilePage:
         db: GuiDatabaseManager,
     ):
 
-        """__init__ Displays profile page.
-        :param profile_name:
-        :type profile_name: Str
-        :param main_frame:
+        """
+        __init__ creates an instance of ProfilePage.
+
+        :param profile_name: Name of selected subsystem.
+        :type profile_name: str
+        :param main_frame: Parent frame of option_frame.
         :type main_frame: Frame
-        :param title_frame:
+        :param title_frame: A frame that displays setting page
+            title as well as home button.
         :type title_frame: Frame
-        :param label:
-        :type label: Str
-        :param option_frame:
+        :param label: Label to be added to title_frame.
+            showing page title.
+        :type label: str
+        :param option_frame: Option frame, allowing SettingsPage to
+            go back when home button is pressed.
         :type option_frame: Frame
-        :param db:
+        :param db: Instance of GuiDatabaseManager used to
+            communicate with the azure database.
         :type db: GuiDatabaseManager
         """
 
@@ -54,13 +65,11 @@ class ProfilePage:
         self.actuator_frame = None
         self.suggestion_frame = None
 
-        if profile_name == "Water Level":
+        if profile_name == "Soil Moisture":
             self.is_water = True
         else:
             self.is_water = False
 
-        # for graph display
-        self.graph_frame = None
         self.time_since_update = time.time()
         self.fig = None
         self.canvas = None
@@ -73,9 +82,15 @@ class ProfilePage:
 
     def profile_setup(self):
         """
-        profile_setup fills in the profile frame before displaying
+        profile_setup fills in the profile frame with
+        sensor, actuator and suggestion frames. The sensor
+        and actuator scales, graphs and labels should update
+        in regular time intervals. It also adds home button
+        to label_frame for user to navigate back to option page.
         """
         self.label.config(text=self.profile.title)
+
+        # Home button
 
         img = Image.open("assets/homeIcon.png")
         home_icon = ImageTk.PhotoImage(img)
@@ -91,6 +106,8 @@ class ProfilePage:
 
         home_button.pack()
         home_button.place(bordermode=INSIDE, x=5, y=5)
+
+        # sensor_frame set up
 
         for n in range(2):
             self.profile_frame.grid_columnconfigure(n, weight=1)
@@ -174,13 +191,13 @@ class ProfilePage:
 
     def get_xlabels(self, xar, no_xticks):
         """
-        get_xlabels Gets a list of x
+        get_xlabels gets a list of x
         labels for x ticks of graph.
 
-        :param xar:
-        :type xar: list of floats
-        :param no_xticks:
-        :type no_xticks: Int
+        :param xar: List of x values for graph.
+        :type xar: list(float)
+        :param no_xticks: Number of ticks displayed on graph x axis.
+        :type no_xticks: int
         """
         if len(xar) > 0:
             range_seconds = (max(xar) - min(xar)).total_seconds()
@@ -201,9 +218,7 @@ class ProfilePage:
         graph_display displays graph of sensor value
         over time with animated value updates.
         """
-        self.graph_frame = Frame(
-            self.sensor_frame, bg=Constants.BACKGROUND.value
-        )
+        graph_frame = Frame(self.sensor_frame, bg=Constants.BACKGROUND.value)
         y_label = self.profile.title + " (" + self.profile.unit + ")"
         xar = self.profile.time_list[-ProfilePage.NUM_OF_DATA:]
         yar = self.profile.val_list[-ProfilePage.NUM_OF_DATA:]
@@ -215,7 +230,7 @@ class ProfilePage:
         self.axs.set_xticklabels(
             self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1]
         )
-        self.canvas = FigureCanvasTkAgg(self.fig, self.graph_frame)
+        self.canvas = FigureCanvasTkAgg(self.fig, graph_frame)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(pady=15, padx=15)
         self.animation = FuncAnimation(
@@ -227,14 +242,17 @@ class ProfilePage:
             title=self.profile.graph_title,
         )
 
-        self.graph_frame.pack()
+        graph_frame.pack()
 
     def animate(self, i):
         """
         animate is the method called by FuncAnimation
         constantly update graph every time interval.
         This function also updates live displayed sensor
-         and actuator values as well.
+        and actuator values as well.
+
+        :param i: Frame counter.
+        :type i: int
         """
         if (
             time.time() - self.time_since_update
@@ -276,6 +294,14 @@ class ProfilePage:
         )
 
     def home_button_action(self, binst):
+        """
+        home_button_action allows the user to navigate back to option
+        page by changing the title label and swapping profile_frame
+        back to option_frame.
+
+        :param binst: The home button itself.
+        :type binst: Button
+        """
         self.is_water = False
         self.animation.event_source.stop()
         self.profile_frame.pack_forget()
@@ -291,7 +317,9 @@ class ProfilePage:
     def general_actuation_setup(self):
         """
         general_actuation_setup fills in the actuation
-        frame before being added to profile frame.
+        with a label showing current actuation value which
+        updates in regular intervals. It also sets up an extra
+        water level frame if the selected subsystem is Soil Moisture.
         """
         self.actuator_frame = Frame(
             self.profile_frame, bg=Constants.BACKGROUND.value
@@ -366,6 +394,13 @@ class ProfilePage:
             )
 
     def get_water_level(self):
+        """
+        get_water_level gets water level from current profile,
+        ensuring the value is between 0 and 100.
+
+        :return: Current water level.
+        :rtype: Int
+        """
         if self.profile.water_level_value:
             if self.profile.water_level_value > 100:
                 return 100

@@ -5,6 +5,11 @@ from profile_view.profile_information import ProfileInformation
 
 
 class SensorValueScale:
+    """
+    SensorValueScale displays sensor scale to
+    show current sensor value and state.
+    """
+
     OFFSET = 25
     WIDTH = 400
     HEIGHT = 30
@@ -17,10 +22,11 @@ class SensorValueScale:
 
     def __init__(self, profile: ProfileInformation, parent_frame: Frame):
         """
-        __init__ Displays sensor scale to show current sensor value and state.
-        :param profile:
+        __init__ creates a SensorValueScale instance.
+
+        :param profile: Selected subsystem profile.
         :type profile: ProfileInformation
-        :param parent_frame:
+        :param parent_frame: Frame that will contain the scale for display.
         :type parent_frame: Frame
         """
         self.profile = profile
@@ -180,8 +186,9 @@ class SensorValueScale:
         update allows the scale to update
         every time the graph is animated.
 
-        :param new_value:
-        :type new_value: Float
+        :param new_value: New current value to be
+            displayed on scale.
+        :type new_value: float
         """
         if not new_value:
             new_value = 0

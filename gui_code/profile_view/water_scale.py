@@ -4,6 +4,9 @@ from tools.constants import Constants
 
 
 class WaterScale:
+    """
+    WaterScale creates and displays the water scale on water frame.
+    """
 
     CANVAS_HEIGHT = 200
     CANVAS_WIDTH = 80
@@ -15,14 +18,13 @@ class WaterScale:
     TEXT_X_OFFSET = 10
     LINE_WIDTH = 3
 
-    def calculate_water_level_length(self, water_level_value: float) -> float:
-        return (water_level_value / 100) * WaterScale.CONTAINER_HEIGHT
-
     def __init__(self, water_level_frame, water_level_value):
-        """__init__ Creates and displays the water scale on water frame.
-        :param water_level_frame:
+        """
+        __init__ creates a WaterScale instance.
+
+        :param water_level_frame: Frame to contain scale canvas.
         :type water_level_frame: Frame
-        :param water_level_value:
+        :param water_level_value: Current water level percentage value.
         :type water_level_value: float
         """
 
@@ -87,7 +89,6 @@ class WaterScale:
         )
 
     def draw_scale(self):
-        pass  # TODO redraw all elements so it looks the smae
         self.water_level_rect = self.scale_canvas.create_rectangle(
             WaterScale.X_OFFSET,
             WaterScale.CONTAINER_HEIGHT + WaterScale.Y_OFFSET,
@@ -121,13 +122,26 @@ class WaterScale:
             width=WaterScale.LINE_WIDTH,
         )
 
+    def calculate_water_level_length(self, water_level_value: float) -> float:
+        """
+        calculate_water_level_length returns length of line scaled
+        from water_level_value.
+
+        :param water_level_value: Percentage of water level.
+        :type water_level_value: float
+        :return: Scaled value.
+        :rtype: fload
+        """
+        return (water_level_value / 100) * WaterScale.CONTAINER_HEIGHT
+
     def update(self, new_value):
         """
         update allows the scale to update
         every time the graph is animated.
 
-        :param new_value:
-        :type new_value: Float
+        :param new_value: New current value to be
+            displayed on scale.
+        :type new_value: float
         """
         if not new_value:
             new_value = 0

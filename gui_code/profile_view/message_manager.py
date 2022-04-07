@@ -5,12 +5,13 @@ class MessageManager:
     def __init__(self, profile_name, status):
         """
         __init__ creates MessageManager object that will get
-        an appropriate message corresponding with the status.
+        an appropriate message corresponding with profile status.
 
-        :param profile_name:
-        :type profile_name: Str
-        :param status:
-        :type status: Int
+        :param profile_name: Name of subsystem selected.
+        :type profile_name: str
+        :param status: Integer representing whether status
+            is green, red or amber.
+        :type status: int
         """
         self.message = ""
 
@@ -54,14 +55,16 @@ class MessageManager:
                     self.message = "Please decrease the heating a little."
                 elif status == Constants.RED_UPPER.value:
                     self.message = "Please decrease the heating a lot more!"
-            elif profile_name == "Water Level":
+            elif profile_name == "Soil Moisture":
                 if status == Constants.RED_LOWER.value:
                     self.message = "Please add more water!"
                 elif status == Constants.AMBER_LOWER.value:
                     self.message = "Please add a bit more water."
                 elif status == Constants.AMBER_UPPER.value:
-                    self.message = "No need to water." + \
-                                   "The moisture level is a little high."
+                    self.message = (
+                        "No need to water."
+                        + "The moisture level is a little high."
+                    )
                 elif status == Constants.RED_UPPER.value:
                     self.message = (
                         "No need to water. The moisture level is very high."

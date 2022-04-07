@@ -4,15 +4,23 @@ from tools.constants import Constants
 
 
 class SettingsPage:
+    """
+    SettingsPage creates a frame that contains all components that can
+    allow the user to view or change current configuration file.
+    """
+
     def __init__(self, main_frame, title_frame, label, option_frame):
-        """__init__ Displays profile page.
-        :param settings_frame:
-        :type settings_frame: Frame
-        :param title_frame:
+        """__init__ creates an instance of SettingsPage.
+
+        :param main_frame: Parent frame of option_frame.
+        :type main_frame: Frame
+        :param title_frame: A frame that displays setting page
+            title as well as home button.
         :type title_frame: Frame
-        :param label:
-        :type label: Str
-        :param option_frame:
+        :param label: Label to be added to title_frame, showing page title.
+        :type label: Label
+        :param option_frame: Option frame, allowing SettingsPage to
+            go back when home button is pressed.
         :type option_frame: Frame
         """
 
@@ -25,9 +33,14 @@ class SettingsPage:
 
     def page_setup(self):
         """
-        profile_setup fills in the profile frame before displaying
+        page_setup fills in the settings_frame with description labels,
+        current configuration file and button for changing current
+        configuration file. It also adds home button to label_frame
+        for user to navigate back to option page.
         """
         self.label.config(text="System Settings")
+
+        # Home button
 
         img = Image.open("assets/homeIcon.png")
         home_icon = ImageTk.PhotoImage(img)
@@ -43,6 +56,8 @@ class SettingsPage:
 
         home_button.pack()
         home_button.place(bordermode=INSIDE, x=5, y=5)
+
+        # settings_frame set up
 
         for n in range(2):
             self.settings_frame.grid_columnconfigure(n, weight=1)
@@ -108,6 +123,10 @@ class SettingsPage:
         )
 
     def change_file_action(self):
+        """
+        change_file_action allows user to select file to
+        be copied into tools/plant_profile_info.ini.
+        """
         path = filedialog.askopenfilename()
         if len(path) > 0:
             with open(path, "r") as input:
@@ -118,6 +137,13 @@ class SettingsPage:
             self.file_info.config(text=f.read())
 
     def home_button_action(self, binst):
+        """
+        home_button_action allows the settings_frame to be
+        replaced by option_frame, taking user back to option page.
+
+        :param binst: The home button itself.
+        :type binst: Button
+        """
         self.is_water = False
         self.settings_frame.pack_forget()
         self.option_frame.pack(

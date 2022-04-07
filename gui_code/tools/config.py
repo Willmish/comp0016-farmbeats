@@ -1,7 +1,16 @@
 import configparser
 
 
-def get_list(string):
+def get_list(string) -> list(int):
+    """
+    get_list takes a list of type string and
+    returns it as type list of integers.
+
+    :param string: List of type string.
+    :type string: str
+    :return: List of integers converted from string.
+    :rtype: list(int)
+    """
     if len(string) > 0:
         substring = string[1:-1]
         return [int(x) for x in substring.split(",")]
