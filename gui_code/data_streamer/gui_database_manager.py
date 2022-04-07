@@ -1,4 +1,5 @@
-from xmlrpc.client import DateTime
+import datetime
+from typing import List, Tuple
 from data_streamer.database_manager import DatabaseManager
 import os
 from dotenv import load_dotenv
@@ -111,7 +112,7 @@ class GuiDatabaseManager(DatabaseManager):
 
     def get_time_and_val_list(
         self, subsys_name
-    ) -> tuple(list(int), list(DateTime)):
+    ) -> Tuple[List[int], List[datetime.datetime]]:
         """
         get_time_and_val_list gets a list of times and sensor
         values based on the subsystem name.

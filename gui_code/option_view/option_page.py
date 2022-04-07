@@ -109,7 +109,7 @@ class OptionPage:
         )
 
         soil_moisture_img = self.get_menu_button(
-            "assets/optionButtons/waterLevelButton.png"
+            "assets/optionButtons/soilMoistureButton.png"
         )
         soil_moisture_button = Button(
             self.option_frame,
@@ -146,7 +146,7 @@ class OptionPage:
         )
 
         system_img = self.get_menu_button(
-            "assets/optionButtons/systemVisualisationButton.png"
+            "assets/optionButtons/systemSettingsButton.png"
         )
         sysVisualButton = Button(
             self.option_frame,

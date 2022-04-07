@@ -1,7 +1,7 @@
 import configparser
+from typing import List
 
-
-def get_list(string) -> list(int):
+def get_list(string) -> List[int]:
     """
     get_list takes a list of type string and
     returns it as type list of integers.
