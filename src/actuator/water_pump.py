@@ -4,8 +4,8 @@ from pubsub import pub
 import RPi.GPIO as GPIO
 
 
-class Waterpump(Actuator):
-    PUMP_PIN = 10
+class WaterPump(Actuator):
+    PUMP_PIN = 18
 
     def __init__(self, *args, **kwargs):
 
@@ -20,10 +20,10 @@ class Waterpump(Actuator):
         super().__init__("water_pump", args, kwargs)
         self._is_on = True
         pub.subscribe(
-            self.water_pump_listener,
-            f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.pump_status",
+            self.water_pump_status_listener,
+            f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.water_pump_status",
         )
-        GPIO.setup(Waterpump.PUMP_PIN, GPIO.OUT)
+        GPIO.setup(WaterPump.PUMP_PIN, GPIO.OUT)
 
     def activate(self):
         """activate: sets the current status to Status.ENABLED."""
@@ -33,12 +33,13 @@ class Waterpump(Actuator):
         """actuate: dummy actuation function, to be overriden by children."""
         if self._is_on is True:
             print("pump on!")
-            GPIO.output(Waterpump.LED_PIN, GPIO.HIGH)
+            GPIO.output(WaterPump.PUMP_PIN, GPIO.HIGH)
         else:
             print("pump off!")
-            GPIO.output(Waterpump.LED_PIN, GPIO.LOW)
+            GPIO.output(WaterPump.PUMP_PIN, GPIO.LOW)
 
-    def pump_status_listener(self, args, rest=None):
+    def water_pump_status_listener(self, args, rest=None):
         status = args
         print("Received pump vals over pubsub:", status)
-        self._on = status
+        self._is_on = True if status > 0 else False
+        self.actuate()
