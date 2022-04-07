@@ -1,4 +1,4 @@
-from tkinter import Button, BOTH, Frame
+from tkinter import Button, BOTH, Frame, Label
 from PIL import Image
 from PIL import ImageTk
 from tools.constants import Constants
@@ -16,9 +16,9 @@ class OptionPage:
 
     def __init__(
         self,
-        main_frame,
-        title_frame,
-        label,
+        main_frame: Frame,
+        title_frame: Frame,
+        label: Label,
         db: GuiDatabaseManager,
     ):
         """
@@ -165,7 +165,7 @@ class OptionPage:
 
         self.option_frame.pack(expand=True, fill=BOTH, pady=15, padx=15)
 
-    def get_menu_button(self, image_name) -> ImageTk.PhotoImage:
+    def get_menu_button(self, image_name: str) -> ImageTk.PhotoImage:
         """
         get_menu_button gets and resizes the image based on image_name.
 

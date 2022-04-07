@@ -1,5 +1,6 @@
 from datetime import timedelta
 from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT
+from typing import List
 import matplotlib.pyplot as plt
 from profile_view.water_scale import WaterScale
 from profile_view.sensor_value_scale import SensorValueScale
@@ -23,11 +24,11 @@ class ProfilePage:
 
     def __init__(
         self,
-        profile_name,
-        main_frame,
-        title_frame,
-        label,
-        option_frame,
+        profile_name: str,
+        main_frame: Frame,
+        title_frame: Frame,
+        label: Label,
+        option_frame: Frame,
         db: GuiDatabaseManager,
     ):
 
@@ -189,7 +190,7 @@ class ProfilePage:
             padx=Constants.PADDING.value,
         )
 
-    def get_xlabels(self, xar, no_xticks):
+    def get_xlabels(self, xar: List[float], no_xticks):
         """
         get_xlabels gets a list of x
         labels for x ticks of graph.
@@ -244,7 +245,7 @@ class ProfilePage:
 
         graph_frame.pack()
 
-    def animate(self, i):
+    def animate(self, i: int):
         """
         animate is the method called by FuncAnimation
         constantly update graph every time interval.
@@ -293,7 +294,7 @@ class ProfilePage:
             title=self.profile.graph_title,
         )
 
-    def home_button_action(self, binst):
+    def home_button_action(self, binst: Button):
         """
         home_button_action allows the user to navigate back to option
         page by changing the title label and swapping profile_frame

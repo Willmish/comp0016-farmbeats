@@ -1,7 +1,7 @@
 from profile_view.message_manager import MessageManager
 from data_streamer.gui_database_manager import GuiDatabaseManager
 from tools.constants import Constants
-import tools.config as config
+from tools.config import Config
 
 
 class ProfileInformation:
@@ -10,7 +10,7 @@ class ProfileInformation:
     GUI to access profile information for each subsystem.
     """
 
-    def __init__(self, profile_name, db: GuiDatabaseManager):
+    def __init__(self, profile_name: str, db: GuiDatabaseManager):
         """
         __init__ creates a ProfileInformation instance.
 
@@ -20,6 +20,7 @@ class ProfileInformation:
             communicate with the azure database.
         :type db: GuiDatabaseManager
         """
+        config = Config()
         self.title = profile_name
         self._db_manager: GuiDatabaseManager() = db
         if profile_name == "Brightness":
@@ -143,7 +144,7 @@ class ProfileInformation:
             profile_name, self.get_status()
         ).message
 
-    def update_from_db(self, profile_name):
+    def update_from_db(self, profile_name: str):
         """
         update_from_db allows information to be
         up to date with the database.

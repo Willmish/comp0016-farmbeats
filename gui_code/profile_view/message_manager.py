@@ -2,7 +2,7 @@ from tools.constants import Constants
 
 
 class MessageManager:
-    def __init__(self, profile_name, status):
+    def __init__(self, profile_name: str, status: int):
         """
         __init__ creates MessageManager object that will get
         an appropriate message corresponding with profile status.
