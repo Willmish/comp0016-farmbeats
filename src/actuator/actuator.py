@@ -1,12 +1,11 @@
+from distutils.command.config import config
 from tools.status import Status
-
-# Actuator Interface
 
 
 class Actuator:
     """Actuator Interface class, to be overriden by actuator subclasses."""
 
-    MAIN_LISTEN_TOPIC = "pid_update"
+    MAIN_LISTEN_TOPIC = config.pid_update
 
     def __init__(
         self,
