@@ -95,7 +95,7 @@
                 <ul>
                     <li><a href="#design">Design</a></li>
                     <li><a href="#implementation">Implementation</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#hardware_info">Hardware Information</a></li>
                 </ul>
             <li class="dropdown"><a href="testing.html"><span>Testing</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
@@ -129,8 +129,8 @@
         <div class="container-fluid" data-aos="fade-up">
             <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                <h1>System Design</h1>
-                <div><a href="#design principles" class="btn-get-started scrollto">Learn More</a></div>
+                <h1>Hardware</h1>
+                <div><a href="#design" class="btn-get-started scrollto">Learn More</a></div>
             </div>
             <div class="col-xl-4 col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="150">
                 <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
@@ -145,7 +145,23 @@
     <section id="design" class="section1">
         <div class="container">
           <div data-aos="fade-right">
-              <h1>Design</h1>
+            <h1>Design</h1>
+            <div class="row">
+
+            <div class="col-lg-4 " data-aos="fade-right">
+              <p>
+                Based on our client’s requirements, our group designed, collected and 
+                assembled hardware to create our system prototype. This section gives 
+                an overview of all the hardware related research, design and implementation 
+                carried out in the project. Below is our initial circuit design based on the 
+                Raspberry Pi grove kit given by Avanade:
+              </p>
+            </div>
+            
+            
+            <div class="col-lg-8 " data-aos="zoom-in" data-aos-delay="150">
+              <img src="assets/img/hardware/circuit.png" class="img-fluid" alt="">
+            </div>
           </div>
   
         </div>
@@ -156,20 +172,136 @@
       <div class="container">
         <div data-aos="fade-right">
             <h1>Implementation</h1>
+
+            <p>
+              Following the design of software part of our project, we decomposed the structure of our hardware system into three sections: actuator, sensor and analyser.
+              The analyser part consists of a raspberry pi 4b board with grove hat and fixed 4 pin connectors with built-in analogue-digital converter.
+            </p>
+            <br>
+            <br>
+            <div class="row">
+              <div class="col-lg-4 " data-aos="fade-right">
+
+            <p>For sensors we have:</p>
+            <ul>
+              <li>Grove DHT11 (for ambient humidity and temperature)</li>
+              <li>Grove Sunlight Sensor</li>
+              <li>Grove Soil Moisture Sensor</li>
+              <li>Soil Temperature Sensor</li>
+            </ul>
+            <p>For actuators we have: </p>
+            <ul>
+              <li> Fans </li>
+              <li> LED Lights </li>
+              <li> Water level sensor with pumps </li>
+              <li> Heater </li>
+            </ul>
+            </div>
+            <div class="col-lg-8 " data-aos="zoom-in" data-aos-delay="150">
+              <img src="assets/img/hardware/final_result.png" class="img-fluid" alt="">
+            </div>
+            </div>
+            <br>
+
+            <h2>Introducing the Subsystems </h2>
+
+            <p>The sensors, actuators and analyser combine to create a control environment for the following subsystems: </p>
+            <ul>
+              <li>Humidity</li>
+              <li>Brightness</li>
+              <li>Soil Moisture</li>
+              <li>Temperature</li>
+            </ul>
+
+            <p>
+               <strong>Humidity Subsystem:</strong> This contains 2 fans, 1 DHT11 temperature/humidity 
+               sensor and an external power supply. DHT11 sensor will detect whether the
+               humidity is too high, and fans will be activated to exchange air. In 
+               addition, stop the fans if the humidity is too low. The 2 fans are connected 
+               to a mosfet which takes a PWM signal from the board, and uses an external 
+               power to be controlled.
+            </p>
+
+            <p> 
+              <strong>Light Subsystem:</strong> This contains one luminosity sensor, external power 
+              supply, led strip lights and mosfet to control it. If the brightness 
+              is too low, the LED brightness will increase and vice versa.
+            </p>
+
+            <p>
+              <strong>Water Subsystem: </strong>This is made up of a soil moisture sensor, a water 
+              pump, a relay to control the DC motor, and an external power supply. 
+              The soil moisture sensor would detect and return a signal to the system, 
+              which will be received by the water analyser. The relay sends data input 
+              from the raspberry pi hat, the power supply and the positive/negative 
+              dc socket connection to the water pump through a jumper wire. For the
+              pump to work, there is only one signal coming from the hat. The signal 
+              is on or off and cannot have a velocity value.
+            </p>
+
+            <p>
+              <strong>Water Capacity Subsystem: </strong>This contains a water level sensor connected 
+              to the raspberry pi. This subsystem exists to warn users if the water 
+              level of the water supply container is too low and needs refilling. 
+              The water level sensor contains 3 pins: power in, power out and analog 
+              out. The analog signal is transferred into digital signal by the hat 
+              and sent to the board.
+            </p>
+          </div>
         </div>
 
       </div>
     </section><!-- Implementation Section -->
   
-    <!-- ======= Gallery Section ======= -->
-    <section id="implementation" class="section1">
+    <!-- ======= Hardware Inforamtion Section ======= -->
+    <section id="hardware_info" class="section1">
       <div class="container">
         <div data-aos="fade-right">
-            <h1>Gallery</h1>
+            <h1>Hardware Inforamtion</h1>
+
+            <h2><a href="https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/">Raspberry Pi 4B</a></h2> 
+
+            <ul>
+              <li>Processor:  Broadcom BCM2711, Quad core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz </li>
+              <li>Ram: 4GB LPDDR4-3200 SDRAM</li>
+              <li>Internet: 2.4 GHz and 5.0 GHz IEEE 802.11ac wireless, Bluetooth 5.0, BLE Gigabit Ethernet</li>
+              <li>Ports: 1 USB 3.0 ports; 1 USB 2.0 ports; Raspberry Pi standard 40 pin GPIO header; 2 × micro-HDMI 
+                ports; 2-lane MIPI DSI display port; 2-lane MIPI CSI camera port; 4-pole stereo audio and composite video port</li>
+              <li>Video Decoding: H.265 (4kp60 decode), H264 (1080p60 decode, 1080p30 encode)</li>
+              <li>Storage Port: Micro-SD card slot for loading operating system and data storage</li>
+              <li>Power: 5V DC via USB-C connector (minimum 3A*); 5V DC via GPIO header (minimum 3A*); 
+                Power over Ethernet (PoE) enabled (requires separate PoE HAT) </li>
+              <li> Operating temperature: 0 – 50 degrees C ambient </li>
+            </ul>
+
+            <h2><a href="https://www.seeedstudio.com/Grove-Relay.html">Grove Relay</a></h2>
+            <ul>
+              <li>Operate voltage: 3.3V-5V</li>
+              <li>Input current: 100mA</li>
+              <li>Rated load: 5A@250VAC 5A@30VDC</li>
+              <li>Contact resistance: 50mΩ @6VDC 1A</li>
+              <li>Insulation resistance: 100MΩ 10ms Max.</li>
+              <li>Operate time: 10ms Max.</li>
+              <li>Release time: 5ms Max.</li>
+              <li>Input interface: Digital</li>
+            </ul>
+
+            <h2><a href="https://www.seeedstudio.com/Grove-Temperature-Humidity-Sensor-DHT11.html?queryID=b96b0dfd55e4ada212d7da05555a2f6a&objectID=1826&indexName=bazaar_retailer_products">DHT 11</a></h2>
+            <ul>
+              <li>Dimensions: 40mm x20mm x8mm</li>
+              <li>Weight: 10g</li>
+              <li>Humidity Range: 5 ~ 95%RH</li>
+              <li>Humidity Accuracy: ±5% (Typical)</li>
+              <li>Temperature Range: -20 ~ 60℃</li>
+              <li>Temperature Accuracy: ±2% (Typical)</li>
+              <li>Input Voltage: 3.3V & 5V</li>
+              <li>Measuring Current: 1.3 - 2.1 mA</li>
+            </ul>
+
         </div>
 
       </div>
-    </section><!-- Gallery Section -->
+    </section><!-- Hardware Inforamtion Section -->
 
 
 
