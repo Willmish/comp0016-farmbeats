@@ -48,12 +48,12 @@
         <ul>
           <ul>
             <!-- <li><a class="nav-link scrollto active" href="#hero">Home</a></li> -->
-            <li class="dropdown"><a href="#hero"><span>Home</span> <i class="bi bi-chevron-down"></i></a>
+            <li class="dropdown"><a href="index.html"><span>Home</span> <i class="bi bi-chevron-down"></i></a>
              <ul>
-              <li><a href="#abstract">Abstract</a></li>
-              <li><a href="#project intro video">Project Introduction Video</a></li>
-              <li><a href="#team">Development Team</a></li>
-              <li><a href="#project management">Project Management</a></li>
+              <li><a href="index.html#abstract">Abstract</a></li>
+              <li><a href="index.html#project intro video">Project Introduction Video</a></li>
+              <li><a href="index.html#team">Development Team</a></li>
+              <li><a href="index.html#project management">Project Management</a></li>
             </ul>
           <li class="dropdown"><a href="requirements.html"><span>Requirements</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
@@ -82,7 +82,7 @@
                 <li><a href="system_design.html#data storage">Data Storage</a></li>
                 <li><a href="system_design.html#packages and apis">Packages and APIs</a></li>
             </ul>
-            <li class="dropdown"><a href="software_implementation.html"><span>Software Implementation</span> <i class="bi bi-chevron-down"></i></a>
+            <li class="dropdown"><a href="software_implementation.html"><span>Software</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
                 <li><a href="software_implementation.html#overview">Overview</a></li>
                 <li><a href="software_implementation.html#database">Database</a></li>
@@ -106,8 +106,11 @@
             <li class="dropdown"><a href="#hero"><span>Evaluation</span> <i class="bi bi-chevron-down"></i></a>
                 <ul>
                     <li><a href="#summary of achievements">Summary of Achievements</a></li>
+                    <li><a href="#list of bugs">List of Bugs</a></li>
+                    <li><a href="#individual contribution">Individual Contribution</a> </li>
                     <li><a href="#evaluation">Critical Evaluation of the Project</a></li>
                     <li><a href="#future work">Future Work</a></li>
+
                 </ul>
             <li class="dropdown"><a href="appendices.html"><span>Appendices</span> <i class="bi bi-chevron-down"></i></a>
                 <ul>
@@ -116,8 +119,6 @@
                     <li><a href="appendices.html#blog">Blog</a></li>
                     <li><a href="appendices.html#video">Video</a></li>
                 </ul>
-                
-          <li><a class="getstarted scrollto" href="#abstract">Get Started</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -147,16 +148,487 @@
         <div class="container">
           <div data-aos="fade-right">
               <h1>Summary of Achievements</h1>
+
+              <h3>Functional Requirements</h3>
+
+          <style>
+            table, th, td {
+              border:1px solid black;
+              padding: 10px;
+            }
+           </style>
+
+          <table style="width: 100%">
+            <colgroup>
+              <col span="1" style="width: 5%;">
+              <col span="1" style="width: 60%;">
+              <col span="1" style="width: 10%;">
+              <col span="1" style="width: 10%;">
+              <col span="1" style="width: 10%;">
+            </colgroup>
+            <tr>
+              <th style="text-align:center">ID</th>
+              <th>Requirement Description </th>
+              <th>Type</th>
+              <th>Complete</th>
+              <th>Contributor</th>
+            </tr>
+            <tr>
+              <td style="text-align:center">1</td>
+              <td>
+                Set up a circuit system with three plants in a plastic 
+                container with devices connected (raspberry pi, sensors, and actuators). 
+              </td>
+              <td>Must have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>All</td>
+
+            </tr>
+            <tr>
+              <td style="text-align:center">2</td>
+              <td>
+                Implement data collection for brightness and humidity subsystems. 
+                Get input from sensors in regular intervals and store them on the 
+                raspberry pi.  
+              </td>
+              <td>Must have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Szymon</td>
+            </tr>
+            <tr>
+              <td style="text-align:center">3</td>
+              <td>
+                Add control to the system (simple PID (Proportional Integral Derivative) 
+                control) for brightness and humidity subsystems.  
+              </td>
+              <td>Must have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Harry</td>
+            </tr>
+            <tr>
+              <td style="text-align:center">4</td>
+              <td>Create a simple user interface that displays sensor readings and actuation status.  </td>
+              <td>Must have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Angela</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">5</td>
+              <td>Create a cloud-based data collection and storage system using: 
+                <ul>
+                <li>Azure IoT Hub to communicate with IoT devices (Raspberry Pi) and collect data from it. </li>
+                <li>Azure SQL Database which stores and gives access to collected data. </li>
+                <li>Azure StreamAnalytics Job, which inserts data collected by the IoT Hub into the SQL DB. </li>
+              </ul>
+            </td>
+              <td>Should have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Szymon</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">6</td>
+              <td> Allow the GUI to access the database and display data live. </td>
+              <td>Should have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Angela</td>
+
+            </tr>
+            <tr>
+              <td style="text-align:center">7</td>
+              <td> Implement data collection for water and heating subsystems. </td>
+              <td>Should have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Szymon</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">8</td>
+              <td> Add control to the system for water subsystem. </td>
+              <td>Should have</td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Szymon and Harry</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">9</td>
+              <td> Create a desktop App with a GUI: 
+                <ul>
+                <li>A graph of real data being collected live, showing the most recent n values. </li>
+                <li>GUI includes automatic mode that allows sspecified ideal temperature, humidity and soil moisture values for the subsystem to maintain in the GUI. </li>
+                </ul>
+              </td>
+              <td>Should have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Angela</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">10</td>
+              <td> Scale and message suggestions are based on a configuration file containing all information about a specific plant profile.</td>
+              <td>Should have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Angela</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">11</td>
+              <td> Allow user to upload their own configuration file for a different plant profile.</td>
+              <td>Should have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Angela</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">12</td>
+              <td>Include a manual mode in the GUI where users can turn on/off the fans, sprinkler and LED lights, and also adjust the brightness.</td>
+              <td>Could have</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">13</td>
+              <td> Perform data analysis on the sensor data:
+                <ul>
+                <li>AI model for inference on the data. </li>
+                <li>Create predictions. </li>
+                <li>The program allows input for optimal condition.</li>
+                </ul>
+              </td>
+              <td>Could have </td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">14</td>
+              <td> Continue AI model training with the system we have. 
+              </td>
+              <td>Could have </td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">15</td>
+              <td> Add AI camera to the system:
+                <ul>
+                  <li> Cut a hole for the camera lens so it can point directly at the plants. </li>
+                </ul>
+              </td>
+              <td>Could have </td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">16</td>
+              <td> Perform data analysis on the camera data:
+                <ul>
+                  <li>Recognise each leaf. </li>
+                  <li>Determine how dry each leaf is.</li>
+                  <li>Detect abnormal properties on leaf e.g. spots.</li>
+                </ul>
+              </td>
+              <td>Could have </td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">17</td>
+              <td> Allow the camera to classify plants and detect stress levels of plants:
+                <ul>
+                  <li>Further training with more online pictures for different plants. </li>
+                  <li>Take in input from the camera to create predictions of how the plant might grow in the future.</li>
+                </ul>
+              </td>
+              <td>Could have </td>
+            </tr>
+
+            </li>
+          </table>
+          <br>
+
+          <p> 
+            Must/ Shoud have requirements: 100% Complete.<br>
+            Optional could have requirements: 0% Complete
+          </p>
+
+
+          <br>
+          <h3>Non-functional Requirements</h3>
+          <table style="width: 100%">
+            <colgroup>
+              <col span="1" style="width: 5%;">
+              <col span="1" style="width: 60%;">
+              <col span="1" style="width: 10%;">
+              <col span="1" style="width: 10%;">
+              <col span="1" style="width: 10%;">
+            </colgroup>
+            <tr>
+              <th style="text-align:center">ID</th>
+              <th>Requirement Description </th>
+              <th>Type</th>
+              <th>Complete</th>
+              <th>Contributor</th>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">18</td>
+              <td> Create an easy-to-use GUI that allows users to view profiles for each subsystem 
+                separately. Ensure response time to interaction is minimal. 
+              </td>
+              <td>Must have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Angela</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">19</td>
+              <td> Ensure the system is scalable up to industry level: allowing up to thousands of 
+                sensor and actuator data to be collected by system and stored in database. 
+              </td>
+              <td>Must have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Szymon and Harry</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">20</td>
+              <td> Ensure the actuation controlled by system is reliable and does not produce errors. 
+              </td>
+              <td>Must have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Szymon and Harry</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">21</td>
+              <td> Ensure the system follows an extensible design, allowing new features to be 
+                easily added in the future. 
+              </td>
+              <td>Must have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>All</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">22</td>
+              <td> Ensure security of cloud services by ensuring all keys are kept privately and firewalls are set up correctly. 
+              </td>
+              <td>Must have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Szymon</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">23</td>
+              <td> Ensure the data stored on database is available if there is internet connection. 
+              </td>
+              <td>Should have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Szymon</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center"> 24 </td>
+              <td> Ensure the delay time between data being saved in database and time of data collection
+                 is no more than 30 seconds. 
+              </td>
+              <td>Should have </td>
+              <td style="text-align:center"><span>&#10003;</span></td>
+              <td>Szymon</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center"> 25 </td>
+              <td> Write comprehensive documentation for all code. 
+              </td>
+              <td>Could have </td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">26</td>
+              <td> Create CI/CD workflow for the documentation: 
+                <ul>
+                  <li>Sphinx documentation generation </li>
+                  <li>Automatic GH pages deployment </li>
+                </ul>
+              </td>
+              <td>Could have </td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center"> 27 </td>
+              <td> Have a complete code coverage when testing.
+              </td>
+              <td>Could have </td>
+            </tr>
+
+          </table>
+          <br>
+
+          <p> 
+            Must/ Shoud have requirements: 100% Complete.<br>
+            Optional could have requirements: 0% Complete
+          </p>
           </div>
   
         </div>
     </section><!-- Summary of Achievements Section -->
+
+    <!-- ======= List of Bugs Section ======= -->
+    <section id="list of bugs" class="section1">
+      <div class="container">
+        <div data-aos="fade-right">
+            <h1>List of Bugs</h1>
+        </div>
+
+      </div>
+    </section><!-- List of Bugs Section -->
+
+    <!-- ======= Individual Contribution Section ======= -->
+    <section id="individual contribution" class="section1">
+      <div class="container">
+        <div data-aos="fade-right">
+            <h1>Individual Contribution</h1>
+
+            <style>
+              table, th, td {
+                border:1px solid black;
+                padding: 10px;
+              }
+             </style>
+  
+            <table style="width: 100%">
+              <colgroup>
+                <col span="1" style="width: 25%;">
+                <col span="1" style="width: 25%;">
+                <col span="1" style="width: 25%;">
+                <col span="1" style="width: 25%;">
+              </colgroup>
+              <tr>
+                <th style="text-align:center">Task</th>
+                <th>Angela </th>
+                <th>Szymon</th>
+                <th>Harry</th>
+              </tr>
+
+              <tr>
+                <td>Client Liaison</td>
+              </tr>
+
+              <tr>
+                <td>Requirement Analysis</td>
+              </tr>
+
+              <tr>
+                <td>Research and Experiments</td>
+              </tr>
+
+              <tr>
+                <td>UI Design</td>
+              </tr>
+
+              <tr>
+                <td>Hardware Implementation</td>
+              </tr>
+
+              <tr>
+                <td>Coding</td>
+              </tr>
+
+              <tr>
+                <td>Testing</td>
+              </tr>
+
+              <tr>
+                <td>Report Website</td>
+              </tr>
+
+              <tr>
+                <td>Pitch Presentation</td>
+              </tr>
+
+              <tr>
+                <td>Blog Writing</td>
+              </tr>
+
+              <tr>
+                <td>Video Editing</td>
+              </tr>
+
+              <tr>
+                <td>Overall Contribution</td>
+              </tr>
+
+              <tr>
+                <td>Roles</td>
+              </tr>
+
+            </table>
+        </div>
+
+      </div>
+    </section><!-- Individual Contribution Section -->
 
     <!-- ======= Critical Evaluation of the Project Section ======= -->
     <section id="evaluation" class="section1">
         <div class="container">
           <div data-aos="fade-right">
               <h1>Critical Evaluation of the Project</h1>
+              <br>
+
+              <h3>User Interface / User Experience</h3>
+              <p>
+                After testing the GUI on several test users, the feedback provided demonstrated 
+                that our design is simple and easy to use. All components of the GUI such as buttons, 
+                scales and graphs operate without errors and had a very short response time. Many 
+                users mentioned that the style of the buttons along with the consistent colour scheme
+                and distinct frames for separating sections created an enjoyable user experience and
+                enhanced the clarity of component indication. A key point in feedback was that users
+                were able to use the system to its full potential with very few interactions which
+                means that minimal effort and knowledge are required on the user's end to get farm
+                information from the system.
+              </p>
+
+              <p>There were a few further extensions suggested that could help improve the system:</p>
+              <ul>
+                <li>Allow buttons to change colour when the mouse is hovering above it.</li>
+                <li>
+                  Add more graph features - for example, allow the user to enter the number 
+                  of ticks shown on the x and y axis, or control the number of sensor information 
+                  being displayed on graph animation.
+                </li>
+                <li>Implement a config file parser to ensure only correct files can be loaded onto the system to avoid errors.</li>
+                <li>Allow for manual control of system actuation.</li>
+              </ul>
+              <p>
+                For the set requirements, the UI design meets all the must and should have statements,
+                and is relatively similar to the original prototype produced. However, we made the 
+                following changes for further improvements:
+              </p>
+              <ul>
+                <li>
+                  The title ‘Water Level’ for the subsystem is changed to ‘Soil Moisture’ as we believe 
+                  this is a better representation of the factor affecting the plant.
+                </li>
+                <li>
+                  On the profile page, we removed the ‘View Graph’ button and fit both the sensor value 
+                  label with the live graph all in one frame as this uses up frame space more efficiently 
+                  and reduced user action to obtain information on the current farm state.
+                </li>
+                <li>
+                  An extra water level frame is added to the profile page for Soil Moisture with a scale 
+                  diagram to inform the user of the state of the water container.
+                </li>
+                <li>
+                  The ‘System Visualisation’ section is changed to ‘System Settings’ which adds a feature
+                  that allows the user to upload their configuration file for a specific plant profile.
+                </li>
+              </ul>
+
+              <h3>Functionality</h3>
+              <p>
+                Overall, our project demonstrates a working example of how IoT devices can be controlled
+                by the Raspberry Pi to produce a control system that can optimise plant growth through storing
+                data on the Azure database, analysing input data and outputting PID control calculation results
+                to actuators. 
+              </p>
+
           </div>
   
         </div>

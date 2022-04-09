@@ -84,7 +84,7 @@
                     <li><a href="system_design.html#data storage">Data Storage</a></li>
                     <li><a href="system_design.html#packages and apis">Packages and APIs</a></li>
                 </ul>
-            <li class="dropdown"><a href="software_implementation.html"><span>Software Implementation</span> <i class="bi bi-chevron-down"></i></a>
+            <li class="dropdown"><a href="software_implementation.html"><span>Software</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
                   <li><a href="software_implementation.html#overview">Overview</a></li>
                   <li><a href="software_implementation.html#database">Database</a></li>
@@ -101,15 +101,17 @@
               </ul>
             <li class="dropdown"><a href="testing.html"><span>Testing</span> <i class="bi bi-chevron-down"></i></a>
                 <ul>
-                    <li><a href="testing.html#testing strategy">Testing Strategy</a></li>
-                    <li><a href="testing.html#unit and int testing">Unit and Integration Testing</a></li>
-                    <li><a href="testing.html#user testing">User Acceptance Testing</a></li>
+                  <li><a href="testing.html#testing strategy">Testing Strategy</a></li>
+                  <li><a href="testing.html#unit and int testing">Unit and Integration Testing</a></li>
+                  <li><a href="testing.html#user testing">User Acceptance Testing</a></li>
                 </ul>
             <li class="dropdown"><a href="evaluation.html"><span>Evaluation</span> <i class="bi bi-chevron-down"></i></a>
                   <ul>
-                      <li><a href="evaluation.html#summary of achievements">Summary of Achievements</a></li>
-                      <li><a href="evaluation.html#evaluation">Critical Evaluation of the Project</a></li>
-                      <li><a href="evaluation.html#future work">Future Work</a></li>
+                    <li><a href="evaluation.html#summary of achievements">Summary of Achievements</a></li>
+                    <li><a href="evaluation.html#list of bugs">List of Bugs</a></li>
+                    <li><a href="evaluation.html#individual contribution">Individual Contribution</a> </li>
+                    <li><a href="evaluation.html#evaluation">Critical Evaluation of the Project</a></li>
+                    <li><a href="evaluation.html#future work">Future Work</a></li>
                   </ul>
               <li class="dropdown"><a href="appendices.html"><span>Appendices</span> <i class="bi bi-chevron-down"></i></a>
                 <ul>
@@ -118,7 +120,6 @@
                     <li><a href="appendices.html#blog">Blog</a></li>
                     <li><a href="appendices.html#video">Video</a></li>
                 </ul>
-            <li><a class="getstarted scrollto" href="#abstract">Get Started</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -343,38 +344,54 @@
           <style>
             table, th, td {
               border:1px solid black;
+              padding: 15px;
             }
-            </style>
+           </style>
 
-          <table>
+          <table style="width: 80%">
+            <colgroup>
+              <col span="1" style="width: 5%;">
+              <col span="1" style="width: 60%;">
+              <col span="1" style="width: 10%;">
+            </colgroup>
             <tr>
-              <th>ID</th>
+              <th style="text-align:center">ID</th>
               <th>Requirement Description </th>
               <th>Type</th>
             </tr>
             <tr>
-              <td>1</td>
-              <td>Set up a circuit system with three plants in a plastic container with devices connected (raspberry pi, sensors and actuators). </td>
+              <td style="text-align:center">1</td>
+              <td>
+                Set up a circuit system with three plants in a plastic 
+                container with devices connected (raspberry pi, sensors, and actuators). 
+              </td>
               <td>Must have </td>
             </tr>
             <tr>
-              <td>2</td>
-              <td>Implement data collection for brightness and humidity subsystems. Get input from sensors in regular intervals and store them on the raspberry pi. </td>
+              <td style="text-align:center">2</td>
+              <td>
+                Implement data collection for brightness and humidity subsystems. 
+                Get input from sensors in regular intervals and store them on the 
+                raspberry pi.  
+              </td>
               <td>Must have </td>
             </tr>
             <tr>
-              <td>3</td>
-              <td>Add control to the system (simple PID control) for brightness and humidity subsystems.  </td>
+              <td style="text-align:center">3</td>
+              <td>
+                Add control to the system (simple PID (Proportional Integral Derivative) 
+                control) for brightness and humidity subsystems.  
+              </td>
               <td>Must have </td>
             </tr>
             <tr>
-              <td>4</td>
-              <td> Create a simple user interface that displays sensor readings and actuation status.  </td>
+              <td style="text-align:center">4</td>
+              <td>Create a simple user interface that displays sensor readings and actuation status.  </td>
               <td>Must have </td>
             </tr>
 
             <tr>
-              <td>5</td>
+              <td style="text-align:center">5</td>
               <td>Create a cloud-based data collection and storage system using: 
                 <ul>
                 <li>Azure IoT Hub to communicate with IoT devices (Raspberry Pi) and collect data from it. </li>
@@ -386,49 +403,53 @@
             </tr>
 
             <tr>
-              <td>6</td>
+              <td style="text-align:center">6</td>
               <td> Allow the GUI to access the database and display data live. </td>
               <td>Should have </td>
             </tr>
             <tr>
-              <td>7</td>
+              <td style="text-align:center">7</td>
               <td> Implement data collection for water and heating subsystems. </td>
               <td>Should have </td>
             </tr>
 
             <tr>
-              <td>8</td>
+              <td style="text-align:center">8</td>
               <td> Add control to the system for water subsystem. </td>
               <td>Should have </td>
             </tr>
 
             <tr>
-              <td>9</td>
+              <td style="text-align:center">9</td>
               <td> Create a desktop App with a GUI: 
                 <ul>
                 <li>A graph of real data being collected live, showing the most recent n values. </li>
-                <li>GUI includes two modes: user control mode and automatic mode. </li>
-                <li>Automatic mode = Users can enter the ideal temperature, humidity and soil moisture values for the subsystem to maintain in the GUI. </li>
-                <li>User control mode = Users can turn on/off the fans, sprinkler and LED lights, and also adjust the brightness through the GUI.</li>
+                <li>GUI includes automatic mode that allows sspecified ideal temperature, humidity and soil moisture values for the subsystem to maintain in the GUI. </li>
                 </ul>
               </td>
               <td>Should have </td>
             </tr>
 
             <tr>
-              <td>10</td>
+              <td style="text-align:center">10</td>
               <td> Scale and message suggestions are based on a configuration file containing all information about a specific plant profile.</td>
               <td>Should have </td>
             </tr>
 
             <tr>
-              <td>11</td>
+              <td style="text-align:center">11</td>
               <td> Allow user to upload their own configuration file for a different plant profile.</td>
               <td>Should have </td>
             </tr>
 
             <tr>
-              <td>12</td>
+              <td style="text-align:center">12</td>
+              <td>Include a manual mode in the GUI where users can turn on/off the fans, sprinkler and LED lights, and also adjust the brightness.</td>
+              <td>Could have</td>
+            </tr>
+
+            <tr>
+              <td style="text-align:center">13</td>
               <td> Perform data analysis on the sensor data:
                 <ul>
                 <li>AI model for inference on the data. </li>
@@ -440,14 +461,14 @@
             </tr>
 
             <tr>
-              <td>13</td>
+              <td style="text-align:center">14</td>
               <td> Continue AI model training with the system we have. 
               </td>
               <td>Could have </td>
             </tr>
 
             <tr>
-              <td>14</td>
+              <td style="text-align:center">15</td>
               <td> Add AI camera to the system:
                 <ul>
                   <li> Cut a hole for the camera lens so it can point directly at the plants. </li>
@@ -457,7 +478,7 @@
             </tr>
 
             <tr>
-              <td>15</td>
+              <td style="text-align:center">16</td>
               <td> Perform data analysis on the camera data:
                 <ul>
                   <li>Recognise each leaf. </li>
@@ -469,7 +490,7 @@
             </tr>
 
             <tr>
-              <td>16</td>
+              <td style="text-align:center">17</td>
               <td> Allow the camera to classify plants and detect stress levels of plants:
                 <ul>
                   <li>Further training with more online pictures for different plants. </li>
@@ -484,7 +505,12 @@
 
           <br>
           <h3>Non-functional Requirements</h3>
-          <table>
+          <table style="width: 80%">
+            <colgroup>
+              <col span="1" style="width: 5%;">
+              <col span="1" style="width: 60%;">
+              <col span="1" style="width: 10%;">
+            </colgroup>
             <tr>
               <th>ID</th>
               <th>Requirement Description </th>
@@ -492,7 +518,7 @@
             </tr>
 
             <tr>
-              <td>17</td>
+              <td style="text-align:center">18</td>
               <td> Create an easy-to-use GUI that allows users to view profiles for each subsystem 
                 separately. Ensure response time to interaction is minimal. 
               </td>
@@ -500,7 +526,7 @@
             </tr>
 
             <tr>
-              <td>18</td>
+              <td style="text-align:center">19</td>
               <td> Ensure the system is scalable up to industry level: allowing up to thousands of 
                 sensor and actuator data to be collected by system and stored in database. 
               </td>
@@ -508,14 +534,14 @@
             </tr>
 
             <tr>
-              <td>19</td>
+              <td style="text-align:center">20</td>
               <td> Ensure the actuation controlled by system is reliable and does not produce errors. 
               </td>
               <td>Must have </td>
             </tr>
 
             <tr>
-              <td>20</td>
+              <td style="text-align:center">21</td>
               <td> Ensure the system follows an extensible design, allowing new features to be 
                 easily added in the future. 
               </td>
@@ -523,21 +549,21 @@
             </tr>
 
             <tr>
-              <td>21</td>
+              <td style="text-align:center">22</td>
               <td> Ensure security of cloud services by ensuring all keys are kept privately and firewalls are set up correctly. 
               </td>
               <td>Must have </td>
             </tr>
 
             <tr>
-              <td>22</td>
+              <td style="text-align:center">23</td>
               <td> Ensure the data stored on database is available if there is internet connection. 
               </td>
               <td>Should have </td>
             </tr>
 
             <tr>
-              <td> 23 </td>
+              <td style="text-align:center"> 24 </td>
               <td> Ensure the delay time between data being saved in database and time of data collection
                  is no more than 30 seconds. 
               </td>
@@ -545,14 +571,14 @@
             </tr>
 
             <tr>
-              <td> 24 </td>
+              <td style="text-align:center"> 25 </td>
               <td> Write comprehensive documentation for all code. 
               </td>
               <td>Could have </td>
             </tr>
 
             <tr>
-              <td>25</td>
+              <td style="text-align:center">26</td>
               <td> Create CI/CD workflow for the documentation: 
                 <ul>
                   <li>Sphinx documentation generation </li>
@@ -563,7 +589,7 @@
             </tr>
 
             <tr>
-              <td> 26 </td>
+              <td style="text-align:center"> 27 </td>
               <td> Have a complete code coverage when testing.
               </td>
               <td>Could have </td>
