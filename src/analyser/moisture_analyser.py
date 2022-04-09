@@ -21,6 +21,7 @@ class MoisturePidAnalyser(Analyser):
         self._pid.SetPoint = 50
         self._last_water_level = None
         self._last_time_poured = time.time() - MoisturePidAnalyser.SOAKING_IN_TIME
+        self._cumulative_time_pump_on_since_update: float = 0
 
     def analyser_listener(self, args, rest=None) -> None:
         if args.sensor_type == "water_level":
@@ -82,6 +83,7 @@ class MoisturePidAnalyser(Analyser):
         if (MoisturePidAnalyser.TARGET_MOISTURE_LEVEL - soil_moisture >= MoisturePidAnalyser.MAX_DRYNESS_DEVIATION):
             if (time.time() - self._last_time_poured >= MoisturePidAnalyser.SOAKING_IN_TIME):
                 self._last_time_poured = time.time()
+                self._cumulative_time_pump_on_since_update += MoisturePidAnalyser.POURING_TIME
                 sensor_data.actuator_value = 1.0
                 # Sends message to the signal handler to schedule pump on time and alarm signal to turn it off
                 pub.sendMessage(
@@ -96,8 +98,9 @@ class MoisturePidAnalyser(Analyser):
             return
         soil_moisture = args.sensor_value
         sensor_data = args
-        #output = (100 - self._pid.output) / 100
-        sensor_data.actuator_value = 0.0
+        # For the actuator value, we send the cumulative time the pump has been on since the last update of the database
+        sensor_data.actuator_value = self._cumulative_time_pump_on_since_update
+        self._cumulative_time_pump_on_since_update = 0
         if (MoisturePidAnalyser.TARGET_MOISTURE_LEVEL - soil_moisture >= MoisturePidAnalyser.MAX_DRYNESS_DEVIATION):
             if (time.time() - self._last_time_poured >= MoisturePidAnalyser.SOAKING_IN_TIME):
                 sensor_data.actuator_value = 1.0 

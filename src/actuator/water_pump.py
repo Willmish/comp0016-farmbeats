@@ -19,7 +19,7 @@ class WaterPump(Actuator):
         :type actuator_status: Status
         """
         super().__init__("water_pump", args, kwargs)
-        self._is_on = True
+        self._is_on = False
         pub.subscribe(
             self.water_pump_status_listener,
             f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.water_pump_status",
