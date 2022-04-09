@@ -8,11 +8,9 @@ class BrightnessAnalyser(Analyser):
 
     def analyser_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "pid_update"  # TODO move to enum/config file
-        print(args.sensor_value)
         sensor_data = args
         brightness = args.sensor_value
         # TODO Do analysing stuff here, currently simple threshold
-        print(brightness)
         if brightness > 270:
             sensor_data.actuator_value = 0.5
             pub.sendMessage(

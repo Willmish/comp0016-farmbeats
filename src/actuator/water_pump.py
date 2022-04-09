@@ -1,3 +1,4 @@
+from tools.sensor_data import SensorData
 from tools.status import Status
 from actuator.actuator import Actuator
 from pubsub import pub
@@ -38,8 +39,8 @@ class WaterPump(Actuator):
             print("pump off!")
             GPIO.output(WaterPump.PUMP_PIN, GPIO.LOW)
 
-    def water_pump_status_listener(self, args, rest=None):
-        status = args
+    def water_pump_status_listener(self, args: SensorData, rest=None):
+        status = args.actuator_value
         print("Received pump vals over pubsub:", status)
         self._is_on = True if status > 0 else False
         self.actuate()

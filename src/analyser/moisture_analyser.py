@@ -6,7 +6,7 @@ import time
 
 class MoisturePidAnalyser(Analyser):
     MIN_WATER_LEVEL: float = 10.0
-    POURING_TIME: float = 5.0
+    POURING_TIME: int = 5
     SOAKING_IN_TIME: float = 10.0
     TARGET_MOISTURE_LEVEL: float = 30.0
     MAX_DRYNESS_DEVIATION : float = 1.0
@@ -82,14 +82,11 @@ class MoisturePidAnalyser(Analyser):
         if (MoisturePidAnalyser.TARGET_MOISTURE_LEVEL - soil_moisture >= MoisturePidAnalyser.MAX_DRYNESS_DEVIATION):
             if (time.time() - self._last_time_poured >= MoisturePidAnalyser.SOAKING_IN_TIME):
                 self._last_time_poured = time.time()
+                sensor_data.actuator_value = 1.0
+                # Sends message to the signal handler to schedule pump on time and alarm signal to turn it off
                 pub.sendMessage(
-                    f"{MAIN_PUBSUB_TOPIC}.actuator.water_pump_status", args=1.0
-                )  # pump on
-                time.sleep(MoisturePidAnalyser.POURING_TIME)
-                pub.sendMessage(
-                    f"{MAIN_PUBSUB_TOPIC}.actuator.water_pump_status", args=0.0
-                )  # pump off
-
+                    f"signal_handler.pump_control", signal_handler_message={"pump_status": True, "time_on": MoisturePidAnalyser.POURING_TIME}, message=sensor_data
+                )
 
 
     def soil_moisture_datastream_update_handler(self, args):

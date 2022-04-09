@@ -19,6 +19,7 @@ from analyser.moisture_analyser import MoisturePidAnalyser
 
 # from data_streamer.database_manager import DatabaseManager
 from data_streamer.iot_hub_streamer import IoTHubStreamer
+from tools.signal_handler import SignalHandler
 import RPi.GPIO as GPIO
 
 
@@ -35,6 +36,7 @@ def dummy_listener_pid(args):
 
 
 if __name__ == "__main__":
+    singal_handler: SignalHandler = SignalHandler()
     with IoTHubStreamer() as db:
         # db.create_sensor_data_table()
         GPIO.setmode(GPIO.BCM)
