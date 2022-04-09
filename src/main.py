@@ -82,6 +82,7 @@ if __name__ == "__main__":
                 water_level.collect(PID_UPDATE)
                 moisture_sensor.collect(PID_UPDATE)
                 fans.actuate()
+                lights.actuate()
                 #water_pump.actuate()
                 PID_UPDATE = True
                 sleep(PID_CLOCK_SPEED)
