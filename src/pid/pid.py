@@ -1,4 +1,7 @@
+from re import I
 import time
+
+from regex import P
 
 
 class PID:
@@ -39,3 +42,22 @@ class PID:
 
     def setSampleTime(self, sample_time):
         self.sample_time = sample_time
+
+    def recover(self):
+        f = open("pidHumidityCache")
+        p = int(f.readline())
+        i = int(f.readline())
+        d = int(f.readline())
+        f.close()
+        self.PTerm = p
+        self.ITerm = i
+        self.DTerm = d
+
+    def save(self):
+        f = open("pidHumidityCache")
+        f.write(self.PTerm)
+        f.write("\n")
+        f.write(self.ITerm)
+        f.write("\n")
+        f.write(self.DTerm)
+        f.close()
