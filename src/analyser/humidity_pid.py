@@ -10,10 +10,14 @@ class HumidityPidAnalyser(Analyser):
         self._p_parameter = 1.2
         self._i_parameter = 0.5
         self._d_parameter = 0.001
+        f = open("humidityCache")
+        self._starter = int(f.read())
+        f.close()
         self._pid = PID(
             self._p_parameter, self._i_parameter, self._d_parameter
         )
         self._pid.SetPoint = 55
+        self._pid.update(self._starter)
 
     def analyser_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "pid_update"  # TODO move to enum/config file
@@ -32,6 +36,10 @@ class HumidityPidAnalyser(Analyser):
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.fans_status", args=sensor_data
         )
+        fi = open("humidityCache", "w")
+        fi.write(str(feedback))
+        fi.close()
+
 
     def datastream_update_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "database_update"
