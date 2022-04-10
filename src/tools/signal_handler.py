@@ -24,7 +24,6 @@ class SignalHandler:
         self.pump_status: bool = False
         signal(SIGALRM, self.handler)
         pub.subscribe(self.pump_status_listener, "signal_handler.pump_control")
-        # signal(SIGKILL, self.handler)
 
     # Signal handler  function
     def handler(self, signum, frame):

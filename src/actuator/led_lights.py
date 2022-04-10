@@ -27,7 +27,6 @@ class LEDLights(Actuator):
             self.light_status_listener,
             f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.light_status",
         )
-        GPIO.setup(LEDLights.LED_PIN, GPIO.OUT)
         self._pwm_light = HardwarePWM(pwm_channel=LEDLights.PWM_CHANNEL, hz=LEDLights.PWM_FREQUENCY)
         self._pwm_light.start(self._brightness)
         #self._PWM_LIGHT = GPIO.PWM(LEDLights.LED_PIN, 490)

@@ -47,11 +47,9 @@ if __name__ == "__main__":
         water_pump = WaterPump()
 
         # Analyser objects
-        # humidity_analyser = HumidityAnalyser()
-        # brightness_analyser = BrightnessAnalyser()
         humidity_pid = HumidityPidAnalyser()
         brightness_pid = BrightnessPidAnalyser()
-        #water_level_analyser = WaterLevelAnalyser()
+        water_level_analyser = WaterLevelAnalyser()
         temperature_analyser = TemperatureAnalyser()
         moisture_analyser = MoisturePidAnalyser()
 
@@ -83,9 +81,11 @@ if __name__ == "__main__":
                 moisture_sensor.collect(PID_UPDATE)
                 fans.actuate()
                 lights.actuate()
-                #water_pump.actuate()
+                water_pump.actuate()
                 PID_UPDATE = True
                 sleep(PID_CLOCK_SPEED)
 
         except KeyboardInterrupt:
             GPIO.cleanup()
+            lights.cleanup()
+            fans.cleanup()

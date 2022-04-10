@@ -21,9 +21,12 @@ class BrightnessPidAnalyser(Analyser):
         feedback = brightness
         self._pid.update(feedback)
         output = 100 - self._pid.output  # / 100
+        #print(f"Pre-scaling output: {output}")
+        #print(f"PID output: {self._pid.output}")
         # TODO Need to move this logic somewhere else maybe?
         # Clamping value to 0-100 range
         output = int(max(0, min(output, 100)))
+        #print ("Brightness: ", brightness, "Output: ", output)
         sensor_data.actuator_value = output
 
         pub.sendMessage(

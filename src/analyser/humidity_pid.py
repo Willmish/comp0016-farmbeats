@@ -23,7 +23,7 @@ class HumidityPidAnalyser(Analyser):
         output = 100 - self._pid.output  # / 100
         # todo need to move this logic somewhere else maybe?
         # clamping value to 0-100 range
-        output = max(0, min(output, 100))
+        output = int(max(0, min(output, 100)))
         sensor_data.actuator_value = output
 
         pub.sendMessage(

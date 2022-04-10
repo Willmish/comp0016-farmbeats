@@ -7,7 +7,7 @@ import time
 class MoisturePidAnalyser(Analyser):
     MIN_WATER_LEVEL: float = 10.0
     POURING_TIME: int = 5
-    SOAKING_IN_TIME: float = 10.0
+    SOAKING_IN_TIME: float = 20.0
     TARGET_MOISTURE_LEVEL: float = 30.0
     MAX_DRYNESS_DEVIATION : float = 1.0
     def __init__(self, *args, **kwargs) -> None:
