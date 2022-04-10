@@ -64,9 +64,12 @@ class SettingsPage:
         home_button.place(bordermode=INSIDE, x=5, y=5)
 
         # settings_frame set up
-
+        self.settings_frame.grid_columnconfigure(0, weight=1)
         self.settings_frame.grid_columnconfigure(0, weight=1)
         self.settings_frame.grid_columnconfigure(1, weight=1)
+
+
+        Frame(self.settings_frame).grid(row=0, column=1)
 
 
 
@@ -120,28 +123,22 @@ class SettingsPage:
         current_file_frame.pack()
         left_frame.grid(
             row=0,
-            column=0,
+            column=1,
             sticky="news",
             pady=Constants.PADDING.value,
-            padx=Constants.PADDING.value,
         )
-        #img_frame = Frame(self.settings_frame)
 
-        canvas= Canvas(self.settings_frame, width= 400, height= 600)
+        canvas= Canvas(self.settings_frame, width= 500, height= 600)
         
         img = Image.open("settings_view/plant.png")      
         new_img = ImageTk.PhotoImage(img.resize((300,500), Image.ANTIALIAS))
-        canvas.create_image(100,0, anchor=NW, image=new_img)
+        canvas.create_image(0,0, anchor=NW, image=new_img)
         canvas.image = new_img
         canvas.grid(
-            row=0, column=1, sticky="news", pady=25, padx=25, 
+            row=0, column=2, sticky="news", pady=25, 
         )
 
-        # label = Label(img_frame, text="hi")
-        # label.pack()
-        # img_frame.grid(
-        #     row=0, column=1, sticky="news", pady=25, padx=25, rowspan=4
-        # )
+
         
         self.settings_frame.pack(
             fill=BOTH,
