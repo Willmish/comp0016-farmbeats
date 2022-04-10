@@ -20,6 +20,8 @@ class HumidityPidAnalyser(Analyser):
         humidity = args.sensor_value
         sensor_data = args
         feedback = humidity
+        if humidity < 55:
+            feedback = 55  # fans can only decrease humidity
         self._pid.update(feedback)
         output = 100 - self._pid.output  # / 100
         # todo need to move this logic somewhere else maybe?
