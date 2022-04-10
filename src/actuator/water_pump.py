@@ -3,7 +3,7 @@ from tools.status import Status
 from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
-from tools.logging import logInfo
+from tools.logging import logDebug
 
 
 class WaterPump(Actuator):
@@ -40,6 +40,6 @@ class WaterPump(Actuator):
 
     def water_pump_status_listener(self, args: SensorData, rest=None):
         status = args.actuator_value
-        logInfo(f"Received water pump status: {status}")
+        logDebug(f"Received water pump status: {status}")
         self._is_on = True if status > 0 else False
         self.actuate()

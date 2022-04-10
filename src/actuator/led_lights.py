@@ -3,7 +3,7 @@ from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
 from rpi_hardware_pwm import HardwarePWM
-from tools.logging import logInfo,logCritical
+from tools.logging import logDebug
 
 
 class LEDLights(Actuator):
@@ -48,5 +48,5 @@ class LEDLights(Actuator):
 
     def light_status_listener(self, args, rest=None):
         brightness = args.actuator_value
-        logInfo(f"Received brightness value: {brightness}%")
+        logDebug(f"Received brightness value: {brightness}%")
         self._brightness = brightness

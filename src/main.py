@@ -38,7 +38,7 @@ def dummy_listener_pid(args):
 
 if __name__ == "__main__":
     singal_handler: SignalHandler = SignalHandler()
-    logger.setLevel("DEBUG")
+    logger.setLevel("INFO")
     logInfo("Starting...")
     with IoTHubStreamer() as db:
         # db.create_sensor_data_table()
@@ -52,7 +52,6 @@ if __name__ == "__main__":
         # Analyser objects
         humidity_pid = HumidityPidAnalyser()
         brightness_pid = BrightnessPidAnalyser()
-        water_level_analyser = WaterLevelAnalyser()
         temperature_analyser = TemperatureAnalyser()
         moisture_analyser = MoisturePidAnalyser()
 

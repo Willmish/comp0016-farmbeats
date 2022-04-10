@@ -3,7 +3,7 @@ from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
 from rpi_hardware_pwm import HardwarePWM
-from tools.logging import logInfo
+from tools.logging import logDebug
 
 
 class Fans(Actuator):
@@ -64,7 +64,7 @@ class Fans(Actuator):
 
     def fan_status_listener(self, args, rest=None):
         speed = args.actuator_value
-        logInfo(f"Received fan speed value: {speed}%")
+        logDebug(f"Received fan speed value: {speed}%")
         assert 0 <= speed <= 100
         self._fan_speed = speed
         self._fan_out_speed = speed

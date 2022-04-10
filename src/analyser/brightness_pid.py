@@ -1,7 +1,7 @@
 from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
-from tools.logging import logDebug, logWarning, logInfo
+from tools.logging import logCritical, logDebug, logWarning, logInfo
 
 
 class BrightnessPidAnalyser(Analyser):
@@ -27,7 +27,10 @@ class BrightnessPidAnalyser(Analyser):
         # TODO Need to move this logic somewhere else maybe?
         # Clamping value to 0-100 range
         output = int(max(0, min(output, 100)))
-        sensor_data.actuator_value = output
+        
+
+        # TODO SWAP BACK TO OUTPUT ONCE CORRECT SENSOR IN PLACE
+        sensor_data.actuator_value = 0#output
         logDebug(f"{sensor_data}")
 
         pub.sendMessage(
@@ -40,11 +43,13 @@ class BrightnessPidAnalyser(Analyser):
         sensor_data = args
         feedback = brightness
         self._pid.update(feedback)
-        output = 100 - self._pid.output  # / 100
+        output = 100 * self._pid.output/400  # / 100
         # TODO Need to move this logic somewhere else maybe?
         # Clamping value to 0-100 range
-        output = max(0, min(output, 100))
-        sensor_data.actuator_value = output
+        output = int(max(0, min(output, 100)))
+
+        # TODO SWAP BACK TO OUTPUT ONCE CORRECT SENSOR IN PLACE
+        sensor_data.actuator_value = 0#output
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.light_status", args=sensor_data
         )
