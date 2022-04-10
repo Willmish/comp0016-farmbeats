@@ -1,5 +1,6 @@
 from tkinter import BOTH, INSIDE, NW, Button, Canvas, Frame, Label, PhotoImage, filedialog
 from PIL import Image, ImageTk
+from tools.config_file_parser import ConfigFileParser
 from tools.constants import Constants
 
 
@@ -155,11 +156,15 @@ class SettingsPage:
         path = filedialog.askopenfilename()
         if len(path) > 0:
             with open(path, "r") as input:
-                with open("tools/plant_profile_info.ini", "w+") as f:
-                    f.write(input.read())
-                    print(f.read())
-        with open("tools/plant_profile_info.ini", "r") as f:
-            self.file_info.config(text=f.read())
+                if ConfigFileParser(path).valid:
+                    with open("tools/plant_profile_info.ini", "w+") as f:
+                        f.write(input.read())
+                        print(f.read())
+                        with open("tools/plant_profile_info.ini", "r") as f2:
+                            self.file_info.config(text=f2.read())
+                else:
+                    print ("CANNOT CHANGE FILE")
+        
 
     def home_button_action(self, binst: Button):
         """
