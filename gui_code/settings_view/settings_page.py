@@ -1,4 +1,4 @@
-from tkinter import BOTH, INSIDE, Button, Frame, Label, filedialog
+from tkinter import BOTH, INSIDE, NW, Button, Canvas, Frame, Label, PhotoImage, filedialog
 from PIL import Image, ImageTk
 from tools.constants import Constants
 
@@ -65,27 +65,30 @@ class SettingsPage:
 
         # settings_frame set up
 
-        for n in range(2):
-            self.settings_frame.grid_columnconfigure(n, weight=1)
-        for n in range(4):
-            self.settings_frame.grid_rowconfigure(n, weight=1)
+        self.settings_frame.grid_columnconfigure(0, weight=1)
+        self.settings_frame.grid_columnconfigure(1, weight=1)
 
-        plant_name_label = Label(
-            self.settings_frame,
+
+
+        left_frame = Frame(self.settings_frame)
+
+        section_title_label = Label(
+            left_frame,
+            text="Plant Profile Settings",
+            font=(Constants.FONT_STYLE.value, 25),
+        )
+        section_title_label.pack(pady=15)
+
+        description_label = Label(
+            left_frame,
             text="The system GUI display takes the values shown\n"
             + "in configuration file below for a specific plant.",
             font=(Constants.FONT_STYLE.value, 15),
         )
-        plant_name_label.grid(
-            row=0,
-            column=0,
-            sticky="news",
-            pady=Constants.PADDING.value,
-            padx=Constants.PADDING.value,
-        )
+        description_label.pack(pady=15)
 
         current_file_frame = Frame(
-            self.settings_frame, bg=Constants.BACKGROUND.value
+            left_frame, bg=Constants.BACKGROUND.value
         )
 
         frame_title = Label(
@@ -104,23 +107,42 @@ class SettingsPage:
         )
         self.file_info.pack()
 
-        current_file_frame.grid(
-            row=1, column=0, sticky="news", pady=25, padx=25, rowspan=3
-        )
-
         change_file_button = Button(
-            self.settings_frame,
+            current_file_frame,
+            bg=Constants.BACKGROUND.value,
             text="Change File",
             command=self.change_file_action,
+            padx=15,
+            pady=15
         )
-        change_file_button.grid(
-            row=1,
-            column=1,
+        change_file_button.pack()
+
+        current_file_frame.pack()
+        left_frame.grid(
+            row=0,
+            column=0,
             sticky="news",
-            pady=25,
-            padx=25,
+            pady=Constants.PADDING.value,
+            padx=Constants.PADDING.value,
+        )
+        #img_frame = Frame(self.settings_frame)
+
+        canvas= Canvas(self.settings_frame, width= 400, height= 600)
+        
+        img = Image.open("settings_view/plant.png")      
+        new_img = ImageTk.PhotoImage(img.resize((300,500), Image.ANTIALIAS))
+        canvas.create_image(100,0, anchor=NW, image=new_img)
+        canvas.image = new_img
+        canvas.grid(
+            row=0, column=1, sticky="news", pady=25, padx=25, 
         )
 
+        # label = Label(img_frame, text="hi")
+        # label.pack()
+        # img_frame.grid(
+        #     row=0, column=1, sticky="news", pady=25, padx=25, rowspan=4
+        # )
+        
         self.settings_frame.pack(
             fill=BOTH,
             expand=True,
