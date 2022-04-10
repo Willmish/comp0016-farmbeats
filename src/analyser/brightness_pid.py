@@ -20,7 +20,7 @@ class BrightnessPidAnalyser(Analyser):
         sensor_data = args
         feedback = brightness
         self._pid.update(feedback)
-        output = 100 - self._pid.output  # / 100
+        output = 100 * self._pid.output/400  # / 100
         #print(f"Pre-scaling output: {output}")
         #print(f"PID output: {self._pid.output}")
         # TODO Need to move this logic somewhere else maybe?
