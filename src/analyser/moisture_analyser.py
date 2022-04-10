@@ -104,9 +104,6 @@ class MoisturePidAnalyser(Analyser):
         # For the actuator value, we send the cumulative time the pump has been on since the last update of the database
         sensor_data.actuator_value = self._cumulative_time_pump_on_since_update
         self._cumulative_time_pump_on_since_update = 0
-        if (MoisturePidAnalyser.TARGET_MOISTURE_LEVEL - soil_moisture >= MoisturePidAnalyser.MAX_DRYNESS_DEVIATION):
-            if (time.time() - self._last_time_poured >= MoisturePidAnalyser.SOAKING_IN_TIME):
-                sensor_data.actuator_value = 1.0 
         # TODO either change to send the on off status (will be inaccurate)
         # , or see issue #55
         pub.sendMessage(

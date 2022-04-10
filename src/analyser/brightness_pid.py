@@ -13,7 +13,7 @@ class BrightnessPidAnalyser(Analyser):
         self._pid = PID(
             self._p_parameter, self._i_parameter, self._d_parameter
         )
-        self._pid.SetPoint = 265
+        self._pid.SetPoint = 275
 
     def analyser_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "pid_update"  # TODO move to enum/config file

@@ -41,7 +41,7 @@ class SignalHandler:
         alarm(time)
     
     def pump_status_listener(self, signal_handler_message, message):
-        logInfo("Received pump vals over pubsub:", signal_handler_message)
+        logInfo(f"Received pump vals over pubsub: {signal_handler_message}")
         self.pump_status: bool = signal_handler_message["pump_status"]
         sensor_data: SensorData = message
         if self.pump_status:
