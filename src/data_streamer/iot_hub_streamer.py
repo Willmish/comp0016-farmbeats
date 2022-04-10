@@ -4,6 +4,8 @@ from pubsub import pub
 from datetime import datetime
 import os
 
+from tools.logging import logDebug, logInfo
+
 
 class IoTHubStreamer:
     sensor_data_topic = "database_update.actuator"
@@ -36,7 +38,7 @@ class IoTHubStreamer:
         )
 
     def sensor_data_listener(self, args):
-        print("IoTHubStreamer: Received data over pubsub ", args)
+        logInfo(f"IoTHubStreamer: Received data over pubsub {args}")
         date = str(datetime.fromtimestamp(args.timestamp))
         msg_text_formatted = IoTHubStreamer.MSG_TEXT.format(
             timestamp='"' + date + '"',
@@ -45,7 +47,7 @@ class IoTHubStreamer:
             value=args.sensor_value,
             actuator_value='"' + str(args.actuator_value) + '"',
         )
-        print(msg_text_formatted)
+        logDebug(f"Message: {msg_text_formatted}")
         message = Message(msg_text_formatted)
         self._client.send_message(message)
 

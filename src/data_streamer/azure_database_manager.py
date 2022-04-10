@@ -1,6 +1,7 @@
 from pubsub import pub
 from database_manager import DatabaseManager
 from dotenv import load_dotenv
+from tools.logging import logInfo
 import os
 import pyodbc
 
@@ -75,7 +76,7 @@ class AzureDatabaseManager(DatabaseManager):
         self._azure_conn.commit()
 
     def sensor_data_listener(self, args):
-        print("Received data over pubsub: ", args)
+        logInfo("Received data over pubsub: ", args)
         self.add_sensor_data(
             args.timestamp,
             args.sensor_id,

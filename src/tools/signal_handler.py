@@ -1,5 +1,6 @@
 from pubsub import pub
 from signal import signal, alarm, SIGALRM, SIGKILL
+from tools.logging import logDebug, logInfo
 from tools.sensor_data import SensorData
 
 class SignalHandler:
@@ -29,7 +30,7 @@ class SignalHandler:
     def handler(self, signum, frame):
         self.signal_received = True
         if signum == SIGALRM:
-            print("Alarm triggered!")
+            logDebug("Alarm triggered!")
             if self.pump_status:
                 self.pump_status = False
                 pub.sendMessage(f"{SignalHandler.MAIN_LISTEN_TOPIC}.actuator.water_pump_status", args=SensorData(actuator_value = 0.0))
@@ -40,7 +41,7 @@ class SignalHandler:
         alarm(time)
     
     def pump_status_listener(self, signal_handler_message, message):
-        print("Received pump vals over pubsub:", signal_handler_message)
+        logInfo("Received pump vals over pubsub:", signal_handler_message)
         self.pump_status: bool = signal_handler_message["pump_status"]
         sensor_data: SensorData = message
         if self.pump_status:

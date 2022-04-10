@@ -1,6 +1,7 @@
 from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
+from tools.logging import logDebug
 
 
 class HumidityPidAnalyser(Analyser):
@@ -25,7 +26,7 @@ class HumidityPidAnalyser(Analyser):
         # clamping value to 0-100 range
         output = int(max(0, min(output, 100)))
         sensor_data.actuator_value = output
-
+        logDebug(f"{sensor_data}")
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.fans_status", args=sensor_data
         )
@@ -42,7 +43,6 @@ class HumidityPidAnalyser(Analyser):
         output = max(0, min(output, 100))
         sensor_data.actuator_value = output
 
-        print("DB update: ", sensor_data)
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.fans_status", args=sensor_data
         )

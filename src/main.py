@@ -20,6 +20,7 @@ from analyser.moisture_analyser import MoisturePidAnalyser
 # from data_streamer.database_manager import DatabaseManager
 from data_streamer.iot_hub_streamer import IoTHubStreamer
 from tools.signal_handler import SignalHandler
+from tools.logging import logger, logInfo
 import RPi.GPIO as GPIO
 
 
@@ -37,6 +38,8 @@ def dummy_listener_pid(args):
 
 if __name__ == "__main__":
     singal_handler: SignalHandler = SignalHandler()
+    logger.setLevel("DEBUG")
+    logInfo("Starting...")
     with IoTHubStreamer() as db:
         # db.create_sensor_data_table()
         GPIO.setmode(GPIO.BCM)
@@ -69,7 +72,7 @@ if __name__ == "__main__":
                     time() - time_since_db_update
                     >= TIME_INTERVAL_BETWEEN_READINGS
                 ):
-                    print(
+                    logInfo(
                         "++++++++++++++++++++++++++++\n UPDATE DB\n"
                         "++++++++++++++++++++++++++++"
                     )
@@ -83,6 +86,7 @@ if __name__ == "__main__":
                 lights.actuate()
                 water_pump.actuate()
                 PID_UPDATE = True
+                logInfo("-----------------------------------------------------")
                 sleep(PID_CLOCK_SPEED)
 
         except KeyboardInterrupt:

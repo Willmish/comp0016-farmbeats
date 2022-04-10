@@ -18,7 +18,6 @@ class SoilMoistureSensor(Sensor):
         MODE = "pid_update" if pid_update else "database_update"
         val = self.soil_moisture.read_raw(self.SOIL_MOISTURE_PIN)
         val = self.map_number(val, 2504, 1543, 0, 100)
-        print("MOISTUREEEE: ", val)
         pub.sendMessage(
             f"{MODE}.sensor_data.soil_moisture_sensor",
             args=SensorData(

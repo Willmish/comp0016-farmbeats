@@ -1,6 +1,7 @@
 from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
+from tools.logging import logCritical, logDebug
 
 
 class TemperatureAnalyser(Analyser):
@@ -26,6 +27,11 @@ class TemperatureAnalyser(Analyser):
         output = max(0, min(output, 100))
         sensor_data.actuator_value = output
 
+        if (temperature > 35):
+            logCritical(f"Temperature sensor malfunction or system overheating!"\
+                         "Temperature is {temperature}!")
+
+        logDebug(f"{sensor_data}")
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.heater_status", args=sensor_data
         )
@@ -42,7 +48,6 @@ class TemperatureAnalyser(Analyser):
         output = max(0, min(output, 100))
         sensor_data.actuator_value = output
 
-        print("DB update: ", sensor_data)
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.heater_status", args=sensor_data
         )

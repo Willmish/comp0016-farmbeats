@@ -3,6 +3,7 @@ from tools.status import Status
 from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
+from tools.logging import logInfo
 
 
 class WaterPump(Actuator):
@@ -33,14 +34,12 @@ class WaterPump(Actuator):
     def actuate(self):
         """actuate: dummy actuation function, to be overriden by children."""
         if self._is_on is True:
-            print("pump on!")
             GPIO.output(WaterPump.PUMP_PIN, GPIO.HIGH)
         else:
-            print("pump off!")
             GPIO.output(WaterPump.PUMP_PIN, GPIO.LOW)
 
     def water_pump_status_listener(self, args: SensorData, rest=None):
         status = args.actuator_value
-        print("Received pump vals over pubsub:", status)
+        logInfo(f"Received water pump status: {status}")
         self._is_on = True if status > 0 else False
         self.actuate()

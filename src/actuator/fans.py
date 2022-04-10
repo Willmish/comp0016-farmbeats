@@ -3,6 +3,7 @@ from actuator.actuator import Actuator
 from pubsub import pub
 import RPi.GPIO as GPIO
 from rpi_hardware_pwm import HardwarePWM
+from tools.logging import logInfo
 
 
 class Fans(Actuator):
@@ -52,11 +53,9 @@ class Fans(Actuator):
     def actuate(self):
         """actuate: dummy actuation function, to be overriden by children."""
         if self._fan_speed > 20:
-            print("fans in on!")
             self._fan_pwm.change_duty_cycle(self._fan_speed)
             GPIO.output(Fans.FAN_PIN_SECONDARY, GPIO.LOW)
         else:
-            print("Fans in off!")
             self._fan_pwm.change_duty_cycle(0)
             GPIO.output(Fans.FAN_PIN_SECONDARY, GPIO.LOW)
 
@@ -65,8 +64,7 @@ class Fans(Actuator):
 
     def fan_status_listener(self, args, rest=None):
         speed = args.actuator_value
-        print("Received speed vals over pubsub:", speed)
-        print(args)
+        logInfo(f"Received fan speed value: {speed}%")
         assert 0 <= speed <= 100
         self._fan_speed = speed
         self._fan_out_speed = speed

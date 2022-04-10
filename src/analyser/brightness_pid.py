@@ -1,6 +1,7 @@
 from pubsub import pub
 from analyser.analyser import Analyser
 from pid.pid import PID
+from tools.logging import logDebug, logWarning, logInfo
 
 
 class BrightnessPidAnalyser(Analyser):
@@ -12,7 +13,7 @@ class BrightnessPidAnalyser(Analyser):
         self._pid = PID(
             self._p_parameter, self._i_parameter, self._d_parameter
         )
-        self._pid.SetPoint = 270
+        self._pid.SetPoint = 265
 
     def analyser_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "pid_update"  # TODO move to enum/config file
@@ -20,14 +21,14 @@ class BrightnessPidAnalyser(Analyser):
         sensor_data = args
         feedback = brightness
         self._pid.update(feedback)
+        #logWarning(f"PID output: {self._pid.output}")
         output = 100 * self._pid.output/400  # / 100
-        #print(f"Pre-scaling output: {output}")
-        #print(f"PID output: {self._pid.output}")
+        #logWarning(f"Post-scaling output: {output}")
         # TODO Need to move this logic somewhere else maybe?
         # Clamping value to 0-100 range
         output = int(max(0, min(output, 100)))
-        #print ("Brightness: ", brightness, "Output: ", output)
         sensor_data.actuator_value = output
+        logDebug(f"{sensor_data}")
 
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.light_status", args=sensor_data

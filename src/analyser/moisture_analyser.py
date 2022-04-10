@@ -3,6 +3,8 @@ from analyser.analyser import Analyser
 from pid.pid import PID
 import time
 
+from tools.logging import logDebug, logWarning
+
 
 class MoisturePidAnalyser(Analyser):
     MIN_WATER_LEVEL: float = 10.0
@@ -68,11 +70,12 @@ class MoisturePidAnalyser(Analyser):
     def soil_moisture_handler(self, args) -> None:
         MAIN_PUBSUB_TOPIC = "pid_update"  # TODO move to enum/config file
         if self._last_water_level < MoisturePidAnalyser.MIN_WATER_LEVEL:
-            print("Water level in the tank too low to pump water!")
+            logWarning("Water level in the tank too low to pump water!")
             return
 
         soil_moisture = args.sensor_value
         sensor_data = args
+        logDebug(f"{sensor_data}")
         #self._pid.update(soil_moisture)
         #output = (100 - self._pid.output) / 100
         #sensor_data.actuator_value = output
@@ -94,7 +97,7 @@ class MoisturePidAnalyser(Analyser):
     def soil_moisture_datastream_update_handler(self, args):
         MAIN_PUBSUB_TOPIC = "database_update"
         if self._last_water_level < MoisturePidAnalyser.MIN_WATER_LEVEL:
-            print("Water level in the tank too low to pump water!")
+            logWarning("Water level in the tank too low to pump water!")
             return
         soil_moisture = args.sensor_value
         sensor_data = args
