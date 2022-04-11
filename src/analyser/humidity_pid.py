@@ -35,9 +35,6 @@ class HumidityPidAnalyser(Analyser):
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.fans_status", args=sensor_data
         )
-        fi = open("humidityCache", "w")
-        fi.write(str(feedback))
-        fi.close()
 
 
     def datastream_update_listener(self, args, rest=None):
@@ -51,6 +48,7 @@ class HumidityPidAnalyser(Analyser):
         # clamping value to 0-100 range
         output = max(0, min(output, 100))
         sensor_data.actuator_value = output
+        self._pid.save()
 
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.fans_status", args=sensor_data

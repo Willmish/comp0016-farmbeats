@@ -4,7 +4,7 @@ from tools.logging import logDebug, logInfo
 from tools.sensor_data import SensorData
 
 class SignalHandler:
-    MAIN_LISTEN_TOPIC = "pid_update"
+    MAIN_PUBLISH_TOPIC = "pid_update"
     """
     Handles asynchrounous signals and calls the signal handler function.
     Uses pubsub to receive pump control messages from moisture_analyser module,
@@ -33,7 +33,7 @@ class SignalHandler:
             logDebug("Alarm triggered!")
             if self.pump_status:
                 self.pump_status = False
-                pub.sendMessage(f"{SignalHandler.MAIN_LISTEN_TOPIC}.actuator.water_pump_status", args=SensorData(actuator_value = 0.0))
+                pub.sendMessage(f"{SignalHandler.MAIN_PUBLISH_TOPIC}.actuator.water_pump_status", args=SensorData(actuator_value = 0.0))
 
 
     # Set alarm for a given time
@@ -46,7 +46,7 @@ class SignalHandler:
         sensor_data: SensorData = message
         if self.pump_status:
             self.time_on = signal_handler_message["time_on"]
-            pub.sendMessage(f"{SignalHandler.MAIN_LISTEN_TOPIC}.actuator.water_pump_status", args=sensor_data)
+            pub.sendMessage(f"{SignalHandler.MAIN_PUBLISH_TOPIC}.actuator.water_pump_status", args=sensor_data)
         self.set_alarm(self.time_on)
 
 
