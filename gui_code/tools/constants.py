@@ -11,6 +11,8 @@ class Constants(Enum):
     """
 
     PADDING = 15
+    EXTRA_PADDING = 30
+
     BACKGROUND = "#E7F5EF"
     GREEN_RGB = "#64975E"
     AMBER_RGB = "#D2A833"

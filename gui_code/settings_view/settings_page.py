@@ -1,5 +1,6 @@
 from tkinter import BOTH, INSIDE, NW, Button, Canvas, Frame, Label, PhotoImage, filedialog
 from PIL import Image, ImageTk
+from matplotlib.pyplot import text
 from tools.config_file_parser import ConfigFileParser
 from tools.constants import Constants
 
@@ -36,6 +37,7 @@ class SettingsPage:
         self.label_frame = title_frame
         self.label = label
         self.file_info = None
+        self.message = None
         self.page_setup()
 
     def page_setup(self):
@@ -122,6 +124,9 @@ class SettingsPage:
         change_file_button.pack()
 
         current_file_frame.pack()
+
+        self.message = Label(left_frame, text="", font=(Constants.FONT_STYLE.value, 15))
+        self.message.pack()
         left_frame.grid(
             row=0,
             column=1,
@@ -131,7 +136,7 @@ class SettingsPage:
 
         canvas= Canvas(self.settings_frame, width= 500, height= 600)
         
-        img = Image.open("settings_view/plant.png")      
+        img = Image.open("assets/settingsPagePlant.png")      
         new_img = ImageTk.PhotoImage(img.resize((300,500), Image.ANTIALIAS))
         canvas.create_image(0,0, anchor=NW, image=new_img)
         canvas.image = new_img
@@ -162,7 +167,10 @@ class SettingsPage:
                         print(f.read())
                         with open("tools/plant_profile_info.ini", "r") as f2:
                             self.file_info.config(text=f2.read())
+                        self.message.config(text="File change successful.")
+                        
                 else:
+                    self.message.config(text="Error. Cannot change file.")
                     print ("CANNOT CHANGE FILE")
         
 

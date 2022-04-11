@@ -12,7 +12,7 @@ class WaterScale:
     CANVAS_WIDTH = 80
     CONTAINER_HEIGHT = 200
     CONTAINER_WIDTH = 50
-    Y_OFFSET = 20
+    Y_OFFSET = 10
     X_OFFSET = 10
     TEXT_Y_OFFSET = 5
     TEXT_X_OFFSET = 10
@@ -86,6 +86,7 @@ class WaterScale:
             column=0,
             sticky="news",
             padx=Constants.PADDING.value,
+            pady=(0,Constants.PADDING.value)
         )
 
     def draw_scale(self):

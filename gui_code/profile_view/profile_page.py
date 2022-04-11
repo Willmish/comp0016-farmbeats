@@ -1,5 +1,5 @@
 from datetime import timedelta
-from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT
+from tkinter import CENTER, NW, TOP, Canvas, Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT
 from typing import List
 import matplotlib.pyplot as plt
 from profile_view.water_scale import WaterScale
@@ -110,8 +110,9 @@ class ProfilePage:
 
         # sensor_frame set up
 
-        for n in range(2):
-            self.profile_frame.grid_columnconfigure(n, weight=1)
+        self.profile_frame.grid_columnconfigure(0, weight=3)
+        self.profile_frame.grid_columnconfigure(1, weight=1)
+
         for n in range(3):
             self.profile_frame.grid_rowconfigure(n, weight=1)
 
@@ -148,8 +149,8 @@ class ProfilePage:
             row=0,
             column=0,
             sticky="news",
-            pady=Constants.PADDING.value,
-            padx=Constants.PADDING.value,
+            pady=Constants.EXTRA_PADDING.value,
+            padx=Constants.EXTRA_PADDING.value,
             rowspan=3,
         )
 
@@ -168,17 +169,28 @@ class ProfilePage:
             font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
         suggestion_label.pack()
+
+        
         message_frame = Frame(self.suggestion_frame, height=400)
         self.msg = Label(message_frame, text=self.profile.suggestion)
         self.msg.pack()
         message_frame.pack()
 
+        if not self.is_water:
+            canvas= Canvas(message_frame, width= 150, height= 175)
+        
+            img = Image.open("assets/profilePagePlant.png")      
+            new_img = ImageTk.PhotoImage(img.resize((150,150), Image.ANTIALIAS))
+            canvas.create_image(0,25, anchor=NW, image=new_img)
+            canvas.image = new_img
+            canvas.pack()
+
         self.suggestion_frame.grid(
             row=2,
             column=1,
             sticky="news",
-            pady=Constants.PADDING.value,
-            padx=Constants.PADDING.value,
+            pady=Constants.EXTRA_PADDING.value,
+            padx=Constants.EXTRA_PADDING.value,
         )
 
         # Display on profile_frame
@@ -205,11 +217,11 @@ class ProfilePage:
             interval = range_seconds / (no_xticks - 1)
             curr = min(xar)
             locs = [curr]
-            labels = [curr.strftime("%H:%M")]
+            labels = [curr.strftime("%H:%M:%S")]
             for n in range(no_xticks - 1):
                 curr = curr + timedelta(seconds=interval)
                 locs.append(curr)
-                labels.append(curr.strftime("%H:%M"))
+                labels.append(curr.strftime("%H:%M:%S"))
             return (locs, labels)
         else:
             return ([], [])
@@ -238,7 +250,7 @@ class ProfilePage:
             self.fig, self.animate, interval=Constants.TIME_INTERVAL.value
         )
         self.axs.set(
-            xlabel="Time (HH:MM)",
+            xlabel="Time (HH:MM:SS)",
             ylabel=y_label,
             title=self.profile.graph_title,
         )
@@ -289,7 +301,7 @@ class ProfilePage:
             self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1]
         )
         self.axs.set(
-            xlabel="Time (HH:MM)",
+            xlabel="Time (HH:MM:SS)",
             ylabel=self.profile.title + " (" + self.profile.unit + ")",
             title=self.profile.graph_title,
         )
@@ -322,6 +334,11 @@ class ProfilePage:
         updates in regular intervals. It also sets up an extra
         water level frame if the selected subsystem is Soil Moisture.
         """
+        if self.is_water:
+            y_padding = 0
+        else: 
+            y_padding = Constants.PADDING.value
+
         self.actuator_frame = Frame(
             self.profile_frame, bg=Constants.BACKGROUND.value
         )
@@ -339,7 +356,7 @@ class ProfilePage:
         )
 
         actuatorTitle.grid(
-            row=0, column=0, sticky="news", padx=Constants.PADDING.value
+            row=0, column=0, sticky="news", padx=Constants.PADDING.value, pady=y_padding,
         )
 
         mode_switch_frame = Frame(
@@ -350,16 +367,16 @@ class ProfilePage:
             background="#CEE5DB",
             font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
-        manual_mode.pack(side=RIGHT)
+        manual_mode.pack(side=RIGHT, padx=55)
         automatic_mode = Button(mode_switch_frame, text="Automatic")
         automatic_mode.config(
             background=Constants.BACKGROUND.value,
             font=(Constants.FONT_STYLE.value, Constants.FONT_SIZE.value),
         )
-        automatic_mode.pack(side=LEFT)
+        automatic_mode.pack(side=RIGHT)
 
         mode_switch_frame.grid(
-            row=1, column=0, sticky="news", padx=Constants.PADDING.value
+            row=1, column=0, sticky="news", padx=Constants.PADDING.value, pady=y_padding,
         )
 
         self.curr_actuator_value_label = Label(
@@ -372,7 +389,7 @@ class ProfilePage:
         )
 
         self.curr_actuator_value_label.grid(
-            row=2, column=0, sticky="news", padx=Constants.PADDING.value
+            row=2, column=0, sticky="news", padx=Constants.PADDING.value, pady=y_padding,
         )
 
         if self.is_water:
@@ -380,8 +397,8 @@ class ProfilePage:
                 row=0,
                 column=1,
                 sticky="news",
-                pady=Constants.PADDING.value,
-                padx=Constants.PADDING.value,
+                pady=Constants.EXTRA_PADDING.value,
+                padx=Constants.EXTRA_PADDING.value,
             )
             self.water_level_frame_setup()
         else:
@@ -389,8 +406,8 @@ class ProfilePage:
                 row=0,
                 column=1,
                 sticky="news",
-                pady=Constants.PADDING.value,
-                padx=Constants.PADDING.value,
+                pady=Constants.EXTRA_PADDING.value,
+                padx=Constants.EXTRA_PADDING.value,
                 rowspan=2,
             )
 
@@ -457,6 +474,5 @@ class ProfilePage:
             row=1,
             column=1,
             sticky="news",
-            pady=Constants.PADDING.value,
             padx=Constants.PADDING.value,
         )
