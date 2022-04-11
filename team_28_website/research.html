@@ -86,18 +86,17 @@
                 </ul>
             <li class="dropdown"><a href="software_implementation.html"><span>Software</span> <i class="bi bi-chevron-down"></i></a>
                 <ul>
-                    <li><a href="software_implementation.html#overview">Overview</a></li>
-                    <li><a href="software_implementation.html#database">Database</a></li>
-                    <li><a href="software_implementation.html#data analysis">Data Analysis</a></li>
-                    <li><a href="software_implementation.html#communication">Communication</a></li>
-                    <li><a href="software_implementation.html#sensor and actuators">Sensor and Actuators</a></li>
-                    <li><a href="software_implementation.html#gui">GUI</a></li>
+                  <li><a href="software_implementation.html#overview">Overview</a></li>
+                  <li><a href="software_implementation.html#sensor and actuators">Sensor and Actuators</a></li>
+                  <li><a href="software_implementation.html#data analysis">Data Analysis</a></li>
+                  <li><a href="#cloud based solution">Cloud Based Solution</a></li>
+                  <li><a href="software_implementation.html#gui">GUI</a></li>
                 </ul>
             <li class="dropdown"><a href="hardware.html"><span>Hardware</span> <i class="bi bi-chevron-down"></i></a>
                 <ul>
-                    <li><a href="hardware.html#design">Design</a></li>
-                    <li><a href="hardware.html#implementation">Implementation</a></li>
-                    <li><a href="hardware.html#gallery">Gallery</a></li>
+                  <li><a href="hardware.html#design">Design</a></li>
+                  <li><a href="hardware.html#implementation">Implementation</a></li>
+                  <li><a href="hardware.html#hardware_info">Hardware Information</a></li>
                 </ul>
             <li class="dropdown"><a href="testing.html"><span>Testing</span> <i class="bi bi-chevron-down"></i></a>
                 <ul>
@@ -136,7 +135,7 @@
       <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
           <h1>Research</h1>
-          <div><a href="#client introduction" class="btn-get-started scrollto">Learn More</a></div>
+          <div><a href="#related projects review" class="btn-get-started scrollto">Learn More</a></div>
         </div>
         <div class="col-xl-4 col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="150">
           <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
@@ -153,6 +152,25 @@
       <div class="container">
         <div data-aos="fade-right">
             <h1>Related Project Review</h1>
+            <p>
+              This project is similar to vertical agriculture farming solutions such as Growing
+              Underground’s Zero Carbon Farms [1] and nurturGRO provided by Light Science Technologies[2].
+              They both provide indoor services and auto-vegetable growing using computer-controlled humidity,
+              luminosity, and temperature systems for large range farming. For example, the Zero Carbon Farms
+              is capable to grow and provide and deliver some green leaf vegetables within 2 weeks.
+              Similar to Zero Carbon Farms and nurturGRO, our FarmBeats will also be able to control humidity,
+              luminosity,  and temperature for the growing environment. Further, as a product that can be used 
+              personally, we aim to provide two versions of the frontend web app for easy usage. This will be 
+              performed by using IoT hardware and Azure cloud services.
+            </p>
+            <p>
+              As the examples are both business solutions, providing only vegetables to consumers and utilizing a large 
+              range of farming methods, their projects are all kept privately. Our project is completely public for people 
+              to use and available for others to build upon. From the ZCF-impact-report-2021 [3], we can have a peek at 
+              how this kind of agriculture solution is beneficial to the environment, amount of production and space-saving. 
+              Furthermore, ur product can be an affordable solution for users or restraints who want to grow their food. 
+              This gives us an insight into how we can implement our solution with allocated resources.
+            </p>
         </div>
 
       </div>
@@ -163,6 +181,75 @@
         <div class="container">
         <div data-aos="fade-right">
             <h1>Technology Review</h1>
+            <br>
+            <h3>Hardware Devices</h3>
+            <p>
+              After getting an idea of what our solution could be centred around, we started designing our 
+              control system. To do so, we researched technologies we could include:
+            </p>
+
+            <p>
+              To monitor current farm conditions, we need on-field devices to collect data and make responses. 
+              Avanade has provided most of the hardware needed, including a Raspberry Pi 4B [4] with 4GB of 
+              RAM and a Grove Smart Agriculture Kit for Raspberry Pi 4 [5].
+            </p>  
+
+            <p>
+              In addition to the provided hardware, we still need to acquire actuators for the luminosity, 
+              humidity, watering and temperature subsystems, as well as components needed to power those 
+              actuators. We firstly designed a circuit we could use and listed the hardware components needed. 
+              We then highlighted components we don't have yet and ordered them online. This circuit design 
+              includes adding extra power supplies to, for example, the LED light actuators of the luminosity 
+              subsystem. The LED bubbles are connected in serial and straightly powered by the Raspberry Pi's 
+              GPIO pin.
+            </p>
+            
+            <p>
+              After some reading of the best growing light [6], we discovered the best colour would be RB with 
+              red and blue brightness set in the ratio of 8:1. We found a suitable LED strip on amazon and 
+              ordered it. Compared to the original planning, this led strip provided better light colour with 
+              greater maximum luminosity.To power this device, we decided to use a MOSFET and a 12v external power 
+              supply. We have another MOSFET for powering other components, but due to the high current needed 
+              for the led strip, we decided to have separated MOSFETs.
+            </p>
+
+            <p>
+              For the actuator of the humidity subsystem, we had 2 available options for choosing according 
+              to the available pins on board. Firstly, we can use PWM controlled 4 pin computer fans which are 
+              from our original design in circuit design. Secondly, we can use the MOSFET to control 2 pin DC 
+              fan. Ultimately, we decided that, since we are using the same 12v external power supply for 
+              everything, we could use the MOSFET and DC fan solution for cheaper cost and simpler wiring.
+            </p>
+
+            <p>
+              For actuator of watering, compared to types of small size pumps on market, we chose the 5v diving 
+              pump, which is powered by Grove relay, as we programmed it an on and off time pattern instead 
+              of changing its voltage for different water flow rate.
+            </p>
+
+            <h3>Programming Language</h3>
+            <p>
+              For code implementation, we considered both Python and Java, which are both capable of programming 
+              towards IoT programming and object-oriented programming. We compared them in several integrals. 
+              Firstly, Python has a much shorter development cycle than Java as a weak typo check language. 
+              Secondly, Java is more efficient in backend calculations, but this doesn't give a huge advantage 
+              for our project specifically. Finally, there are more libraries for hardware that we can find capable 
+              for Python than Java, so we ultimately chose Python for both the front end and back end of our project. 
+              Since our client wants a simple, easy-to-use GUI, we used the Tkinter library to implement it.
+            </p>
+
+
+            <h2>Data Analysis Algorithm</h2>
+            <p>
+              For backend analyzers, we first came up with a simple set value-reaction style algorithm which turns to 
+              set position when reaching some typical points. Soon we found this way can hardly keep the system situation 
+              steady. We then came up with another algorithm, PID. PID (Proportional–Integral–Derivative) is a control 
+              loop mechanism that requires continuous updates of data. A PID controller continuously calculates an error 
+              value e(t) as the difference between the desired setpoint (SP) and a measured process variable (PV) and 
+              applies a correction based on proportional, integral, and derivative terms (denoted P, I, and D 
+              respectively), hence the name. [7] By using PID, we can make a much smoother curve to reach the target 
+              value, and it can make the value stable at the target point.
+            </p>
         </div>
 
         </div>
@@ -173,6 +260,10 @@
         <div class="container">
         <div data-aos="fade-right">
             <h1>A Summary of Your Technical Decisions</h1>
+
+            <p>
+
+            </p>
         </div>
 
         </div>
