@@ -11,7 +11,7 @@ class HumidityPidAnalyser(Analyser):
         self._i_parameter = 0.5
         self._d_parameter = 0.001
         self._pid = PID(
-            self._p_parameter, self._i_parameter, self._d_parameter
+            self._p_parameter, self._i_parameter, self._d_parameter, "./pid/pidHumidityCache"
         )
         self._pid.SetPoint = 55
         self._pid.recover()

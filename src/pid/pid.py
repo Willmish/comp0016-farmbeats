@@ -3,13 +3,14 @@ import time
 
 
 class PID:
-    def __init__(self, p, i, d):
+    def __init__(self, p, i, d, cache_path = "./pid/cache"):
         self.Kp = p
         self.Ki = i
         self.Kd = d
         self.sample_time = 0.00
         self.current_time = time.time()
         self.last_time = self.current_time
+        self._cache_path = cache_path
         self.clear()
 
     def clear(self):
@@ -24,7 +25,6 @@ class PID:
         error = self.SetPoint - feedback_value
         self.current_time = time.time()
         delta_time = self.current_time - self.last_time
-        print(delta_time)
         delta_error = error - self.last_error
         if delta_time >= self.sample_time:
             self.PTerm = self.Kp * error  # P
@@ -42,20 +42,23 @@ class PID:
         self.sample_time = sample_time
 
     def recover(self):
-        f = open("./pid/pidHumidityCache", "r")
-        p = float(f.readline())
-        i = float(f.readline())
-        d = float(f.readline())
-        f.close()
+        try:
+            with open(self._cache_path, "r") as f:
+                p = float(f.readline())
+                i = float(f.readline())
+                d = float(f.readline())
+        except FileNotFoundError:
+            p = 0
+            i = 0
+            d = 0
         self.PTerm = p
         self.ITerm = i
         self.DTerm = d
 
     def save(self):
-        f = open("./pid/pidHumidityCache", "w")
-        f.write(str(self.PTerm))
-        f.write("\n")
-        f.write(str(self.ITerm))
-        f.write("\n")
-        f.write(str(self.DTerm))
-        f.close()
+        with open(self._cache_path, "w+") as f:
+            f.write(str(self.PTerm))
+            f.write("\n")
+            f.write(str(self.ITerm))
+            f.write("\n")
+            f.write(str(self.DTerm))

@@ -38,7 +38,7 @@ def dummy_listener_pid(args):
 
 if __name__ == "__main__":
     singal_handler: SignalHandler = SignalHandler()
-    logger.setLevel("INFO")
+    logger.setLevel("CRITICAL")
     logInfo("Starting...")
     with IoTHubStreamer() as db:
         # db.create_sensor_data_table()
