@@ -154,7 +154,7 @@
             <h1>Related Project Review</h1>
             <p>
               This project is similar to vertical agriculture farming solutions such as Growing
-              Underground’s Zero Carbon Farms [1] and nurturGRO provided by Light Science Technologies[2].
+              Underground’s Zero Carbon Farms [<a href="#reference">1</a>] and nurturGRO provided by Light Science Technologies[<a href="#reference">2</a>].
               They both provide indoor services and auto-vegetable growing using computer-controlled humidity,
               luminosity, and temperature systems for large range farming. For example, the Zero Carbon Farms
               is capable to grow and provide and deliver some green leaf vegetables within 2 weeks.
@@ -166,7 +166,7 @@
             <p>
               As the examples are both business solutions, providing only vegetables to consumers and utilizing a large 
               range of farming methods, their projects are all kept privately. Our project is completely public for people 
-              to use and available for others to build upon. From the ZCF-impact-report-2021 [3], we can have a peek at 
+              to use and available for others to build upon. From the ZCF-impact-report-2021 [<a href="#reference">3</a>], we can have a peek at 
               how this kind of agriculture solution is beneficial to the environment, amount of production and space-saving. 
               Furthermore, ur product can be an affordable solution for users or restraints who want to grow their food. 
               This gives us an insight into how we can implement our solution with allocated resources.
@@ -190,8 +190,8 @@
 
             <p>
               To monitor current farm conditions, we need on-field devices to collect data and make responses. 
-              Avanade has provided most of the hardware needed, including a Raspberry Pi 4B [4] with 4GB of 
-              RAM and a Grove Smart Agriculture Kit for Raspberry Pi 4 [5].
+              Avanade has provided most of the hardware needed, including a Raspberry Pi 4B [<a href="#reference">4</a>] with 4GB of 
+              RAM and a Grove Smart Agriculture Kit for Raspberry Pi 4 [<a href="#reference">5</a>].
             </p>  
 
             <p>
@@ -205,7 +205,7 @@
             </p>
             
             <p>
-              After some reading of the best growing light [6], we discovered the best colour would be RB with 
+              After some reading of the best growing light [<a href="#reference">6</a>], we discovered the best colour would be RB with 
               red and blue brightness set in the ratio of 8:1. We found a suitable LED strip on amazon and 
               ordered it. Compared to the original planning, this led strip provided better light colour with 
               greater maximum luminosity.To power this device, we decided to use a MOSFET and a 12v external power 
@@ -247,7 +247,7 @@
               loop mechanism that requires continuous updates of data. A PID controller continuously calculates an error 
               value e(t) as the difference between the desired setpoint (SP) and a measured process variable (PV) and 
               applies a correction based on proportional, integral, and derivative terms (denoted P, I, and D 
-              respectively), hence the name. [7] By using PID, we can make a much smoother curve to reach the target 
+              respectively), hence the name. [<a href="#reference">7</a>] By using PID, we can make a much smoother curve to reach the target 
               value, and it can make the value stable at the target point.
             </p>
 
@@ -273,7 +273,7 @@
               those to set up an online database and access data via internet connection. Our client provided us with 
               an account that accesses many Azure Services:
             </p>
-            <img src="assets/img/research/azure_services.png" class="img-fluid" alt="" style="width:400px;height:200px;">
+            <img src="assets/img/research/azure_services.png" class="img-fluid" alt="" style="width:550px;height:200px;">
 
             <p>
               The SQL databases service allows us to set up a FarmBeats server and database that can be accessed by both 
@@ -290,6 +290,7 @@
               with the database, however, since the Raspberry Pi cannot have the ODBC driver installed, we need 
               an alternative way of connecting it: IoT Hub.
             </p>
+            <img src="assets/img/research/database_profile.png" class="img-fluid" alt="" style="width:500px;height:200px;">
 
             <p>
               The IoT Hub [<a href="#reference">12</a>] is an Azure service that allows our edge devices to communicate in a secure, reliable 
@@ -328,13 +329,19 @@
         <div class="container" data-aos="fade-up">
           <div class="section-title">
             <h2>References</h2>
+            <p>[1]     Growing Underground, “Growing Underground,” [online]. Available: https://growing-underground.com/about/.</p>
+            <p>[2]     lightsciencetech, “lightsciencetech,” lightsciencetech, [online]. Available: https://lightsciencetech.com/solutions/vertical-farming/.</p>
+            <p>[3]     Growing Underground, “ZCF-impact-report-2021.pdf,” 2021.</p>
+            <p>[4]     raspberry pi, “raspberry pi 4b specifications,” [online]. Available: https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/.</p>
+            <p>[5]     seeed studio, “Grove Smart Agriculture Kit for Raspberry Pi 4,” [online]. Available: https://www.seeedstudio.com/Grove-Kit-with-Raspberry-Pi-4-designed-for-Microsoft-FarmBeats-for-Students-p-4872.html.</p>
+            <p>[6]     [online]. Available: https://migrolight.com/blogs/grow-light-news/best-grow-light-spectrum.</p>
+            <p>[7]     wikipedia, “wikipedia.PID_controller,” [online]. Available: https://en.wikipedia.org/wiki/PID_controller.</p>
             <p>[8] 	"pyodbc 4.0.32," Python Documentation, [Online]. Available: https://pypi.org/project/pyodbc/. [Accessed April 2022].</p>
             <p>[9] 	"Azure IoT Hub," Azure, [Online]. Available: https://azure.microsoft.com/en-gb/services/iot-hub/. [Accessed April 2022].</p>
             <p>[10] 	"Azure Stream Analytics," Azure, [Online]. Available: https://azure.microsoft.com/en-gb/services/stream-analytics/. [Accessed April 2022].</p>
             <p>[11] 	"Python GUI – PyQt VS TKinter," GeeksforGeeks, [Online]. Available: https://www.geeksforgeeks.org/python-gui-pyqt-vs-tkinter/. [Accessed April 2022].</p>
             <p>[12] 	"sqlite3 — DB-API 2.0 interface for SQLite databases," Python Documentation, [Online]. Available: https://docs.python.org/3/library/sqlite3.html . [Accessed April 2022].</p>
             <p>[13] 	"Microsoft ODBC Driver for SQL Server," Microsoft Documentation, [Online]. Available: https://docs.microsoft.com/en-us/sql/connect/odbc/microsoft-odbc-driver-for-sql-server?view=sql-server-ver15. [Accessed April 2022].</p>
-
           </div>
           <div class="row">
           </div>

@@ -589,7 +589,7 @@
                 <li>Allow buttons to change colour when the mouse is hovering above it.</li>
                 <li>
                   Add more graph features - for example, allow the user to enter the number 
-                  of ticks shown on the x and y axis, or control the number of sensor information 
+                  of ticks shown on the x and y-axis, or control the number of sensor information 
                   being displayed on graph animation.
                 </li>
                 <li>Implement a config file parser to ensure only correct files can be loaded onto the system to avoid errors.</li>
@@ -628,6 +628,89 @@
                 to actuators. 
               </p>
 
+              <h3>Stability</h3>
+              <p>
+                All data collected from the sensors and actuators are stored on the Azure SQL database which 
+                is stable and reliable. The latest version showed 99.99% availability [1], allowing data to 
+                be safely accessed from anywhere as long as there is an internet connection. In addition, 
+                due to firewalls being set up with a secure password that is kept secret with the user, stability 
+                in system security is guaranteed, ensuring data stored is accurate.
+              </p>
+
+              <p>
+                Our current implemented database can store up to [insert value] of data. This can be easily 
+                extended with Azure if needed. Also, through tests, the raspberry pi can run for several hours
+                at once for data collection to database. Since Azure is a reliable service, we can ensure that 
+                the data can be stored on cloud for as long as the needed.
+              </p>
+
+              <h3>Efficiency</h3>
+              <p>
+                We have designed our communication to ensure data is sent as efficiently as possible. This is done 
+                using multi-threading and through the publisher-subscriber design pattern. Multithreading allows 
+                PID calculations to be made in smaller time intervals than data collection intervals, allowing for 
+                a more accurate output value without increasing function calls for extra, unnecessary data collection. 
+                The GUI is implemented to only make one single connection with the database when the app is instantiated 
+                and closes the connection when the app is closed. This is a lot more efficient than opening and closing 
+                connections every time data access is needed at every regular interval which would be time-consuming.
+              </p>
+
+              <h3>Compatibility</h3>
+
+              <h3>Maintainability</h3>
+              <p>
+                Our code is structured to maximise maintainability through firstly separating the front end (<code>gui_code</code>) 
+                from the back end (<code>src</code>). The front end code is then grouped to have a ‘view’ module for each page. 
+                For example the '<code>profile_view</code>' stores all classes required to set up the page: 
+              </p>
+              <img src="assets/img/evaluation/profile_view_structure.png" class="img-fluid" alt="" style="width:250px;height:300px;">
+
+              <p>
+                Each component, such as scale and graph, is abstracted into its class, isolating the code so that it is easier to 
+                implement and add extra features if needed. Further, the ‘<code>data_streamer</code>' module is separate, containing files related 
+                to database access only, which is then called by the main GUI app to obtain data. This eases the debugging process of 
+                SQL queries by just looking at the <code>data_streamer</code>.
+              </p>
+
+              <p>
+                Under tools, we included the <code>constants.py</code> file to store features like frame padding and text font sizes so that the 
+                values are consistently used across the whole GUI system. Not only does this reduce magic numbers, but it also allows 
+                features to be changed by only changing one value.
+              </p>
+
+              <p>The backend <code>src</code> is also structured into submodules:</p>
+
+              <img src="assets/img/evaluation/src.png" class="img-fluid" alt="" style="width:250px;height:350px;">
+
+              <p>
+                For each subsystem, there is an actuator, analyser, and sensor placed in appropriate modules. To ensure messages sent 
+                through pubsub is maintained, we collated all topics into a config.ini file to organise and keep track. This also ensures 
+                that messages can be easily altered without going through the entire project folder.
+              </p>
+
+              <h3>Project Management</h3>
+
+              <p>
+                Our team uses Discord and Whatsapp as our main methods of communication. We use Notion to collate and share 
+                our portfolio notes and list of goals. We set up weekly meetings online to review our weekly to-do list and 
+                set members new tasks to complete for the following week. In addition, we use GitHub to share code, review code 
+                PRs, and open new issues to set members a debugging or code enhancement task to complete. We used Visual Studio 
+                Code Live Collaboration to carry out pair programming for some of the harder tasks to implement, such as sending 
+                data to and from the database. Overall we followed the Gantt chart to ensure our long term goals will be completed 
+                within the deadline. Every two weeks, we would write about the implementation processes in the blogs to keep 
+                track of progress.
+              </p>
+              
+              <p>
+                Since our project is hardware-centred, we kept the components in one member’s apartment and met up in person once 
+                a week to work with it. This physically also allows us to discuss the separate parts we have worked on asynchronously 
+                and try to put the sections together. As it took up some time to confirm the hardware list with our client, order them, 
+                receive and assemble them, we had to plan our code implementation around the resources we have available. This meant that 
+                at the beginning of the project we spent more time on research and design, as it was difficult to implement the system 
+                without having all the components needed. In addition, we book weekly meetings with our client on Teams to keep him up 
+                to date with our current progress and thoughts for the next steps.
+              </p>
+
           </div>
   
         </div>
@@ -638,7 +721,76 @@
         <div class="container">
           <div data-aos="fade-right">
               <h1>Future Work</h1>
+
+              <p>
+                One key feature in our Could-have requirements is to add an AI Camera to our system. 
+                The aim is to stream images of the the plants for the system to analyse and infer 
+                plant health, which can also give an insight to actuation performance in maintaining 
+                optimal growth conditions. 
+              </p>
+
+              <p>
+                One camera model we could use is with the Microsoft AI Vision Kit by Elnfochips. This 
+                can be connected to any PC via internet connection and the images can be streamed using 
+                VLC with the camera RTSP address. Alternatively, another way to view camera data is 
+                via a physical HDMI cable. 
+              </p>
+
+              <p>
+                Once a connection is made to stream a live video from AI camera to the GUI, we can apply ML. 
+                Here is a list of features we can implement with ML:
+              </p>    
+              <ul>
+                <li>Detect number of leaves in plant.</li>
+                <li>Analyse the dry level of the plant.</li>
+                <li>Detect plant disease symptoms such as spots.</li>
+                <li>Analyse plant stress level.</li>
+              </ul>   
+
+            <img src="assets/img/evaluation/ai_camera.jpeg" class="img-fluid" alt="" style="width:300px;height:200px;">
+
+            <h3>Allow for more User Inputs</h3>
+            <p>
+              Our current GUI is designed to be easily extendable. For the options menu, we can add a scrolling feature 
+              as well as more buttons for the user to select. This allows future work on the project to include many more 
+              subsystems, such as soil pH level, each with its profile page with sensor and actuation information displayed. 
+              Further, we could add an option for each profile page to also view a graph for actuation value over time.
+            </p>
+
+            <p>
+              For the ‘Soil Moisture Level’ specifically, including an actuation graph would significantly improve clarity 
+              in showing the user, how the pumps are being operated. The graph could have a discrete on/off value for the 
+              y axis - it will take the value 1 when the pump is on and 0 when the pump is off, against time on the x-axis. 
+              This would allow the user to see how long the pump has been turned on and off.
+            </p>
+
+            <p>
+              Under the system settings section, we could allow the user to format the profile page to tailor to more specific 
+              needs, such as allowing them to adjust the number of ticks shown on the x and y-axis of the sensor graph. The 
+              number of sensor values shown on the graph could also be adjusted by a user with a slide of a given range. For 
+              example, allow the user the choose between 5 and 50 sensor values to be displayed on a graph against time.
+            </p>
+
+            <p>
+              For uploading a configuration file for a plant profile, we can extend the feature by allowing the user to edit 
+              the file on the GUI and allow them to save and select different plant profiles. The configuration file format 
+              can include a new variable called setpoint which allows the user to log specific desired setpoints for each 
+              subsystem that will be sent to the Raspberry Pi for the PID mechanism to generate an appropriate response.
+            </p>
+
+            <h3>Scaling Up to Industry Level</h3>
+            <p>
+              Currently, the system only has one sensor for each subsystem, but we have structured the SQL database to include 
+              sensor ID and sensor Type which allows the same sensor Type to have multiple sensor devices. This means that we 
+              can ultimately have a system with hundreds of sensor devices for each subsystem placed across a large area of 
+              farmland, allowing the user to monitor and control the overall state of the conditions with our system. Once 
+              scaled up, our solution could help with precision farming, allowing maximum yield, and thus reach towards 
+              solving the food production problems addressed to us by our client.
+            </p>
+
           </div>
+
+
   
         </div>
       </section><!-- Future Work Section -->
