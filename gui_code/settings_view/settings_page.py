@@ -109,7 +109,7 @@ class SettingsPage:
         self.file_info = Label(
             current_file_frame,
             text=read_string,
-            font=(Constants.FONT_STYLE.value, 15),
+            font=(Constants.FONT_STYLE.value, 13),
         )
         self.file_info.pack()
 

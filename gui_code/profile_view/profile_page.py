@@ -232,7 +232,7 @@ class ProfilePage:
         over time with animated value updates.
         """
         graph_frame = Frame(self.sensor_frame, bg=Constants.BACKGROUND.value)
-        y_label = self.profile.title + " (" + self.profile.unit + ")"
+        y_label = self.profile.title + " (" + self.profile.sensor_unit + ")"
         xar = self.profile.time_list[-ProfilePage.NUM_OF_DATA:]
         yar = self.profile.val_list[-ProfilePage.NUM_OF_DATA:]
 
@@ -302,7 +302,7 @@ class ProfilePage:
         )
         self.axs.set(
             xlabel="Time (HH:MM:SS)",
-            ylabel=self.profile.title + " (" + self.profile.unit + ")",
+            ylabel=self.profile.title + " (" + self.profile.sensor_unit + ")",
             title=self.profile.graph_title,
         )
 

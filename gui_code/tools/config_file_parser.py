@@ -20,11 +20,6 @@ class ConfigFileParser:
             plant_info = config["Plant Information"]
             if not self.parse(plant_info):
                 self.valid = False
-        
-        if self.valid:
-            print("GOOD")
-        else:
-            print("BAD")
 
     def get_list(self, string: str) -> List[int]:
         """
@@ -65,16 +60,20 @@ class ConfigFileParser:
             "name": "str",
             "brightness_extr": "list4",
             "brightness_bound": "list2",
-            "brightness_unit": "str",
+            "brightness_sensor_unit": "str",
+            "brightness_actuator_unit": "str",
             "humidity_extr": "list4",
             "humidity_bound": "list2",
-            "humidity_unit": "str",
+            "humidity_sensor_unit": "str",
+            "humidity_actuator_unit": "str",
             "temperature_extr": "list4",
             "temperature_bound": "list2",
-            "temperature_unit": "str",
+            "temperature_sensor_unit": "str",
+            "temperature_actuator_unit": "str",
             "water_level_extr": "list4",
             "water_level_bound":  "list2",
-            "water_level_unit": "str",
+            "water_level_sensor_unit": "str",
+            "water_level_actuator_unit": "str",
             }
         valid = True
 
