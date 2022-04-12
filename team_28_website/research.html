@@ -250,7 +250,61 @@
               respectively), hence the name. [7] By using PID, we can make a much smoother curve to reach the target 
               value, and it can make the value stable at the target point.
             </p>
+
+            <h2>GUI</h2>
+            <p>
+              Our requirement includes creating a simple, easy to use GUI for users to view farm information. Since we 
+              have decided to use Python for back end code, we thought it was appropriate to use the same language for 
+              the GUI. The most common python libraries are PyQT and Tkinter. Despite both providing very similar 
+              functionalities for displaying interface, we ultimately chose Tkinter because it is open source and easier 
+              to use [<a href="#reference">8</a>]. One downside of using Tkinter is that the appearance of the GUI produced may look outdated and 
+              dull. To still allow a more aesthetic GUI appearance, we decided to design our buttons and decorative 
+              images with digital art on Procreate to replace the original default components. In addition, for displaying 
+              graphs, we decided to use the matplotlib library as it provides many features such as graph animation and 
+              graph styling to help us display graphs onto a Tkinter canvas.
+            </p>
+
+            <h2>Databases and The Cloud</h2>
+            <p>
+              We initially implemented our first data collection code with a local database using the Python sqlite3 
+              library.  This is a disk-based database [<a href="#reference">9</a>] that is simple to implement, which allows us to explore creating
+              a table and make queries without the need to consider the connection with a cloud database. Once we are 
+              confident that our sqlite3 table works, we started researching Azure services and how we can incorporate 
+              those to set up an online database and access data via internet connection. Our client provided us with 
+              an account that accesses many Azure Services:
+            </p>
+            <img src="assets/img/research/azure_services.png" class="img-fluid" alt="" style="width:400px;height:200px;">
+
+            <p>
+              The SQL databases service allows us to set up a FarmBeats server and database that can be accessed by both 
+              the Raspberry Pi and front end app. Here is a screenshot of the database profile we set up.
+            </p>
+            <br>
+
+            <p>
+              Using the Microsoft ODBC driver[<a href="#reference">10</a>]:
+            </p>
+            <p>
+              This is the first driver we explored. The ODBC data access API can be used with Python using the pyodbc 
+              library [<a href="#reference">11</a>], allowing our code to connect with the Azure Database. This can be used to connect the GUI 
+              with the database, however, since the Raspberry Pi cannot have the ODBC driver installed, we need 
+              an alternative way of connecting it: IoT Hub.
+            </p>
+
+            <p>
+              The IoT Hub [<a href="#reference">12</a>] is an Azure service that allows our edge devices to communicate in a secure, reliable 
+              way. In other words, the IoT Hub simply allows us to register the IoT device, keep track of it and also 
+              send messages back and forth as JSON files. Our solution requires this as the Raspberry Pi does not have 
+              the ODBC drivers to connect with the Azure database.
+            </p>
+
+            <p>
+              To send the data from IoT Hub to the Azure database, we need another Azure service: the Azure Stream Analytics [<a href="#reference">13</a>]. 
+              This unpacks the JSON data and converts the content into an SQL Insert query.
+            </p>
+
         </div>
+
 
         </div>
     </section><!-- Technical Review Section -->
@@ -274,9 +328,13 @@
         <div class="container" data-aos="fade-up">
           <div class="section-title">
             <h2>References</h2>
-            <ul>
-              
-            </ul>
+            <p>[8] 	"pyodbc 4.0.32," Python Documentation, [Online]. Available: https://pypi.org/project/pyodbc/. [Accessed April 2022].</p>
+            <p>[9] 	"Azure IoT Hub," Azure, [Online]. Available: https://azure.microsoft.com/en-gb/services/iot-hub/. [Accessed April 2022].</p>
+            <p>[10] 	"Azure Stream Analytics," Azure, [Online]. Available: https://azure.microsoft.com/en-gb/services/stream-analytics/. [Accessed April 2022].</p>
+            <p>[11] 	"Python GUI – PyQt VS TKinter," GeeksforGeeks, [Online]. Available: https://www.geeksforgeeks.org/python-gui-pyqt-vs-tkinter/. [Accessed April 2022].</p>
+            <p>[12] 	"sqlite3 — DB-API 2.0 interface for SQLite databases," Python Documentation, [Online]. Available: https://docs.python.org/3/library/sqlite3.html . [Accessed April 2022].</p>
+            <p>[13] 	"Microsoft ODBC Driver for SQL Server," Microsoft Documentation, [Online]. Available: https://docs.microsoft.com/en-us/sql/connect/odbc/microsoft-odbc-driver-for-sql-server?view=sql-server-ver15. [Accessed April 2022].</p>
+
           </div>
           <div class="row">
           </div>
