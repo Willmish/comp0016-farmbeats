@@ -748,6 +748,8 @@
               </ul>   
 
             <img src="assets/img/evaluation/ai_camera.jpeg" class="img-fluid" alt="" style="width:300px;height:200px;">
+            <br>
+            <br>
 
             <h3>Allow for more User Inputs</h3>
             <p>
@@ -777,6 +779,7 @@
               can include a new variable called setpoint which allows the user to log specific desired setpoints for each 
               subsystem that will be sent to the Raspberry Pi for the PID mechanism to generate an appropriate response.
             </p>
+            <br>
 
             <h3>Scaling Up to Industry Level</h3>
             <p>
@@ -787,6 +790,78 @@
               scaled up, our solution could help with precision farming, allowing maximum yield, and thus reach towards 
               solving the food production problems addressed to us by our client.
             </p>
+            <br>
+
+
+            <h3>Edge Device (Raspberry Pi) Software Improvements</h3>
+            <p>Further improvements on the Edge device could include: </p>
+            <ul>
+              <li>Creating a service running the startup script in the system:
+                <ul>
+                  <li>This would allow the system to run without an active ssh connection, and immediately start on device boot up.</li>
+                </ul>
+              </li>
+              <li>Moving the data processing to the cloud:
+                <ul>
+                  <li>
+                    Currently, the system processes all data on the Edge device - mainly control of the actuators 
+                    based on the sensor input using PID controllers and other methods. This could however be hugely 
+                    expanded and improved.
+                  </li>
+                  <ul>
+                    <li>
+                      With a strong internet connection, some parts of the data analysis (e.g. inferring environment 
+                      status based on previous sensor and actuation values, deciding on actuation actions) could be 
+                      moved out of the Raspberry Pi and to a Cloud model, trained and tested on the data generated 
+                      by our system. This could be a self-improving system for tweaking PID control systems (increasing 
+                      their speed and effectiveness), or even changing the target values for humidity, temperature or 
+                      others, depending on the plant health/growth.
+                    </li>
+                  </ul>
+                </ul>
+              </li>
+              <li>Increasing test coverage of the system.
+                <ul>
+                  <li>
+                    Currently, the system is focused mainly on providing a demonstratory solution with actual hardware and 
+                    living plants involved but lacks a deep and thorough test suite.
+                  <ul>
+                    <li>
+                      This could be improved by wrapping all sensor and actuator classes into another level of abstraction, 
+                      and creating emulated sensors and actuators, providing fake (but resembling real-life) values. This 
+                      would allow for a fully digital system, without outside world dependencies (real-life sensor data), 
+                      and more proper unit and coverage testing could be implemented.
+                    </li>
+                    <li>
+                      Another approach could involve dockerising the Raspbian image with the emulated sensors, and running 
+                      the tests during development, including them in the CI/CD workflow of the process. For example, if 
+                      the project is to continue on a GitHub repository, the image with testing scripts could be built and 
+                      run as a Github Action on a Pull Request.
+                    </li>
+                  </ul>
+                </li>
+                
+                </ul>
+              </li>
+              <li>Adding a CI/CD pipeline, including deployment using Azure IoT Edge.</li>
+              <ul>
+                <li>
+                  The current system contains a skeleton of a CI/CD pipeline, with a GitHub action for 
+                  reviewing and linting code under a PR according to PEP8 standard.
+                </li>
+                <ul>
+                  <li>
+                  An improvement would be to add to the CD part: an automatic documentation deployment, and 
+                  automatic deployment of the most recent program to the devices connected to the Azure IoT 
+                  Hub using Azure IoT Edge. Improving the CI part could include adding dockerised Rpi Image 
+                  building and running Unit Tests on Pull Requests.
+                  </li>
+                </ul>
+              </ul>
+            </ul>
+
+
+
 
           </div>
 

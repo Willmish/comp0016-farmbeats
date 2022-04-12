@@ -188,6 +188,129 @@
         <div class="container">
           <div data-aos="fade-right">
               <h1>GUI</h1>
+
+              <p>
+                Our final UI is implemented using Python Tkinter. The code is structured to have an 
+                <code>option_view</code>, <code>profile_view</code> and <code>settings_view</code> to 
+                separate different page types into their modules. The assets folder contains the image 
+                files needed for display, and the tools folder contains files for storing global constant 
+                values and for managing loading the configuration file.
+              </p>
+           
+              <img src="assets/img/software/gui_code_structure.png" class="img-fluid" alt="" style="width:200px;height:250px;">
+              
+              <h3>The Option View</h3>
+              <p>
+                The <code>option_view</code> folder contains <code>option_page.py</code> for the <code>OptionPage</code> class that 
+                displays the following:
+              </p>
+
+              <img src="assets/img/software/option_page.png" class="img-fluid" alt="" style="width:400px;height:200px;">
+
+              <p>
+                Here is the structure of the <code>profile_view</code> folder:
+              </p>
+
+              <img src="assets/img/software/profile_view_folder.png" class="img-fluid" alt="" style="width:200px;height:250px;">
+
+              <p>
+                The scale is displayed using the Tkinter Canvas feature, drawing each rectangle 
+                scaled corresponding to the values set for each subsystem.  
+              </p>
+
+              <img src="assets/img/software/sensor_scale.png" class="img-fluid" alt="" style="width:400px;height:80px;">
+
+              <p>
+                The red zones represent critical regions where the sensor value is far from the desired set point. 
+                The amber zones show poor regions where the value is a little far from the desired setpoint, and 
+                the green zones show the current value is within the desired region. The thick black line indicates
+                which zone the current value lies, and each threshold is labelled for clarity.
+              </p>
+
+              <p>
+                In addition, the graph feature is displayed with the matplotlib library, showing the latest n values 
+                over time. Time is represented as hours - for example, ‘<code>22:22:35</code>’ represents the time 35 seconds into 
+                10:22 pm.
+              </p>
+
+              <img src="assets/img/software/graph.png" class="img-fluid" alt="" style="width:400px;height:400;">
+
+              <p>
+                The specific <code>FuncAnimation</code> library allows the graph to be animated and updated every 5 seconds. 
+                Simultaneously, as the graph changes, the sensor label value, sensor scale, actuator label value and 
+                suggestion also update appropriately.
+              </p>
+
+              <p>
+                The structure of the water level subsystem follows the same structure as the others with one extra frame to 
+                show water level, indicating whether or not the container should be refilled.
+              </p>
+              <img src="assets/img/software/profile_page1.png" class="img-fluid" alt="" style="width:400px;height:400;">
+              <img src="assets/img/software/profile_page2.png" class="img-fluid" alt="" style="width:400px;height:400;">
+
+              <p>
+                The water level scale indicates the amount of water present in the container by height percentage from 
+                the water level sensor. This value decreases whenever the pump is on and allows the user to know if 
+                there is enough water in the container.
+              </p>
+              
+              <p>
+                Currently, the manual mode has not been implemented but the interface is structured to easily have 
+                this additional feature.
+              </p>
+
+              <h3>Settings Page</h3>
+
+              <p>Another button on the option page is labelled ‘System Settings’, which takes us to this page:</p>
+              <img src="assets/img/software/settings_page.png" class="img-fluid" alt="" style="width:400px;height:400;">
+
+              <p>
+                Here the settings currently only contains plant profile settings, which allows the user to upload a 
+                config file for a specific plant. The system will only allowed the new file to replace current file 
+                if it is the correct format.
+              </p>
+
+              <h3>Explaining the Configuratioin File:</h3>
+              <p>
+                The sensor scale of a subsystem profile page is based on a list of thresholds that allow the system 
+                to display whether or not the current condition is optimal (green) , poor (amber) or critical (red).
+              </p>
+
+              <img src="assets/img/software/humdity_page.png" class="img-fluid" alt="" style="width:400px;height:400;">
+
+              <p>
+                For example, for the humidity subsystem, the current sensor scale values shows the upper bound to be 
+                <code>100</code> and the lower bound to be <code>0</code>. These values are taken from 
+                <code>humidity_bound = [0,100]</code> from the config file. The other thresholds are stored in 
+                <code>humidity_extr = [40, 50, 60, 75]</code>. These values demonstrate:
+              </p>
+              <ul>
+                <li>Lower critical range (red): between 0% and 40%.</li>
+                <li>Lower poor range (amber): between 40% and 50%.</li>
+                <li>Optimal range (green): between 50% and 60%.</li>
+                <li>Upper poor range (amber): between 60% and 75%.</li>
+                <li>Upper critical range (red): Between 75% and 100%.</li>
+              </ul>
+
+              <p>There is a list of these two threshold lists for each of the four subsystems.</p>
+              <p>Here is a configuration file example in <code>.ini</code> format:</p>
+              <img src="assets/img/software/config_example.png" class="img-fluid" alt="" style="width:200px;height:400;">
+              <p>The management of the config file is stored in the tools folder. There should look like this:</p>
+              <img src="assets/img/software/tools_structure.png" class="img-fluid" alt="" style="width:200px;height:400;">
+              <p>
+                The <code>plant_profile_info.ini</code> is the main file being accessed to obtain values. The file format is firstly 
+                parsed and checked by the <code>ConfigFileParser</code> class and then values are extracted and stored as the class 
+                attributes of the <code>Config</code> class, which is then passed on to the <code>ProfileInformation</code> class which provides 
+                the values for GUI display. 
+              </p>
+
+              <p>
+                The <code>default_plant_profile_info.ini</code> file is a default file used to reduce errors in case the current 
+                <code>plant_profile_info.ini</code> is faulty. Whenever the app first starts up, the contents of <code>default_plant_profile_info.ini</code> 
+                is copied onto <code>plant_profile_info.ini</code> to ensure the system is set up with a working file.
+              </p>
+
+
           </div>
   
         </div>

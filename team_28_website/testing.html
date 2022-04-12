@@ -165,6 +165,215 @@
         <div class="container">
           <div data-aos="fade-right">
               <h1>User Acceptance Testing</h1>
+              
+
+              <p>
+                For the front end GUI, we decided to use this method of testing to ensure all 
+                functionalities are working correctly. Here are the following two simulated users.
+              </p>
+              <p>
+                <strong>Simulated User 1</strong>: A middle-aged farmer who has limited knowledge on how to use technology, 
+                but would like to know if the current farm condition is optimal or if there is anything 
+                adjustments to farm processes needed.
+              </p>
+
+              <p>
+                <Strong>Simulated User 2</Strong>: A research scientist who has basic technical knowledge and would like to 
+                view a cumulative set of data.
+              </p>
+
+
+              <h3>Test Cases and Feedback</h3>
+
+              <p><strong>Test User 1:</strong></p>
+
+              <style>
+                table, th, td {
+                  border:1px solid black;
+                  padding: 10px;
+                }
+               </style>
+    
+              <table style="width: 100%">
+                <colgroup>
+                  <col span="1" style="width: 10%;">
+                  <col span="1" style="width: 40%;">
+                  <col span="1" style="width: 10%;">
+                  <col span="1" style="width: 40%;">
+                </colgroup>
+                <tr>
+                  <th style="text-align:center">Case ID</th>
+                  <th>Description</th>
+                  <th>Score out of 5</th>
+                  <th>Feedback</th>
+                </tr>
+                <tr>
+                  <td style="text-align:center">1</td>
+                  <td>
+                    The GUI is overall easy to use and does not require much technical knowledge to operate.
+                  </td>
+                  <td style="text-align:center">3</td>
+                  <td>
+                    It requires pre-existing knowledge on setting up the system and changing configuration
+                     files, but the day-to-day operations such as viewing the profile page are easy to use.
+                  </td>
+    
+                </tr>
+                <tr>
+                  <td style="text-align:center">2</td>
+                  <td>
+                    The profile pages are informative and data is presented in a clear, simple format.
+                  </td>
+                  <td style="text-align:center">4</td>
+                  <td>
+                    Easy to infer information from the page such as current sensor and actuator values 
+                    and if farm status is optimal.
+                  </td>
+    
+                </tr>
+
+                <tr>
+                  <td style="text-align:center">3</td>
+                  <td>
+                    All components work without bugs detected.
+                  </td>
+                  <td style="text-align:center">5</td>
+                  <td>
+                    All components work without bugs detected.
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="text-align:center">4</td>
+                  <td>
+                    The user manual is useful for understanding the product before using.
+                  </td>
+                  <td style="text-align:center">3</td>
+                  <td>
+                    The manual some jargons for the Raspberry Pi set-up and configuration file upload, 
+                    but the instructions for basic GUI use are clear.
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="text-align:center">5</td>
+                  <td>
+                    The user experience is satisfactory and the GUI appearance is aesthetic.
+                  </td>
+                  <td style="text-align:center">5</td>
+                  <td>
+                    The GUI has a nice appearance with consistent style.
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="text-align:center">Total</td>
+                  <td></td>
+                  <td style="text-align:center">20/25</td>
+                  <td></td>
+                </tr>
+
+
+              </table>
+              <br>
+
+              <p><strong>Test User 2:</strong></p>
+    
+              <table style="width: 100%">
+                <colgroup>
+                  <col span="1" style="width: 10%;">
+                  <col span="1" style="width: 40%;">
+                  <col span="1" style="width: 10%;">
+                  <col span="1" style="width: 40%;">
+                </colgroup>
+                <tr>
+                  <th style="text-align:center">Case ID</th>
+                  <th>Description</th>
+                  <th>Score out of 5</th>
+                  <th>Feedback</th>
+                </tr>
+                <tr>
+                  <td style="text-align:center">1</td>
+                  <td>
+                    The GUI is overall easy to use and does not require much technical knowledge to operate.
+                  </td>
+                  <td style="text-align:center">4</td>
+                  <td>
+                    Some research is required for setting up the Raspberry Pi, but overall, running the GUI 
+                    and using it is simple.
+                  </td>
+    
+                </tr>
+                <tr>
+                  <td style="text-align:center">2</td>
+                  <td>
+                    The profile pages are informative and data is presented in a clear, simple format.
+                  </td>
+                  <td style="text-align:center">4</td>
+                  <td>
+                    The GUI is informative, especially the graph feature as it shows a set of data over time. 
+                    Could improve by having more graphs and allowing adjustments to the number of data shown.
+                  </td>
+    
+                </tr>
+
+                <tr>
+                  <td style="text-align:center">3</td>
+                  <td>
+                    All components work without bugs detected.
+                  </td>
+                  <td style="text-align:center">5</td>
+                  <td>
+                    No bugs were found during the testing period, although sometimes the GUI takes a while to 
+                    open if the internet connection is unstable.
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="text-align:center">4</td>
+                  <td>
+                    The user manual is useful for understanding the product before using.
+                  </td>
+                  <td style="text-align:center">4</td>
+                  <td>
+                    The manual is mostly understandable, but the set-up and configuration file 
+                    upload section is a little too technical.
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="text-align:center">5</td>
+                  <td>
+                    The user experience is satisfactory and the GUI appearance is aesthetic.
+                  </td>
+                  <td style="text-align:center">3</td>
+                  <td>
+                    The style is consistent and appealing. The corners of the frames can be 
+                    rounded to look more professional.
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="text-align:center">Total</td>
+                  <td></td>
+                  <td style="text-align:center">20/25</td>
+                  <td></td>
+                </tr>
+
+
+              </table>
+              <br>
+              <p>
+                User testing conclusion:
+              </p>
+              
+              <p>
+                Both users find the GUI easy to use and informative, showing the main requirements 
+                set by the client have been met. One key feature we can improve upon is making the 
+                system set-up and configuration file changing processes simpler for non-technical 
+                users to carry out.
+              </p>
+
           </div>
   
         </div>
