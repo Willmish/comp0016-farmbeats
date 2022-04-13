@@ -1,6 +1,6 @@
 from pubsub import pub
 from analyser.analyser import Analyser
-from pid.pid import PID
+from tools.pid import PID
 from tools.logging import logCritical, logDebug
 
 

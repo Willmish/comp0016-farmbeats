@@ -19,8 +19,9 @@ from analyser.moisture_analyser import MoisturePidAnalyser
 
 # from data_streamer.database_manager import DatabaseManager
 from data_streamer.iot_hub_streamer import IoTHubStreamer
+from tools.exceptions import SensorException
 from tools.signal_handler import SignalHandler
-from tools.logging import logger, logInfo
+from tools.logging import logCritical, logger, logInfo
 import RPi.GPIO as GPIO
 
 
@@ -38,7 +39,7 @@ def dummy_listener_pid(args):
 
 if __name__ == "__main__":
     singal_handler: SignalHandler = SignalHandler()
-    logger.setLevel("CRITICAL")
+    logger.setLevel("INFO")
     logInfo("Starting...")
     with IoTHubStreamer() as db:
         # db.create_sensor_data_table()
@@ -77,10 +78,14 @@ if __name__ == "__main__":
                     )
                     time_since_db_update = time()
                     PID_UPDATE = False
-                light_sensor.collect(PID_UPDATE)
-                dht11_sensor.collect(PID_UPDATE)
-                water_level.collect(PID_UPDATE)
-                moisture_sensor.collect(PID_UPDATE)
+                try:
+                    light_sensor.collect(PID_UPDATE)
+                    dht11_sensor.collect(PID_UPDATE)
+                    water_level.collect(PID_UPDATE)
+                    moisture_sensor.collect(PID_UPDATE)
+                except SensorException:
+                    logCritical("Sensor Failed! exiting...")
+                    raise KeyboardInterrupt
                 fans.actuate()
                 lights.actuate()
                 water_pump.actuate()

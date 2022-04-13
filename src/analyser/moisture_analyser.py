@@ -1,6 +1,6 @@
 from pubsub import pub
 from analyser.analyser import Analyser
-from pid.pid import PID
+from tools.pid import PID
 import time
 
 from tools.logging import logDebug, logWarning
@@ -20,7 +20,7 @@ class MoisturePidAnalyser(Analyser):
         self._pid = PID(
             self._p_parameter, self._i_parameter, self._d_parameter
         )
-        self._pid.SetPoint = 50
+        self._pid.SetPoint = 60
         self._last_water_level = None
         self._last_time_poured = time.time() - MoisturePidAnalyser.SOAKING_IN_TIME
         self._cumulative_time_pump_on_since_update: float = 0

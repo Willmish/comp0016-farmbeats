@@ -1,6 +1,6 @@
 from pubsub import pub
 from analyser.analyser import Analyser
-from pid.pid import PID
+from tools.pid import PID
 from tools.logging import logCritical, logDebug, logWarning, logInfo
 
 
@@ -11,7 +11,7 @@ class BrightnessPidAnalyser(Analyser):
         self._i_parameter = 0.01
         self._d_parameter = 0.001
         self._pid = PID(
-            self._p_parameter, self._i_parameter, self._d_parameter, "./pid/pidLightCache" 
+            self._p_parameter, self._i_parameter, self._d_parameter, "./tools/pidLightCache" 
         )
         self._pid.SetPoint = 200
         self._pid.recover()

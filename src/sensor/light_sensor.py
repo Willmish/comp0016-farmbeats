@@ -1,7 +1,10 @@
-from time import time
+from syslog import LOG_WARNING
+from time import time, sleep
 from pubsub import pub
 import smbus
 from sensor.sensor import Sensor
+from tools.exceptions import SensorException
+from tools.logging import logWarning
 from tools.status import Status
 from tools.sensor_data import SensorData
 
@@ -19,12 +22,20 @@ class LightSensor(Sensor):
         self._i2c_bus = smbus.SMBus(1) # Revision 2 Pis use 1
 
     def get_lux_value(self, addr=DEVICE):
+        attempt: int = 0
+        while True:
+            try:
+                raw_data: bytes = self._i2c_bus.read_i2c_block_data(addr, LightSensor.ONE_TIME_HIGH_RES_MODE)
+                break
+            except IOError:
+                logWarning(f"IOError: Could not read from I2C bus, attempt {attempt}")
+                if (attempt >= 10):
+                    raise SensorException("LightSensor: Could not read from I2C bus")
+                attempt += 1
+                sleep(0.1)
         return self.convert_to_lux(
-            self._i2c_bus.read_i2c_block_data(
-                addr,
-                LightSensor.ONE_TIME_HIGH_RES_MODE,
-                )
-            )
+            raw_data
+        )
     
     def convert_to_lux(self, data):
         return ((data[1] + (256 * data[0])) / 1.2)

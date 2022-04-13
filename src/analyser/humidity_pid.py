@@ -1,6 +1,6 @@
 from pubsub import pub
 from analyser.analyser import Analyser
-from pid.pid import PID
+from tools.pid import PID
 from tools.logging import logDebug
 
 
@@ -11,9 +11,9 @@ class HumidityPidAnalyser(Analyser):
         self._i_parameter = 0.5
         self._d_parameter = 0.001
         self._pid = PID(
-            self._p_parameter, self._i_parameter, self._d_parameter, "./pid/pidHumidityCache"
+            self._p_parameter, self._i_parameter, self._d_parameter, "./tools/pidHumidityCache"
         )
-        self._pid.SetPoint = 55
+        self._pid.SetPoint = 65
         self._pid.recover()
 
     def analyser_listener(self, args, rest=None):
