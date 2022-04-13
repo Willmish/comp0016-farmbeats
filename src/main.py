@@ -8,7 +8,7 @@ from sensor.light_sensor import LightSensor
 from analyser.brightness_pid import BrightnessPidAnalyser
 from actuator.led_lights import LEDLights
 
-from sensor.soil_moisture import SoilMoistureSensor 
+from sensor.soil_moisture import SoilMoistureSensor
 from sensor.water_level import WaterLevel
 from analyser.water_level_analyser import WaterLevelAnalyser
 

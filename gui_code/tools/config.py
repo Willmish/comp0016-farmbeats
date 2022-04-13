@@ -1,9 +1,7 @@
 import configparser
-from logging import exception
 from typing import List
 
 from tools.config_file_parser import ConfigFileParser
-
 
 class Config:
     """
