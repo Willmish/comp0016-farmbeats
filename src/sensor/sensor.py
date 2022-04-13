@@ -25,8 +25,6 @@ class Sensor:
         new_range = float(new_max - new_min)
         new_value = float(((val - old_min) * new_range) / old_range) + new_min
         return new_value
-        # except Exception as e:
-        #    return val
 
     def random_generator(self):
         output = random()

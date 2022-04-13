@@ -1,5 +1,5 @@
 import colorlog
-import inspect  # TODO: when performance hits, replace with sys
+import inspect
 import os
 
 handler = colorlog.StreamHandler()

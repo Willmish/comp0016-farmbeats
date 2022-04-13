@@ -9,7 +9,7 @@ class WaterLevelAnalyser(Analyser):
 
     def analyser_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "pid_update"
-        # 670-2100
+        # Water level sensor range: 670-2100
         sensor_data = args
         sensor_data.actuator_value = (
             -1

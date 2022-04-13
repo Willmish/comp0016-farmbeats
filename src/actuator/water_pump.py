@@ -32,7 +32,7 @@ class WaterPump(Actuator):
         self._status = Status.ENABLED
 
     def actuate(self):
-        """actuate: dummy actuation function, to be overriden by children."""
+        """actuate: Turns the pump on or off depending on _is_on bool."""
         if self._is_on is True:
             GPIO.output(WaterPump.PUMP_PIN, GPIO.HIGH)
         else:

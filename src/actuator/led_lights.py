@@ -37,8 +37,8 @@ class LEDLights(Actuator):
         self._status = Status.ENABLED
 
     def actuate(self):
-        """actuate: dummy actuation function, to be overriden by children."""
-        # Turns LED on and off
+        """actuate: sets the PWM value for the LED lights based
+        on _brightness."""
         if self._brightness > 0:
             self._pwm_light.change_duty_cycle(self._brightness)
         else:

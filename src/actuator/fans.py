@@ -43,7 +43,7 @@ class Fans(Actuator):
         self._status = Status.ENABLED
 
     def actuate(self):
-        """actuate: dummy actuation function, to be overriden by children."""
+        """actuate: Set the output PWM of fans based on _fan_speed."""
         if self._fan_speed > 20:
             self._fan_pwm.change_duty_cycle(self._fan_speed)
             GPIO.output(Fans.FAN_PIN_SECONDARY, GPIO.LOW)
