@@ -147,6 +147,33 @@
         <div class="container">
           <div data-aos="fade-right">
               <h1>Overview</h1>
+              <p>Overall, our software is decomposed into four aspects: </p>
+              <ul>
+                <li>Sensor and Actuators</li>
+                <li>Data Analysis</li>
+                <li>Cloud Based Solution</li>
+                <li>GUI</li>
+              </ul>
+              <p>
+                By separating the system into these four categories, we were able to
+                allow members to implement sections asynchronously to increase productivity.
+                In addition, this allows individual components to be more maintainable when
+                isolated into their category.
+              </p>
+              <p>
+                These are then combined based on the following diagram from the <a href= "system_design.html" >SYSTEM DESIGN</a> section:
+              </p>
+              
+              <img src="assets/img/software/overview1.png" class="img-fluid" alt="" style="width:900px;height:500;">
+
+              <p>
+                Here is the structure of our GitHub Repository. All the back end code is implemented in the <code>src</code> folder and 
+                all the front end code is implemented in the <code>gui_code</code> folder. We have separated these two as the folders 
+                will be on different devices when deploying the system. The <code>src</code> should be copied onto the Raspberry Pi for
+                data collection and actuation generation, and the <code>gui_code</code> should be downloaded onto the user’s PC.
+              </p>
+              <img src="assets/img/software/overview2.png" class="img-fluid" alt="" style="width:200px;height:500;">
+
           </div>
   
         </div>
@@ -156,66 +183,101 @@
     <section id="sensor and actuators" class="section1">
       <div class="container">
         <div data-aos="fade-right">
-            <h1>Sensor and Actuators</h1>
+            <h1>Sensors and Actuators</h1>
 
+            <div class="row">
+              <div class="col-lg-8 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="150">
+               
             <p>
-              Firstly, we set up a skeleton for both Sensors and Actuators, so that we can 
+              Firstly, we set up a skeleton for both <code>Sensors</code> and <code>Actuators</code>, so that we can 
               follow that pattern, speed up the implementation process and make the system clearer.
             </p>
             <p>
-              The Actuator Skeleton include an init function to initialize and set up everything from 
+              The Actuator Skeleton include an <code>__init__</code> function to initialize and set up everything from 
               the pins needed to the PWM channels and frequencies.
             </p>
-            <img src="assets/img/software/sensor_actuator1.png" class="img-fluid" alt="" style="width:200px;height:400;">
 
             <p>
-              Then we have activate function which will active the actuators. 
+              Then we have the <code>activate</code> function which will active the actuators. 
             </p>
-            <img src="assets/img/software/sensor_actuator2.png" class="img-fluid" alt="" style="width:200px;height:400;">
+            <img src="assets/img/software/sensor_actuator2.png" class="img-fluid" alt="" style="width:500px;height:100px;">
 
+            </div>
+           
+
+            <div class="col-lg-4 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="150">
+            <img src="assets/img/software/sensor_actuator1.png" class="img-fluid" alt="" style="width:250px;height:300px;">
+            </div>
+          </div>
+
+           
              <p>
               Finally, the <code>actuate</code> function is implemented to power the actuators. Here’s the dummy code.
              </p>
-            <img src="assets/img/software/sensor_actuator3.png" class="img-fluid" alt="" style="width:200px;height:400;">
+            <img src="assets/img/software/sensor_actuator3.png" class="img-fluid" alt="" style="width:500px;height:80px;">
+
+            <br>
+            <br>
 
             <p>
               For the led strips and fans, as we used onboard hardware PWM pin, we can simply set the PWM pin, data and 
               frequency. The Linux driver will take care of the rest for us. For the led strips, we send the analyzer 
-              message straight to the actuator. We also have another common component: status_listener. This function 
+              message straight to the actuator. We also have another common component: <code>status_listener</code>. This function 
               will read the current actuator value which will be included in the publisher-subscriber message for the 
               GUI and database to receive.
             </p>
+            <img src="assets/img/software/sensor_actuator4.png" class="center" alt="" style="width:500px;height:500px;">
 
-            <img src="assets/img/software/sensor_actuator4.png" class="img-fluid" alt="" style="width:200px;height:400;">
-            <img src="assets/img/software/sensor_actuator5.png" class="img-fluid" alt="" style="width:200px;height:400;">
+            <br>
+            <br>
 
-
+            
+            
             <p>
               Due to the non-linear water flow rate of the DC motor pump with a linear voltage change in the circuit, 
               we decided to record the time of pumps being on per a certain time period, which is sent by our handler 
-              to the actuator class and our pump class only need to turn the pump on or off at the moment it receives 
+              to the <code>Actuator</code> class and our pump class only need to turn the pump on or off at the moment it receives 
               the message.
             </p>
-
-            <img src="assets/img/software/sensor_actuator6.png" class="img-fluid" alt="" style="width:200px;height:400;">
             
+            <img src="assets/img/software/sensor_actuator6.png" class="center" alt="" style="width:400px;height:500px;">
+
+            <br>
+            <br>
+
+            <div class="row">
+              <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="150">
+               
             <p>
-              Sensor classes have a similar skeleton code. They will set things up in the init function and there should 
+              <code>Sensor</code> classes have a similar skeleton code. They will set things up in the init function and there should 
               be a collect function that reads from the sensor and sends messages through the publisher-subscriber pattern. 
               There is also a disable function that can turn the sensor off. This is all we need for a basic sensor. e.g. 
               DHT11 humidity and temperature sensor.
             </p>
+            
+            </div>
 
-            <img src="assets/img/software/sensor_actuator7.png" class="img-fluid" alt="" style="width:200px;height:400;">
+            <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="150">
+              <img src="assets/img/software/sensor_actuator7.png" class="img-fluid" alt="" style="width:400px;height:450;">
+            </div>
+            </div>
+            <br>
+            <br>
 
-
+            <div class="row">
+              <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="150">
+              
             <p>
               Some sensors record input values in the form of resistance. We will need to convert those values to a standard 
               unit for later use. For example, a light sensor outputs its resistance so that we will need to convert it 
               into lux.
             </p>
-            <img src="assets/img/software/sensor_actuator8.png" class="img-fluid" alt="" style="width:200px;height:400;">
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="150">
 
+            <img src="assets/img/software/sensor_actuator8.png" class="img-fluid" alt="" style="width:400px;height:400;">
+            </div>
+            </div>
 
         </div>
 
@@ -232,27 +294,34 @@
                 PID controlled version. All analysers include one init, one listener and one datastream update 
                 listener.
               </p>
-              <img src="assets/img/software/analysis1.png" class="img-fluid" alt="" style="width:200px;height:400;">
-
+              <img src="assets/img/software/analysis1.png" class="img-fluid" alt="" style="width:400px;height:400px;">
+              <br>
+              <br>
               <p>
-                In the init function, it shall include all factors to state and subscribe to each pubsub packages. 
+                In the <code>__init__ </code> function, it shall include all factors to state and subscribe to each pubsub packages. 
                 Such as:
               </p>
-              <img src="assets/img/software/analysis2.png" class="img-fluid" alt="" style="width:200px;height:400;">
+              <img src="assets/img/software/analysis2.png" class="img-fluid" alt="" style="width:400px;height:200px;">
+              <br>
+              <br>
 
               <p>
-                In the analyser_listener function, it initially receives sensor values through pubsub, and then analyses 
+                In the <code>analyser_listener</code> function, it initially receives sensor values through pubsub, and then analyses 
                 the value obtained with PID or simple relay analysis. Finally, it will send messages with its corresponding
                 actuator value.
               </p>
 
-              <img src="assets/img/software/analysis3.png" class="img-fluid" alt="" style="width:200px;height:400;">
+              <img src="assets/img/software/analysis3.png" class="img-fluid" alt="" style="width:400px;height:200px;">
+              <br>
+              <br>
 
               <p>
-                In datastream_update_listener function, it does same thing with datastream_listener function but it will 
+                In <code>datastream_update_listener</code> function, it does same thing with <code>datastream_listener</code> function but it will 
                 be send to database instead of actuators. 
               </p>
-              <img src="assets/img/software/analysis4.png" class="img-fluid" alt="" style="width:200px;height:400;">
+              <img src="assets/img/software/analysis4.png" class="img-fluid" alt="" style="width:400px;height:200px;">
+              <br>
+              <br>
 
 
           </div>
@@ -265,6 +334,56 @@
         <div class="container">
           <div data-aos="fade-right">
               <h1>Cloud Based Solution</h1>
+              <br>
+              <h3>Azure Services</h3>
+              <p>Connection from Raspberry Pi to Azure:</p>
+              <ol>
+                <li>The Raspberry Pi registers itself with IoT Hub using the unique Key for that device.</li>
+                <li>The IoT Hub verifies the connection and the connection is established.</li>
+                <li>The Raspberry Pi sends JSON messages to the IoT Hub.</li>
+                <li>The IoT Hub verifies the messages.</li>
+                <li>StreamAnalytics Job requests the data from the IoT Hub (as IoT Hub is registered as its input), and receives the data.</li>
+                <li>StreamAnalytics Job unpacks the JSON data and inserts it into an SQL Insert query.</li>
+                <li>SQL Insert query is run and inserts data into the registered output for the StreamAnalytics Job: the SensorData SQL Database.</li>
+              </ol>
+              <img src="assets/img/software/cloud_diagram.png" class="img-fluid" alt="" style="width:750px;height:400px;">
+
+              <br>
+              <p>Connection Azure to GUI app: </p>
+              <ol>
+                <li>On the GUI app side: PyODBC library uses Microsoft ODBC 17 Driver to establish a connection with the Azure DB (SensorData).</li>
+                <li>The driver is used to forward the SQL queries from the GUI app and run them.</li>
+                <li>The GUI app receives any responses from the Azure SQL Server and displays the received data.</li>
+              </ol>
+
+              <br>
+
+              <h3>The Publisher-Subscriber Pattern</h3>
+              <p>
+                The main loop of the program is fairly simple: every second it calls each sensor to 
+                collect data and calls all actuators to act based on the current actuation values it received.
+                When the sensors are called to collect, by default they send a message under the <code>pid_update.sensor</code> 
+                topic, which is listened in on by the objects from the <code>analyser</code> module. These modules in turn send 
+                out messages on the <code>pid_update.actuator</code> topic, apart from the moisture subsystem. Finally, the 
+                actuators listen in on the <code>pid_update.actuator</code> topic and update their actuation values based on 
+                the messages received.
+              </p>
+              <p>
+                The difference with the moisture subsystem is that its analyser listens in on both the water level 
+                and soil moisture sensor outputs, and considers both inputs. It then sends out a message on 
+                <code>signal_handler.pump_control</code> topic, which is picked up by the <code>signal_handler</code> module. That module in
+                turn sends out control messages to the water pump actuator, as usual, using an asynchronous timing 
+                method utilising <code>Alarm Signal</code>, from the python <code>Signal</code> module.
+              </p>
+              <p>
+                Additionally, every 5 seconds (so every 5th interation), it calls the sensors to collect data, 
+                but this time to send the data under a different topic: <code>database_update.sensor</code>. The data sent in 
+                this cycle doesn’t cause the actuators to change their actuation values, but gets picked up by the 
+                <code>data_streamer</code> module, and depending on the selected streamer: either saves data locally on a DB 
+                using SQLite3 or sends the data over to Azure IoT Hub for further processing.
+              </p>
+
+
           </div>
   
         </div>
@@ -429,7 +548,23 @@
             <h4>Useful Links</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="index.html">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="requirements.html">Requirements</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="ui_design.html">UI Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="research.html">Research</a></li>
+              
             </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 footer-links">
+            <p></p>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="system_design.html">System Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="software_implementation.html">Software</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="hardware.html">Hardware</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="testing.html">Testing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="evaluation.html">Evaluation</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="appendices.html">Appendices</a></li>
+            </ul>
+
           </div>
 
         </div>

@@ -86,7 +86,7 @@
               <li><a href="software_implementation.html#overview">Overview</a></li>
               <li><a href="software_implementation.html#sensor and actuators">Sensor and Actuators</a></li>
               <li><a href="software_implementation.html#data analysis">Data Analysis</a></li>
-              <li><a href="#cloud based solution">Cloud Based Solution</a></li>
+              <li><a href="software_implementation.html#cloud based solution">Cloud Based Solution</a></li>
               <li><a href="software_implementation.html#gui">GUI</a></li>
             </ul>
             <li class="dropdown"><a href="hardware.html"><span>Hardware</span> <i class="bi bi-chevron-down"></i></a>
@@ -231,14 +231,14 @@
                 <code>tools</code> module: Contains Classes reused throughout the system for data storage, logging and other helper classes.</li>
                 <ul>
                   <li>
-                    <strong>logging</strong> : Defines a global variable using <code>colorlog</code> module, and implements functions for printing different level messages, 
+                    logging: Defines a global variable using <code>colorlog</code> module, and implements functions for printing different level messages, 
                     which can be globally changed and allow for monitoring of the system in shell while it is running, printing messages such 
                     as: debug messages, information messages (giving updates on important events taking place), warning messages (e.g. when 
                     there is not enough water to pour), errors (not used in the system, but can be used if the system is expanded) and Critical 
                     messages, printed when something is very wrong (e.g. suspicious sensor readings (temperature above 35 degrees Celsius).
                   </li>
                   <li>
-                    <strong>pid</strong> : Contains a class PID defining the behaviour of a PID system, incorporated into analyser module by classes relying on PID control of their subsystem. It also supports caching the parameters of the PID system, so that the system will have a quicker recovery after being restarted.
+                    pid: Contains a class PID defining the behaviour of a PID system, incorporated into analyser module by classes relying on PID control of their subsystem. It also supports caching the parameters of the PID system, so that the system will have a quicker recovery after being restarted.
                   </li>
                   <li>
                     <code>sensor_data</code>: Contains a class <code>SensorData</code> defining the contents of messages travelling between modules. 
@@ -405,7 +405,23 @@
             <h4>Useful Links</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="index.html">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="requirements.html">Requirements</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="ui_design.html">UI Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="research.html">Research</a></li>
+              
             </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 footer-links">
+            <p></p>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="system_design.html">System Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="software_implementation.html">Software</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="hardware.html">Hardware</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="testing.html">Testing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="evaluation.html">Evaluation</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="appendices.html">Appendices</a></li>
+            </ul>
+
           </div>
 
         </div>

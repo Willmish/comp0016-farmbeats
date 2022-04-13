@@ -86,7 +86,7 @@
                 <li><a href="software_implementation.html#overview">Overview</a></li>
                 <li><a href="software_implementation.html#sensor and actuators">Sensor and Actuators</a></li>
                 <li><a href="software_implementation.html#data analysis">Data Analysis</a></li>
-                <li><a href="#cloud based solution">Cloud Based Solution</a></li>
+                <li><a href="software_implementation.html</a></li>
                 <li><a href="software_implementation.html#gui">GUI</a></li>
             </ul>
             <li class="dropdown"><a href="hardware.html"><span>Hardware</span> <i class="bi bi-chevron-down"></i></a>
@@ -547,61 +547,105 @@
               </colgroup>
               <tr>
                 <th style="text-align:center">Task</th>
-                <th>Angela </th>
-                <th>Szymon</th>
-                <th>Harry</th>
+                <th style="text-align:center">Angela (%) </th>
+                <th style="text-align:center">Szymon (%) </th>
+                <th style="text-align:center">Harry (%) </th>
               </tr>
 
               <tr>
-                <td>Client Liaison</td>
+                <td style="text-align:center">Client Liaison</td>
+                <td style="text-align:center">30</td>
+                <td style="text-align:center">40</td>
+                <td style="text-align:center">30</td>
               </tr>
 
               <tr>
-                <td>Requirement Analysis</td>
+                <td style="text-align:center">Requirement Analysis</td>
+                <td style="text-align:center">33</td>
+                <td style="text-align:center">33</td>
+                <td style="text-align:center">33</td>
               </tr>
 
               <tr>
-                <td>Research and Experiments</td>
+                <td style="text-align:center">Research and Experiments</td>
+                <td style="text-align:center">25</td>
+                <td style="text-align:center"> 40</td>
+                <td style="text-align:center">35</td>
               </tr>
 
               <tr>
-                <td>UI Design</td>
+                <td style="text-align:center">UI Design</td>
+                <td style="text-align:center">60</td>
+                <td style="text-align:center">20</td>
+                <td style="text-align:center">20</td>
               </tr>
 
               <tr>
-                <td>Hardware Implementation</td>
+                <td style="text-align:center">Hardware Implementation</td>
+                <td style="text-align:center">5</td>
+                <td style="text-align:center">60</td>
+                <td style="text-align:center">35</td>
               </tr>
 
               <tr>
-                <td>Coding</td>
+                <td style="text-align:center">Coding</td>
+                <td style="text-align:center">25</td>
+                <td style="text-align:center">42</td>
+                <td style="text-align:center">33</td>
               </tr>
 
               <tr>
-                <td>Testing</td>
+                <td style="text-align:center">Testing</td>
+                <td style="text-align:center">40</td>
+                <td style="text-align:center"> 30</td>
+                <td style="text-align:center">30</td>
               </tr>
 
               <tr>
-                <td>Report Website</td>
+                <td style="text-align:center"> Report Website</td>
+                <td style="text-align:center">63</td>
+                <td style="text-align:center">18</td>
+                <td style="text-align:center">18</td>
               </tr>
 
               <tr>
-                <td>Pitch Presentation</td>
+                <td style="text-align:center">Pitch Presentation</td>
+                <td style="text-align:center">33</td>
+                <td style="text-align:center">33</td>
+                <td style="text-align:center">33</td>
               </tr>
 
               <tr>
-                <td>Blog Writing</td>
+                <td style="text-align:center">Blog Writing</td>
+                <td style="text-align:center">70</td>
+                <td style="text-align:center">15</td>
+                <td style="text-align:center">15</td>
               </tr>
 
               <tr>
-                <td>Video Editing</td>
+                <td style="text-align:center">Video Editing</td>
+                <td style="text-align:center">33</td>
+                <td style="text-align:center">33</td>
+                <td style="text-align:center">33</td>
               </tr>
 
               <tr>
-                <td>Overall Contribution</td>
+                <td style="text-align:center">Overall Contribution</td>
+                <td style="text-align:center">38</td>
+                <td style="text-align:center">33</td>
+                <td style="text-align:center">29</td>
               </tr>
 
               <tr>
-                <td>Roles</td>
+                <td style="text-align:center">Roles</td>
+                <td>UI designer, Lead Frontend Developer,
+                  Partial Backend Developer and Programmer for combining frontend and 
+                  backend code.</td>
+                <td>Software/Hardware Team Lead, 
+                  Edge Device Backend Architect, Cloud Side Solution Designer,
+                  and Backend Developer.</td>
+                <td>Hardware Circuit Designer, Programmer for Data Analysis
+                  and Backend Developer. </td>
               </tr>
 
             </table>
@@ -677,15 +721,15 @@
               <h3>Stability</h3>
               <p>
                 All data collected from the sensors and actuators are stored on the Azure SQL database which 
-                is stable and reliable. The latest version showed 99.99% availability [1], allowing data to 
+                is stable and reliable. The latest version showed 99.99% availability, allowing data to 
                 be safely accessed from anywhere as long as there is an internet connection. In addition, 
                 due to firewalls being set up with a secure password that is kept secret with the user, stability 
                 in system security is guaranteed, ensuring data stored is accurate.
               </p>
 
               <p>
-                Our current implemented database can store up to [insert value] of data. This can be easily 
-                extended with Azure if needed. Also, through tests, the raspberry pi can run for several hours
+                Our current implemented database can store up to 64MB of data. This can be easily 
+                extended with Azure if needed. Also, through tests, the Raspberry Pi can run for several hours
                 at once for data collection to database. Since Azure is a reliable service, we can ensure that 
                 the data can be stored on cloud for as long as the needed.
               </p>
@@ -702,6 +746,12 @@
               </p>
 
               <h3>Compatibility</h3>
+              <p>
+                The GUI is designed to display components visibly on any PC device, such as Linux (tested on Ubuntu 20.04lts)
+                 and Mac (tested on MacOS Big Sur 11.6.4) with no effect on performance. However, on different devices the GUI 
+                 graphics may look a little different. We implemented our project on the Raspberry Pi 4 Grove kit. However,
+                 we have designed our system to work on any other versions of the Raspberry pi.
+              </p>
 
               <h3>Maintainability</h3>
               <p>
@@ -776,7 +826,7 @@
               </p>
 
               <p>
-                One camera model we could use is with the Microsoft AI Vision Kit by Elnfochips. This 
+                One camera model we could use is with the <a href= "https://azure.github.io/Vision-AI-DevKit-Pages/docs/quick_start/">Microsoft AI Vision Kit by Elnfochips</a>. This 
                 can be connected to any PC via internet connection and the images can be streamed using 
                 VLC with the camera RTSP address. Alternatively, another way to view camera data is 
                 via a physical HDMI cable. 
@@ -938,7 +988,23 @@
             <h4>Useful Links</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="index.html">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="requirements.html">Requirements</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="ui_design.html">UI Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="research.html">Research</a></li>
+              
             </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 footer-links">
+            <p></p>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="system_design.html">System Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="software_implementation.html">Software</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="hardware.html">Hardware</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="testing.html">Testing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="evaluation.html">Evaluation</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="appendices.html">Appendices</a></li>
+            </ul>
+
           </div>
 
         </div>

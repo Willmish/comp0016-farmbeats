@@ -88,7 +88,7 @@
                   <li><a href="software_implementation.html#overview">Overview</a></li>
                   <li><a href="software_implementation.html#sensor and actuators">Sensor and Actuators</a></li>
                   <li><a href="software_implementation.html#data analysis">Data Analysis</a></li>
-                  <li><a href="#cloud based solution">Cloud Based Solution</a></li>
+                  <li><a href="software_implementation.html#cloud based solution">Cloud Based Solution</a></li>
                   <li><a href="software_implementation.html#gui">GUI</a></li>
                 </ul>
             <li class="dropdown"><a href="hardware.html"><span>Hardware</span> <i class="bi bi-chevron-down"></i></a>
@@ -314,10 +314,57 @@
         <div class="container">
         <div data-aos="fade-right">
             <h1>A Summary of Your Technical Decisions</h1>
+            <style>
+              table, th, td {
+                border:1px solid black;
+                padding: 10px;
+              }
+             </style>
+  
+            <table style="width: 100%">
+              <colgroup>
+                <col span="1" style="width: 50%;">
+                <col span="1" style="width: 50%;">
+              </colgroup>
+              <tr>
+                <th style="text-align:center">Technical Problem</th>
+                <th>Our Decision</th>
+              </tr>
+              <tr>
+                <td>Programming Language (front and back end)</td>
+                <td>Python 3</td>
+              </tr>
+              <tr>
+                <td>Data Analysis Algorithm</td>
+                <td>PID Feedback Mechanism</td>
+              </tr>
+              <tr>
+                <td>External Power Supply for Actuators</td>
+                <td>12V External Power Supply with  2 MOSFETs and 1 Grove Relay</td>
+              </tr>
+              <tr>
+                <td>Brightness Actuator</td>
+                <td>External Power Supply for Actuators</td>
+              </tr>
+              <tr>
+                <td>Water Actuator</td>
+                <td>5v Driving Pump</td>
+              </tr>
+              <tr>
+                <td>GUI</td>
+                <td>Python Tkinter and Matplotlib</td>
+              </tr>
+              <tr>
+                <td>Database</td>
+                <td>Azure SQL</td>
+              </tr>
+              <tr>
+                <td>Cloud Based Solution</td>
+                <td>IoT Hub, Azure Databse, Azure Server, Azure Stream Analytics</td>
+              </tr>
+            </table>
 
-            <p>
 
-            </p>
         </div>
 
         </div>
@@ -367,7 +414,23 @@
             <h4>Useful Links</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="index.html">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="requirements.html">Requirements</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="ui_design.html">UI Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="research.html">Research</a></li>
+              
             </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 footer-links">
+            <p></p>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="system_design.html">System Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="software_implementation.html">Software</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="hardware.html">Hardware</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="testing.html">Testing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="evaluation.html">Evaluation</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="appendices.html">Appendices</a></li>
+            </ul>
+
           </div>
 
         </div>

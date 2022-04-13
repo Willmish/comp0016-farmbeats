@@ -86,7 +86,7 @@
               <li><a href="software_implementation.html#overview">Overview</a></li>
               <li><a href="software_implementation.html#sensor and actuators">Sensor and Actuators</a></li>
               <li><a href="software_implementation.html#data analysis">Data Analysis</a></li>
-              <li><a href="#cloud based solution">Cloud Based Solution</a></li>
+              <li><a href="software_implementation.html#cloud based solution">Cloud Based Solution</a></li>
               <li><a href="software_implementation.html#gui">GUI</a></li>
             </ul>
             <li class="dropdown"><a href="hardware.html"><span>Hardware</span> <i class="bi bi-chevron-down"></i></a>
@@ -145,6 +145,17 @@
         <div class="container">
           <div data-aos="fade-right">
               <h1>Testing Strategy</h1>
+              <p>
+                A crucial part of our software development process is testing, allowing us to evaluate
+                and verify software performance. We mainly followed a behaviour-driven development which
+                is an agile methodology that allows for continuous improvement of the functionalities
+                of our code based on user feedback. Whenever a component is implemented, we would allow 
+                a user to run the code and try using the application. If there is a bug or an aspect that 
+                could be implemented better, we would open up an issue on GitHub and work on it as a new 
+                milestone. In addition, we have written some unit and integration tests with Python test 
+                libraries on code responsible for database connection and also for data analysis. For
+                the front end GUI, we carried out user acceptance testing for feedback on user experience.
+              </p>
           </div>
   
         </div>
@@ -155,6 +166,97 @@
         <div class="container">
           <div data-aos="fade-right">
               <h1>Unit and Integration Testing</h1>
+              
+
+              <p>
+                Unit and Integration testing checks that all code is written correctly, ensuring that it 
+                functions in a desirable way. Since it is difficult to simulate hardware devices, we mainly 
+                wrote tests on checking front end connection with the GUI and data analysis testing.
+              </p>
+
+              <h3>Front End Database Connection Testing</h3>
+              <p>
+                Using the Python unittest module, we wrote a series of test for each test case to 
+                check database connection. The test cases include:
+              </p>
+              <ul>
+                <li>
+                  <code>test_proper_connection</code> : This test accesses the current <code>.env</code> file 
+                  containing all the keys and passwords used for database connection with our GUI. Since all 
+                  the information should be correct, the <code>GuiDatabaseManager</code> object should return a value when 
+                  after running the <code>__enter__</code> method. 
+                </li>
+                <li>
+                  <code>test_wrong_server_name</code> : This creates a <code>.env</code> file with variables 
+                  such as <code>SERVER</code> set to a name of a non existing server. Since this does not exist, 
+                  instantiating <code>GuiDatabaseManager</code> should cause a time out error that is handled by <code>assertRaises</code>.
+                </li>
+                <li>
+                  <code>test_empty_file</code>: This creates a <code>.env</code> file that does not create anything, 
+                  which should raise an <code>EnvFileMissingException</code> error.
+                </li>
+                <li>
+                  <code>test_non_existing_file</code>: In this case, no <code>.env</code> file is present which 
+                  should also raise an <code>EnvFileMissingException</code> error.
+                </li>
+              </ul>
+                <br>
+                <p>
+                  To ensure we don’t get banned from accessing Azure SQL database, we always ensured that we close 
+                  the connection with <code>db._azure_conn.close()</code> after calling <code>db.__ enter __</code> where <code>db</code> is an 
+                  instance of <code>GuiDatabaseManager</code> object. This is in case if a connection was made, and was never 
+                  exited properly, which may use up a lot of resources unnecessarily. Since both errors thrown by 
+                  missing file and empty file are time-out errors, we reset the time out period to be 3 seconds to 
+                  allow the tests to run more quickly.
+                </p>
+
+                <p>
+                  The <code>tearDown</code> method is automatically run after every test case, ensuring if there exists a <code>.env</code> file, 
+                  it will be removed. This ensures that if an individual test creates a file, this file will not interfere 
+                  with other tests.
+                </p>
+                <p>Here is a screenshot showing our four tests:</p>
+
+              <img src="assets/img/test/test1.png" alt="" style="width: 700px;;height:700px;">
+              <br>
+              <br>
+              <p>And here is a screenshot showing all tests passed:</p>
+              <img src="assets/img/test/test2.png" alt="" style="width:300px;height:100px;">
+              <br>
+              <br>
+              <h3>Data Analysis</h3>
+              <p>
+                For testing of PID algorithm, we designed a simulated test which gave the system random set of numbers 
+                that are fed into the system. A tolerant range was used to see if the PID mechanism allowed the system 
+                to respond, and decreases the difference between sensor value and set point quick enough. Currently, 
+                the tolerant was set to five, so after five rounds of tuning, the feedback output should be within the 
+                range of set point <code>+/- 1</code>. 
+              </p>
+              <p>
+                Furthermore, an <code>test_pid_sudden_change</code> is also designed to see how PID works when a sudden change happens 
+                during a stable period where input values have been consistent. As well as this, we also wrote tests for 
+                normal cases: if it goes back to set value in tolerant ranges, it shall be passed.
+              </p>
+              <p>
+                Finally, a <code>test_pid_multirange</code> test was written with the desired value set to a random integer between 
+                <code>0</code> and <code>100</code>. <code>50</code> ranges are been given and all tests passed. 
+
+              </p>
+              <img src="assets/img/test/test3.png" alt="" style="width:700px;height:1500px;">
+              <br>
+              <br>
+
+
+              <p>
+                We also tried to test our <code>Actuator</code> and <code>Sensor</code> classes by using pytest mock, but as our program requires listening 
+                to hardware devices for an answer, it would be ineffective to mock an input and mock an output, so this method 
+                used for testing. Instead, we carried out a closed system test over a long time period, and the result showed 
+                that the whole system kept all status stable and fixed. 
+              </p>
+
+
+
+
           </div>
         </div>
       </section><!-- Unit and Integration Testing Section -->
@@ -400,7 +502,23 @@
             <h4>Useful Links</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="index.html">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="requirements.html">Requirements</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="ui_design.html">UI Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="research.html">Research</a></li>
+              
             </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 footer-links">
+            <p></p>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="system_design.html">System Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="software_implementation.html">Software</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="hardware.html">Hardware</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="testing.html">Testing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="evaluation.html">Evaluation</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="appendices.html">Appendices</a></li>
+            </ul>
+
           </div>
 
         </div>
