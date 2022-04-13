@@ -1,5 +1,14 @@
 from datetime import timedelta
-from tkinter import CENTER, NW, TOP, Canvas, Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT
+from tkinter import (
+    NW,
+    Canvas,
+    Frame,
+    Label,
+    Button,
+    INSIDE,
+    BOTH,
+    RIGHT,
+)
 from typing import List
 import matplotlib.pyplot as plt
 from profile_view.water_scale import WaterScale
@@ -170,18 +179,19 @@ class ProfilePage:
         )
         suggestion_label.pack()
 
-        
         message_frame = Frame(self.suggestion_frame, height=400)
         self.msg = Label(message_frame, text=self.profile.suggestion)
         self.msg.pack()
         message_frame.pack()
 
         if not self.is_water:
-            canvas= Canvas(message_frame, width= 150, height= 175)
-        
-            img = Image.open("assets/profilePagePlant.png")      
-            new_img = ImageTk.PhotoImage(img.resize((150,150), Image.ANTIALIAS))
-            canvas.create_image(0,25, anchor=NW, image=new_img)
+            canvas = Canvas(message_frame, width=150, height=175)
+
+            img = Image.open("assets/profilePagePlant.png")
+            new_img = ImageTk.PhotoImage(
+                img.resize((150, 150), Image.ANTIALIAS)
+            )
+            canvas.create_image(0, 25, anchor=NW, image=new_img)
             canvas.image = new_img
             canvas.pack()
 
@@ -336,7 +346,7 @@ class ProfilePage:
         """
         if self.is_water:
             y_padding = 0
-        else: 
+        else:
             y_padding = Constants.PADDING.value
 
         self.actuator_frame = Frame(
@@ -356,7 +366,11 @@ class ProfilePage:
         )
 
         actuatorTitle.grid(
-            row=0, column=0, sticky="news", padx=Constants.PADDING.value, pady=y_padding,
+            row=0,
+            column=0,
+            sticky="news",
+            padx=Constants.PADDING.value,
+            pady=y_padding,
         )
 
         mode_switch_frame = Frame(
@@ -376,7 +390,11 @@ class ProfilePage:
         automatic_mode.pack(side=RIGHT)
 
         mode_switch_frame.grid(
-            row=1, column=0, sticky="news", padx=Constants.PADDING.value, pady=y_padding,
+            row=1,
+            column=0,
+            sticky="news",
+            padx=Constants.PADDING.value,
+            pady=y_padding,
         )
 
         self.curr_actuator_value_label = Label(
@@ -389,7 +407,11 @@ class ProfilePage:
         )
 
         self.curr_actuator_value_label.grid(
-            row=2, column=0, sticky="news", padx=Constants.PADDING.value, pady=y_padding,
+            row=2,
+            column=0,
+            sticky="news",
+            padx=Constants.PADDING.value,
+            pady=y_padding,
         )
 
         if self.is_water:

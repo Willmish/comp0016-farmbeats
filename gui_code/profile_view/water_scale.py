@@ -86,7 +86,7 @@ class WaterScale:
             column=0,
             sticky="news",
             padx=Constants.PADDING.value,
-            pady=(0,Constants.PADDING.value)
+            pady=(0, Constants.PADDING.value),
         )
 
     def draw_scale(self):

@@ -22,11 +22,13 @@ class GuiDatabaseManager(DatabaseManager):
         __init__ creates an instance of GuiDatabaseManager.
         """
         super().__init__("azure_db")
-        load_dotenv(dotenv_path = dotenv_path, override=True)
-        
+        load_dotenv(dotenv_path=dotenv_path, override=True)
+
         self._connection_string = os.getenv("DATABASE_CONNECTION_STRING")
         if self._connection_string is None:
-            raise EnvFileMissingException(".env file not found or missing connection string definition.")
+            raise EnvFileMissingException(
+                ".env file not found or missing connection string definition."
+            )
         self._timeout = timeout
 
     def __enter__(self):
@@ -36,7 +38,9 @@ class GuiDatabaseManager(DatabaseManager):
         :return: Azure database being connected.
         :rtype: GuiDatabaseManager
         """
-        self._azure_conn = pyodbc.connect(self._connection_string, timeout=self._timeout)
+        self._azure_conn = pyodbc.connect(
+            self._connection_string, timeout=self._timeout
+        )
         self._cursor = self._azure_conn.cursor()
         return self
 
