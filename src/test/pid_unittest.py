@@ -61,7 +61,7 @@ def test_pid_multirange():
         d_parameter = 0.001
         pid = PID(p_parameter, i_parameter, d_parameter)
         # pid.setSampleTime(sampletime)
-        number = random.randint(0,100)
+        number = random.randint(0, 100)
         pid.SetPoint = number
         feedback = 0
         feedback_list = []
