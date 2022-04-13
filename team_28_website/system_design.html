@@ -77,10 +77,9 @@
               </ul>
               <li class="dropdown"><a href="#hero"><span>System Design</span> <i class="bi bi-chevron-down"></i></a>
                 <ul>
-                    <li><a href="#system architecture">System Architecture</a></li>
-                    <li><a href="#design patterns">Design Patterns</a></li>
-                    <li><a href="#data storage">Data Storage</a></li>
-                    <li><a href="#packages and apis">Packages and APIs</a></li>
+                    <li><a href="#edge device">Edge Device System Design</a></li>
+                    <li><a href="#azure cloud">Azure Cloud System Design</a></li>
+                    <li><a href="#desktop app">Desktop App System Design</a></li>
                 </ul>
             <li class="dropdown"><a href="software_implementation.html"><span>Software</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
@@ -141,45 +140,245 @@
     
 
   <main id="main">  
-    <!-- ======= System Architecture Section ======= -->
-    <section id="system architecture" class="section1">
+
+
+    <!-- ======= Edge Device System Design Section ======= -->
+    <section id="edge device" class="section1">
         <div class="container">
         <div data-aos="fade-right">
-            <h1>System Architecture</h1>
+            <h1>Edge Device System Design</h1>
+            <p>
+              Overall, our project is split into 3 standalone systems: on the Raspberry Pi, 
+              in the Azure Cloud and on a remote desktop with access to the internet, and 
+              whitelisted on the Azure SQL Server list.
+            </p>
+            <p>
+              The tasks happening in the system are split in the following way:
+            </p>
+            <ul>
+              <li>
+                Data collection (from sensors), processing and actuation currently all happen on the Edge device.
+              </li>
+              <li>
+                Device registering, Data storage and transmission happen on the Azure Cloud.
+              </li>
+              <li>
+                Data display and user interaction happen on a remote desktop app with access to the internet.
+              </li>
+            </ul>
+
+            <img src="assets/img/sys_design/sys_design1.png" class="img-fluid" alt="" style="width:700px;height:300px;">
+
+
+            <h3>Design of Edge Device System: Raspberry Pi</h3>
+            <p> The software running on our edge device is divided up into 5 modules: </p>
+            <ul>
+              <li>
+                <code>sensor</code> module: contains a <code>Sensor</code> interface and implementations of it for each 
+                sensor in the system: DHT11 (humidity and temperature sensor), Light intensity sensor, Soil Moisture 
+                sensor and a Water Level sensor. Additionally it has an implementation for a Sunlight sensor, however 
+                this sensor is not used in our solution, but is left in the codebase for possibility of future expansion.
+              </li>
+
+              <li>
+                <code>analyser</code> module: Contains an <code>Analyser</code> interface and implementations of it for each analyser in the system. 
+                The analyser’s job is to listen in on incoming sensor data, utilise PID module to, or through different 
+                methods, decide on actuation value for that subsystem. The implemented Analyser's are: <code>BrightnessPidAnalyser</code>, 
+                <code>HumidityPidAnalyser</code>, <code>MoisturePidAnalyser</code> and <code>TemperatureAnalyser</code>, each one corresponds to its subsystem and 
+                controls the output of the actuators. In case of temperature, as we decided against including a heater in our 
+                prototype, it does not provide actuation values but still streams the data to the cloud and provides a skeleton 
+                for future code if a heater element is would be added.
+              </li>
+
+              <li>
+                <code>actuator</code> module: Contains an <code>Actuator</code> interface and implementations of it for each actuator in the system. 
+                The actuator’s job is to listen in on incoming actuation control messages from the analysers and set the 
+                actuator value to the requested value. The implemented <code>Actuator</code>'s are: 
+              </li>
+              <ul>
+                <li>
+                  <code>Fans</code> for the regulating the speed of the input and output fans in the system, and by so doing moderate the humidity 
+                  of the system (also regulate temperature, but not connected to the <code>TemperatureAnalyser</code>). 
+                </li>
+                <li>
+                  <code>LEDLights</code> control the brightness of the LED strip, and so doing regulate the overall brightness in the system.
+                </li>
+
+                <li>
+                  <codel>WaterPump</codel>, which controls the water pump connected, and by so doing changes the soil moisture of the plant 
+                  and the water level of the container from which it pumps the water.
+                </li>
+
+              </ul>
+              <li>
+                <code>data_streamer</code> module: Contains an implementation of <code>DatabaseManager</code>, <code>AzureDatabaseManager</code>
+                and <code>IoTHubStreamer</code>. The last two inherit from <code>DatabaseManager</code>.
+              </li>
+              <ul>
+                <li>
+                  <code>DatabaseManager</code>: Allows for creation and management of a local SQLite3 database, and can be used when the system is offline.
+                </li>
+                <li>
+                  <code>AzureDatabaseManager</code>: Interacts directly with the Azure DB and allows for creation and management of an 
+                  Azure SQL DB. It relies however on Microsoft ODBC driver and therefore cannot be directly used for on the raspberry pi, 
+                  it is however used by the desktop app.
+                </li>
+                <li>
+                  <code>IoTHubStreamer</code>: Connects to and registers the Raspberry pi with the IoT Hub, and allows for data streaming to the IoT Hub.
+                </li>
+              </ul>
+              <li>
+                <code>tools</code> module: Contains Classes reused throughout the system for data storage, logging and other helper classes.</li>
+                <ul>
+                  <li>
+                    <strong>logging</strong> : Defines a global variable using <code>colorlog</code> module, and implements functions for printing different level messages, 
+                    which can be globally changed and allow for monitoring of the system in shell while it is running, printing messages such 
+                    as: debug messages, information messages (giving updates on important events taking place), warning messages (e.g. when 
+                    there is not enough water to pour), errors (not used in the system, but can be used if the system is expanded) and Critical 
+                    messages, printed when something is very wrong (e.g. suspicious sensor readings (temperature above 35 degrees Celsius).
+                  </li>
+                  <li>
+                    <strong>pid</strong> : Contains a class PID defining the behaviour of a PID system, incorporated into analyser module by classes relying on PID control of their subsystem. It also supports caching the parameters of the PID system, so that the system will have a quicker recovery after being restarted.
+                  </li>
+                  <li>
+                    <code>sensor_data</code>: Contains a class <code>SensorData</code> defining the contents of messages travelling between modules. 
+                    Is also used for logging current state of the system, if user connect to the Raspberry Pi over ssh and runs the program from console. 
+                    (Messages displayed are defined in the logging submodule of the tools module.
+                  </li>
+                  <li>
+                    <code>signal_handler</code>: Contains a class <code>SignalHandler</code> which lays out the grounds for handling asynchronous timed events,
+                    by the use of Python signal library and using the Unix Signals - in this case SIGALRM. Currently this feature is only utilised by the
+                    <code>MoisturePidAnalyser</code>, which sends messages to the <code>SignalHandler</code> to turn the pump on and off with a timeout. The 
+                    code should be a clear guidance as to how handle such events for other subsystems, if proves to be necessary when the project is expanded.
+                  </li>
+                  <li>
+                    <code>status</code>: Implements a static <code>Enum</code> class, containing a definition of an enabled and disabled sensor or actuator. It is used by all 
+                    sensors and actuators, but currently not acted on. Can be useful if future extensions requires some sensors/actuators to be disabled 
+                    and re-enabled during runtime.
+                  </li>
+                </ul>
+            </ul>
+
+            <h3>Design Patterns</h3>
+            <p>
+              Our system relies heavily on the Publisher Subscriber messaging design pattern, in this case utilising the <a href= "https://pypubsub.readthedocs.io/en/v4.0.3/">pypubsub</a> module for the implementation
+              of it. The actual software implementation of the messaging system is described in the <a href = "software_implementation.html"></a>SOFTWARE IMPLEMENTATION section, with module and class 
+              interaction played out in more detail. Below is a diagram displaying the message flow in the Raspberry Pi system, along with some indications of 
+              what triggers certain events/where the data ends up.
+            </p>
+            <img src="assets/img/sys_design/pubsub.png" class="img-fluid" alt="" style="width:800px;height:400px;">
+
+            
         </div>
 
         </div>
-    </section><!-- System Architecture Section -->
+    </section><!-- Edge Device System Design Section -->
 
-    <!-- ======= Design Patterns Section ======= -->
-    <section id="design patterns" class="section1">
+    <!-- ======= Azure Cloud System Design Section ======= -->
+    <section id="azure cloud" class="section1">
         <div class="container">
         <div data-aos="fade-right">
-            <h1>Design Patterns</h1>
+            <h1>Azure Cloud System Design</h1>
+            <p>
+              The design of our cloud solution relies on the Microsoft Azure cloud service. We were provided with a resource group by Avanade to work with. 
+              We created 5 resources in total:
+            </p>
+            <ul>
+              <li>
+                IoT Hub for registering Raspberry Pi and communicating with it. 
+              </li>
+              <ul>
+                <li>
+                  This resource lies at the core of scalability of our system. It can register many devices at once and manage 
+                  communication to and from the devices. In the next iterations of the project, this can be utilised by either: accepting 
+                  control messages from IoT Hub by the Raspberry Pi, or adding more edge devices (e.g. Raspberry Pis) to the system.
+                </li>
+              </ul>
+              <li>
+                Stream Analytics Job: for transmitting data received from IoT Hub to an SQL Database.
+                <ul>
+                  <li>
+                    This resource accepts as input data from the IoT Hub, which comes in as JSON files, and runs Insert queries on the 
+                    SQL Server to insert the newly received data into the SQL Database. It only allows data matching the expected format 
+                    to pass, so is in a way a correctness checker.
+                  </li>
+                </ul>
+                <li>
+                  SQL Server and SQL Database: for storing the data.
+                  <ul>
+                    <li>
+                      The SQL Server hosts the SQL Database, which in turn stores all the data sent from the Raspberry Pi and got passed 
+                      on by Stream Analytics Job. It is also directly accessed by our GUI app and polled for data for display.
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  Log Analytics Workspace: resource for debugging
+                  <ul>
+                    <li>
+                      This resource has access to all resources in our resource group, and gives us insights into more detailed 
+                      error logs from each resource. This allowed us to fix multiple bugs encountered during the development phase, 
+                      which may have been much harder to track otherwise. (e.g. incorrect firewall setup, missing permissions, 
+                      misformatted JSON messages incoming to IoT Hub and a few others :D )
+                    </li>
+                  </ul>
+                </li>
+              </li>
+            </ul>
+            
+            <img src="assets/img/sys_design/sys_design2.png" class="img-fluid" alt="" style="width:700px;height:400px;">
+            
+            <p>
+              In short: all modules are disconnected from one another (apart from some submodules in the tools module, as they are 
+              more widely used in the system. The <code>main.py</code> file instantiates objects of all modules, and controls them. The pubsub 
+              messaging comes in when <code>collect()</code> is called on the sensor objects, and they propagate messages to the system, with 
+              their contents being a <code>SensorData</code> object. These messages get picked up by analyser objects, then transferred again and 
+              picked up by either <code>signal_handler</code> or the actuators themselves.
+            </p>
+
+            <p>
+              The main loop in <code>main.py</code> also decides when the data is being sent over to the <code>data_streamer</code> objects, to either save 
+              locally or publish to IoT Hub. Currently this happens on a single thread, causing the program to temporarily pause 
+              when the data is being sent out. This however would be a great improvement for the next iteration of the system.
+            </p>
+
+            <p>
+              The system also heavily relies on interfaces and inheritance. Python being a very flexible language, <code>Sensor</code>, <code>Actuator</code> and <code>Analyser</code> classes 
+              are not exactly interfaces, as they provide basic definitions of their methods. So for the sake of correctness, I will refer to them as 
+              super classes of the other files in their respective modules.
+            </p>
+
+            <h3>
+              Cloud Resource Security
+            </h3>
+            <p>
+              To ensure the security of our cloud system, at the same time allowing the repository to be public, we utilised <code>dotenv</code> python 
+              library to securely store and load information which shouldn’t be shared publicly. This comes down to 2 Keys: Raspberry Pi unique 
+              Key for IoT Hub and Azure DB login Key. The keys are stored in <code>.env</code> files, which have to be manually created from the publicily 
+              available <code>.env.template</code> file. The template file contains, as the name suggests, a template for each of the Keys that are necessary 
+              for the program to run.
+            </p>
+
+
         </div>
 
         </div>
-    </section><!-- Design Patterns Section -->
+    </section><!-- Azure Cloud System Design Section -->
 
-    <!-- ======= Data Storage Section ======= -->
-    <section id="data storage" class="section1">
+    <!-- ======= Desktop App System Design Section ======= -->
+    <section id="desktop app" class="section1">
         <div class="container">
         <div data-aos="fade-right">
-            <h1>Data Storage</h1>
+            <h1>Desktop App System Design</h1>
+
+            <p>The GUI system design is described in more detail along with its implementation in the 
+              <a href= "software_implementation.html#gui">SOFTWARE IMPLEMENTATION</a> section.</p>
+
+
         </div>
 
         </div>
-    </section><!-- Data Storage Section -->
-
-    <!-- ======= Packages and APIs Section ======= -->
-    <section id="packages and apis" class="section1">
-        <div class="container">
-        <div data-aos="fade-right">
-            <h1>Packages and APIs</h1>
-        </div>
-
-        </div>
-    </section><!-- Packages and APIs Section -->
+    </section><!-- Desktop App System Design Section -->
 
 
 

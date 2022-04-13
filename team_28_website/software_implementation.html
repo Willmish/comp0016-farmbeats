@@ -75,12 +75,11 @@
                   <li><a href="research.html#solution summary">Solution Summary </a></li>
                   <li><a href="research.html#reference">Research References </a></li>
               </ul>
-            <li class="dropdown"><a href="system_design.html"><span>System Design</span> <i class="bi bi-chevron-down"></i></a>
+              <li class="dropdown"><a href="system_design.html"><span>System Design</span> <i class="bi bi-chevron-down"></i></a>
                 <ul>
-                    <li><a href="system_design.html#system architecture">System Architecture</a></li>
-                    <li><a href="system_design.html#design patterns">Design Patterns</a></li>
-                    <li><a href="system_design.html#data storage">Data Storage</a></li>
-                    <li><a href="system_design.html#packages and apis">Packages and APIs</a></li>
+                    <li><a href="system_design.html#edge device">Edge Device System Design</a></li>
+                    <li><a href="system_design.html#azure cloud">Azure Cloud System Design</a></li>
+                    <li><a href="system_design.html#desktop app">Desktop App System Design</a></li>
                 </ul>
             <li class="dropdown"><a href="#hero"><span>Software</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
@@ -158,6 +157,66 @@
       <div class="container">
         <div data-aos="fade-right">
             <h1>Sensor and Actuators</h1>
+
+            <p>
+              Firstly, we set up a skeleton for both Sensors and Actuators, so that we can 
+              follow that pattern, speed up the implementation process and make the system clearer.
+            </p>
+            <p>
+              The Actuator Skeleton include an init function to initialize and set up everything from 
+              the pins needed to the PWM channels and frequencies.
+            </p>
+            <img src="assets/img/software/sensor_actuator1.png" class="img-fluid" alt="" style="width:200px;height:400;">
+
+            <p>
+              Then we have activate function which will active the actuators. 
+            </p>
+            <img src="assets/img/software/sensor_actuator2.png" class="img-fluid" alt="" style="width:200px;height:400;">
+
+             <p>
+              Finally, the <code>actuate</code> function is implemented to power the actuators. Here’s the dummy code.
+             </p>
+            <img src="assets/img/software/sensor_actuator3.png" class="img-fluid" alt="" style="width:200px;height:400;">
+
+            <p>
+              For the led strips and fans, as we used onboard hardware PWM pin, we can simply set the PWM pin, data and 
+              frequency. The Linux driver will take care of the rest for us. For the led strips, we send the analyzer 
+              message straight to the actuator. We also have another common component: status_listener. This function 
+              will read the current actuator value which will be included in the publisher-subscriber message for the 
+              GUI and database to receive.
+            </p>
+
+            <img src="assets/img/software/sensor_actuator4.png" class="img-fluid" alt="" style="width:200px;height:400;">
+            <img src="assets/img/software/sensor_actuator5.png" class="img-fluid" alt="" style="width:200px;height:400;">
+
+
+            <p>
+              Due to the non-linear water flow rate of the DC motor pump with a linear voltage change in the circuit, 
+              we decided to record the time of pumps being on per a certain time period, which is sent by our handler 
+              to the actuator class and our pump class only need to turn the pump on or off at the moment it receives 
+              the message.
+            </p>
+
+            <img src="assets/img/software/sensor_actuator6.png" class="img-fluid" alt="" style="width:200px;height:400;">
+            
+            <p>
+              Sensor classes have a similar skeleton code. They will set things up in the init function and there should 
+              be a collect function that reads from the sensor and sends messages through the publisher-subscriber pattern. 
+              There is also a disable function that can turn the sensor off. This is all we need for a basic sensor. e.g. 
+              DHT11 humidity and temperature sensor.
+            </p>
+
+            <img src="assets/img/software/sensor_actuator7.png" class="img-fluid" alt="" style="width:200px;height:400;">
+
+
+            <p>
+              Some sensors record input values in the form of resistance. We will need to convert those values to a standard 
+              unit for later use. For example, a light sensor outputs its resistance so that we will need to convert it 
+              into lux.
+            </p>
+            <img src="assets/img/software/sensor_actuator8.png" class="img-fluid" alt="" style="width:200px;height:400;">
+
+
         </div>
 
       </div>
@@ -168,6 +227,34 @@
         <div class="container">
           <div data-aos="fade-right">
               <h1>Data Analysis</h1>
+              <p>
+                We have two versions for analysers: the first is a simple relay version and the second is a 
+                PID controlled version. All analysers include one init, one listener and one datastream update 
+                listener.
+              </p>
+              <img src="assets/img/software/analysis1.png" class="img-fluid" alt="" style="width:200px;height:400;">
+
+              <p>
+                In the init function, it shall include all factors to state and subscribe to each pubsub packages. 
+                Such as:
+              </p>
+              <img src="assets/img/software/analysis2.png" class="img-fluid" alt="" style="width:200px;height:400;">
+
+              <p>
+                In the analyser_listener function, it initially receives sensor values through pubsub, and then analyses 
+                the value obtained with PID or simple relay analysis. Finally, it will send messages with its corresponding
+                actuator value.
+              </p>
+
+              <img src="assets/img/software/analysis3.png" class="img-fluid" alt="" style="width:200px;height:400;">
+
+              <p>
+                In datastream_update_listener function, it does same thing with datastream_listener function but it will 
+                be send to database instead of actuators. 
+              </p>
+              <img src="assets/img/software/analysis4.png" class="img-fluid" alt="" style="width:200px;height:400;">
+
+
           </div>
   
         </div>

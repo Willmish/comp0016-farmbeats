@@ -75,13 +75,12 @@
                   <li><a href="research.html#solution summary">Solution Summary </a></li>
                   <li><a href="research.html#reference">Research References </a></li>
               </ul>
-            <li class="dropdown"><a href="system_design.html"><span>System Design</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-                <li><a href="system_design.html#system architecture">System Architecture</a></li>
-                <li><a href="system_design.html#design patterns">Design Patterns</a></li>
-                <li><a href="system_design.html#data storage">Data Storage</a></li>
-                <li><a href="system_design.html#packages and apis">Packages and APIs</a></li>
-            </ul>
+              <li class="dropdown"><a href="system_design.html"><span>System Design</span> <i class="bi bi-chevron-down"></i></a>
+                <ul>
+                    <li><a href="system_design.html#edge device">Edge Device System Design</a></li>
+                    <li><a href="system_design.html#azure cloud">Azure Cloud System Design</a></li>
+                    <li><a href="system_design.html#desktop app">Desktop App System Design</a></li>
+                </ul>
             <li class="dropdown"><a href="software_implementation.html"><span>Software</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
                 <li><a href="software_implementation.html#overview">Overview</a></li>
@@ -474,6 +473,53 @@
       <div class="container">
         <div data-aos="fade-right">
             <h1>List of Bugs</h1>
+            <ul>
+              <li>
+                PID bug while implementing brightness subsystem. When implementing this analyzer using format PID, 
+                we realised that the hardware somehow kept turning the led PWM high and low, instead of working on a
+                 stable level. Unlike the humidity or soil moisture subsystems, brightness can be changed without any 
+                 time lag and cannot be added up. That’s why our PID controller got confused and kept trying to fix it 
+                 with larger and larger over fix. We fixed this bug by giving the controller output/feedback value a 
+                 cap, as the led light we are using can only increase the brightness of the system, there’s no way to 
+                 dim it if there’s a super bright light shining on our dark box.
+              </li>
+              <li>
+                Humidity analyzer bug. When implementing this analyzer during testing, sometimes the DC fans will go the
+                opposite direction. We found the reason is that it is trying to increase the system humidity but it is a
+                piece of device that can only decrease humidity by changing air. We fixed this by setting a minimum cap for 
+                our feedback on the analyzer to set the value. Our system increase system humidity based on plant and water 
+                container passive evacuate.
+              </li>
+              <li>
+                Testing bug while implementing test using <code>pytest</code> mock. The bug we met was as our <code>Sensor</code> and <code>Actuator</code> classes 
+                are not compatible with our pytest mock, as we don’t have a return value or output directly. We end up testing those classes by using dummy 
+                outputs and checkout the actuation of hardware and the read from sensors.
+              </li>
+              <li>
+                The water level GUI has several blue rectangles being drawn on Canvas at the same time. This bug is due to the 
+                canvas didn’t delete the original rectangle after the newer one arrived. We fixed it by deleting the previous 
+                rectangle before drawing a new one.
+              </li>
+              <li>
+                <p>
+                Light sensor sometimes caused an exception to be thrown by the <code>smbus</code> library: an IO Error. After some research, 
+                we concluded it is the I2C bus losing the connection with the sensor temporarily. This was a dangerous bug, as 
+                it caused the program to crash and not turn off all peripherals correctly (LED remaining at the same brightness, 
+                fans still spinning, if the pump was mid pumping, it may have even continued pumping and flooded the system!). 
+                Our solution was to repeat the sensor reading attempts a few times, and if it still couldn't get a reading, raise 
+                a <code>SensorException</code> exception, which gets caught in the main and gracefully exits the program, powering everything off.
+                </p>
+
+               <img src="assets/img/evaluation/bug1.png" class="img-fluid" alt="" style="width:700px;height:300px;">
+               <p>
+                Here is a picture of the system failing after losing connection to the sensor, and shutting down.
+               </p>
+               <img src="assets/img/evaluation/bug2.png" class="img-fluid" alt="" style="width:700px;height:300px;">
+               <p> And here it managed to recover, and continue running!</p>
+
+
+              </li>
+            </ul>
         </div>
 
       </div>
