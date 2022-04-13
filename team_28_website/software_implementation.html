@@ -113,8 +113,8 @@
                 <ul>
                     <li><a href="appendices.html#user manual">User Manual</a></li>
                     <li><a href="appendices.html#deployment manual">Deployment Manual</a></li>
-                    <li><a href="appendices.html#blog">Blog</a></li>
-                    <li><a href="appendices.html#video">Video</a></li>
+                    <li><a href="appendices.html#blog">Blog and Videos</a></li>
+                    <li><a href="appendices.html#video">GitHub and Licenses</a></li>
                 </ul>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -130,7 +130,7 @@
         <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
             <h1>Software Implementation</h1>
-            <div><a href="#design principles" class="btn-get-started scrollto">Learn More</a></div>
+            <div><a href="#overview" class="btn-get-started scrollto">Learn More</a></div>
         </div>
         <div class="col-xl-4 col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="150">
             <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
@@ -411,20 +411,35 @@
                 displays the following:
               </p>
 
-              <img src="assets/img/software/option_page.png" class="img-fluid" alt="" style="width:400px;height:200px;">
+              <img src="assets/img/software/option_page.png" class="img-fluid" alt="" style="width:1000px;height:550px;">
+              <br>
+              <br>
 
+
+              <div class="row">
+                <div class="col-lg-6" data-aos="zoom-in" >
               <p>
                 Here is the structure of the <code>profile_view</code> folder:
               </p>
 
               <img src="assets/img/software/profile_view_folder.png" class="img-fluid" alt="" style="width:200px;height:250px;">
+              </div>
+              <div class="col-lg-6" data-aos="zoom-in" >
 
               <p>
                 The scale is displayed using the Tkinter Canvas feature, drawing each rectangle 
                 scaled corresponding to the values set for each subsystem.  
               </p>
 
+
               <img src="assets/img/software/sensor_scale.png" class="img-fluid" alt="" style="width:400px;height:80px;">
+              </div>
+              <br>
+              <br>
+              <br>
+              <br>
+              <div class="row">
+                <div class="col-lg-6" data-aos="zoom-in" >
 
               <p>
                 The red zones represent critical regions where the sensor value is far from the desired set point. 
@@ -438,8 +453,15 @@
                 over time. Time is represented as hours - for example, ‘<code>22:22:35</code>’ represents the time 35 seconds into 
                 10:22 pm.
               </p>
+                </div>
+                <div class="col-lg-6" data-aos="zoom-in" >
+
 
               <img src="assets/img/software/graph.png" class="img-fluid" alt="" style="width:400px;height:400;">
+              </div>
+              
+              <br>
+              <br>
 
               <p>
                 The specific <code>FuncAnimation</code> library allows the graph to be animated and updated every 5 seconds. 
@@ -451,8 +473,7 @@
                 The structure of the water level subsystem follows the same structure as the others with one extra frame to 
                 show water level, indicating whether or not the container should be refilled.
               </p>
-              <img src="assets/img/software/profile_page1.png" class="img-fluid" alt="" style="width:400px;height:400;">
-              <img src="assets/img/software/profile_page2.png" class="img-fluid" alt="" style="width:400px;height:400;">
+              <img src="assets/img/software/profile_page2.png" class="img-fluid" alt="" style="width:1000px;height:550px;">
 
               <p>
                 The water level scale indicates the amount of water present in the container by height percentage from 
@@ -468,7 +489,7 @@
               <h3>Settings Page</h3>
 
               <p>Another button on the option page is labelled ‘System Settings’, which takes us to this page:</p>
-              <img src="assets/img/software/settings_page.png" class="img-fluid" alt="" style="width:400px;height:400;">
+              <img src="assets/img/software/settings_page.png" class="img-fluid" alt="" style="width:1000px;height:550px;">
 
               <p>
                 Here the settings currently only contains plant profile settings, which allows the user to upload a 
@@ -482,7 +503,7 @@
                 to display whether or not the current condition is optimal (green) , poor (amber) or critical (red).
               </p>
 
-              <img src="assets/img/software/humdity_page.png" class="img-fluid" alt="" style="width:400px;height:400;">
+              <img src="assets/img/software/humdity_page.png" class="img-fluid" alt="" style="width:1000px;height:550px;">
 
               <p>
                 For example, for the humidity subsystem, the current sensor scale values shows the upper bound to be 
@@ -499,10 +520,18 @@
               </ul>
 
               <p>There is a list of these two threshold lists for each of the four subsystems.</p>
+              <br>
+              <br>
+              <div class="row">
+                <div class="col-lg-6" data-aos="zoom-in" >
               <p>Here is a configuration file example in <code>.ini</code> format:</p>
-              <img src="assets/img/software/config_example.png" class="img-fluid" alt="" style="width:200px;height:400;">
+              <img src="assets/img/software/config_example.png" class="img-fluid" alt="" style="width:300px;height:450;">
+              </div>
+
+              <div class="col-lg-6" data-aos="zoom-in" >
               <p>The management of the config file is stored in the tools folder. There should look like this:</p>
               <img src="assets/img/software/tools_structure.png" class="img-fluid" alt="" style="width:200px;height:400;">
+              </div>
               <p>
                 The <code>plant_profile_info.ini</code> is the main file being accessed to obtain values. The file format is firstly 
                 parsed and checked by the <code>ConfigFileParser</code> class and then values are extracted and stored as the class 
