@@ -9,7 +9,14 @@ class SettingsPage:
     allow the user to view or change current configuration file.
     """
 
-    def __init__(self, main_frame, title_frame, label, option_frame):
+
+    def __init__(
+        self,
+        main_frame: Frame,
+        title_frame: Frame,
+        label: Label,
+        option_frame: Frame,
+    ):
         """__init__ creates an instance of SettingsPage.
 
         :param main_frame: Parent frame of option_frame.
@@ -136,7 +143,8 @@ class SettingsPage:
         with open("tools/plant_profile_info.ini", "r") as f:
             self.file_info.config(text=f.read())
 
-    def home_button_action(self, binst):
+
+    def home_button_action(self, binst: Button):
         """
         home_button_action allows the settings_frame to be
         replaced by option_frame, taking user back to option page.

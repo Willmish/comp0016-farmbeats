@@ -106,7 +106,11 @@ class GuiDatabaseManager(DatabaseManager):
             total += row[0]
             count += 1
         if count > 0:
-            return round(total / count, 2)
+            val = round(total / count, 2)
+            if val > 0:
+                return val
+            else:
+                return 0
         else:
             return None
 

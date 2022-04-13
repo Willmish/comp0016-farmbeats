@@ -181,7 +181,7 @@ class SensorValueScale:
         self.scale_canvas.pack()
         self.scale_frame.pack()
 
-    def update(self, new_value):
+    def update(self, new_value: float):
         """
         update allows the scale to update
         every time the graph is animated.

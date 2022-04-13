@@ -45,6 +45,7 @@ class AzureDatabaseManager(DatabaseManager):
                     [ActuatorValue] REAL,
                     CONSTRAINT SensorData_pk PRIMARY KEY (Timestamp, SensorID,
                     SensorType)
+
                 );
                 """
         )

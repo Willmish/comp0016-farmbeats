@@ -19,6 +19,7 @@ class WaterLevelAnalyser(Analyser):
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.water_level", args=sensor_data
         )
+        print(sensor_data)
 
     def datastream_update_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "database_update"
