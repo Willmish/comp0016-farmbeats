@@ -27,9 +27,11 @@ class TemperatureAnalyser(Analyser):
         output = max(0, min(output, 100))
         sensor_data.actuator_value = output
 
-        if (temperature > 35):
-            logCritical(f"Temperature sensor malfunction or system overheating!"\
-                         "Temperature is {temperature}!")
+        if temperature > 35:
+            logCritical(
+                "Temperature sensor malfunction or system overheating!"
+                f"Temperature is {temperature}!"
+            )
 
         logDebug(f"{sensor_data}")
         pub.sendMessage(

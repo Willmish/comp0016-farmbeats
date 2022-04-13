@@ -11,7 +11,10 @@ class HumidityPidAnalyser(Analyser):
         self._i_parameter = 0.5
         self._d_parameter = 0.001
         self._pid = PID(
-            self._p_parameter, self._i_parameter, self._d_parameter, "./tools/pidHumidityCache"
+            self._p_parameter,
+            self._i_parameter,
+            self._d_parameter,
+            "./tools/pidHumidityCache",
         )
         self._pid.SetPoint = 65
         self._pid.recover()
@@ -26,7 +29,7 @@ class HumidityPidAnalyser(Analyser):
             # fans can only decrease humidity
             feedback = self._pid.SetPoint
         self._pid.update(feedback)
-        output = 100 - self._pid.output  # / 100
+        output = 100 - self._pid.output
         # todo need to move this logic somewhere else maybe?
         # clamping value to 0-100 range
         output = int(max(0, min(output, 100)))
@@ -36,14 +39,13 @@ class HumidityPidAnalyser(Analyser):
             f"{MAIN_PUBSUB_TOPIC}.actuator.fans_status", args=sensor_data
         )
 
-
     def datastream_update_listener(self, args, rest=None):
         MAIN_PUBSUB_TOPIC = "database_update"
         humidity = args.sensor_value
         sensor_data = args
         feedback = humidity
         self._pid.update(feedback)
-        output = 100 - self._pid.output  # / 100
+        output = 100 - self._pid.output
         # todo need to move this logic somewhere else maybe?
         # clamping value to 0-100 range
         output = max(0, min(output, 100))

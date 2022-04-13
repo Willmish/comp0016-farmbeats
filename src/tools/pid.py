@@ -1,9 +1,8 @@
-from re import I
 import time
 
 
 class PID:
-    def __init__(self, p, i, d, cache_path = "./pid/cache"):
+    def __init__(self, p, i, d, cache_path="./pid/cache"):
         self.Kp = p
         self.Ki = i
         self.Kd = d

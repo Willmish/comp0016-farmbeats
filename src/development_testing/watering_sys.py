@@ -2,7 +2,7 @@ from random import random
 import time
 import RPi.GPIO as GPIO
 
-pump = 18 
+pump = 18
 
 
 def water_sys():
@@ -25,6 +25,7 @@ def turn_off():
     print("Pump off!")
     GPIO.output(pump, GPIO.LOW)
 
+
 if __name__ == "__main__":
     try:
         GPIO.setmode(GPIO.BCM)
@@ -35,7 +36,6 @@ if __name__ == "__main__":
             toggle = not toggle
             func()
             time.sleep(1)
-            
 
     except KeyboardInterrupt:
         print("Cleaning up!")

@@ -8,9 +8,8 @@ from sensor.light_sensor import LightSensor
 from analyser.brightness_pid import BrightnessPidAnalyser
 from actuator.led_lights import LEDLights
 
-from sensor.soil_moisture import SoilMoistureSensor 
+from sensor.soil_moisture import SoilMoistureSensor
 from sensor.water_level import WaterLevel
-from analyser.water_level_analyser import WaterLevelAnalyser
 from actuator.water_pump import WaterPump
 
 from analyser.temperature_analyser import TemperatureAnalyser
@@ -90,7 +89,9 @@ if __name__ == "__main__":
                 lights.actuate()
                 water_pump.actuate()
                 PID_UPDATE = True
-                logInfo("-----------------------------------------------------")
+                logInfo(
+                    "-----------------------------------------------------"
+                )
                 sleep(PID_CLOCK_SPEED)
 
         except KeyboardInterrupt:

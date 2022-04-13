@@ -1,14 +1,13 @@
 from tools.status import Status
 from actuator.actuator import Actuator
 from pubsub import pub
-import RPi.GPIO as GPIO
 from rpi_hardware_pwm import HardwarePWM
 from tools.logging import logDebug
 
 
 class LEDLights(Actuator):
     # PWM channel 0 is on PIN 12
-    LED_PIN = 12 
+    LED_PIN = 12
     PWM_FREQUENCY = 480
     PWM_CHANNEL = 0
 
@@ -28,7 +27,9 @@ class LEDLights(Actuator):
             self.light_status_listener,
             f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.light_status",
         )
-        self._pwm_light = HardwarePWM(pwm_channel=LEDLights.PWM_CHANNEL, hz=LEDLights.PWM_FREQUENCY)
+        self._pwm_light = HardwarePWM(
+            pwm_channel=LEDLights.PWM_CHANNEL, hz=LEDLights.PWM_FREQUENCY
+        )
         self._pwm_light.start(self._brightness)
 
     def activate(self):
