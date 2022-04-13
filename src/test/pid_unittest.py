@@ -2,6 +2,7 @@ import random
 from time import sleep
 from tools.pid import PID
 
+
 setvalue = 55
 sampletime = 1
 tolerant = 5
@@ -11,7 +12,7 @@ def test_pid():
     i_parameter = 0.5
     d_parameter = 0.001
     pid = PID(p_parameter, i_parameter, d_parameter)
-    #pid.setSampleTime(sampletime)
+    # pid.setSampleTime(sampletime)
     pid.SetPoint = setvalue
     feedback = 0
     feedback_list = []
@@ -32,7 +33,7 @@ def test_pid_sudden_change():
     i_parameter = 0.5
     d_parameter = 0.001
     pid = PID(p_parameter, i_parameter, d_parameter)
-    #pid.setSampleTime(sampletime)
+    # pid.setSampleTime(sampletime)
     pid.SetPoint = setvalue
     feedback = 0
     feedback_list = []
@@ -55,7 +56,7 @@ def test_pid_multirange():
         i_parameter = 0.5
         d_parameter = 0.001
         pid = PID(p_parameter, i_parameter, d_parameter)
-        #pid.setSampleTime(sampletime)
+        # pid.setSampleTime(sampletime)
         number = random.randint(0,100)
         pid.SetPoint = number
         feedback = 0
