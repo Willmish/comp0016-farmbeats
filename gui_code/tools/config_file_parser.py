@@ -1,5 +1,4 @@
 import configparser
-from logging import exception
 from typing import List
 
 

@@ -1,0 +1,2 @@
+class EnvFileMissingException(Exception):
+    pass
