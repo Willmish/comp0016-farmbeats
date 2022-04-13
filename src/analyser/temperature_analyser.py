@@ -4,7 +4,6 @@ from tools.pid import PID
 from tools.logging import logCritical, logDebug
 
 
-
 class TemperatureAnalyser(Analyser):
     def __init__(self, *args, **kwargs):
         super().__init__(["sensor_data.ambient_temperature_sensor"])

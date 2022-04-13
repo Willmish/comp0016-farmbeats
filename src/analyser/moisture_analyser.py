@@ -110,7 +110,6 @@ class MoisturePidAnalyser(Analyser):
                     message=sensor_data,
                 )
 
-
     def soil_moisture_datastream_update_handler(self, args):
         MAIN_PUBSUB_TOPIC = "database_update"
         if self._last_water_level < MoisturePidAnalyser.MIN_WATER_LEVEL:

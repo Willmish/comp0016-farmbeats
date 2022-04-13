@@ -18,7 +18,6 @@ class WaterScale:
     TEXT_X_OFFSET = 10
     LINE_WIDTH = 3
 
-
     def __init__(self, water_level_frame: Frame, water_level_value: float):
         """
         __init__ creates a WaterScale instance.
@@ -134,7 +133,6 @@ class WaterScale:
         :rtype: fload
         """
         return (water_level_value / 100) * WaterScale.CONTAINER_HEIGHT
-
 
     def update(self, new_value: float):
         """

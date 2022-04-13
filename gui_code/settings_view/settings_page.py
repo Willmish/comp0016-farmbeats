@@ -9,7 +9,6 @@ class SettingsPage:
     allow the user to view or change current configuration file.
     """
 
-
     def __init__(
         self,
         main_frame: Frame,
@@ -142,7 +141,6 @@ class SettingsPage:
                     print(f.read())
         with open("tools/plant_profile_info.ini", "r") as f:
             self.file_info.config(text=f.read())
-
 
     def home_button_action(self, binst: Button):
         """

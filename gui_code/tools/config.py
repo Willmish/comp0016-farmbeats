@@ -1,12 +1,12 @@
 import configparser
 from typing import List
 
+
 class Config:
     """
     Config class accesses information from plant_profile_info.ini
     file and stores them as attributes.
     """
-
 
     def __init__(self):
         """
@@ -28,7 +28,6 @@ class Config:
         self.water_level_extr = self.get_list(plant_info["water_level_extr"])
         self.water_level_bound = self.get_list(plant_info["water_level_bound"])
         self.water_level_unit = plant_info["water_level_unit"]
-
 
     def get_list(self, string: str) -> List[int]:
         """
