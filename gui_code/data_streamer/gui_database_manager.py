@@ -4,6 +4,7 @@ from data_streamer.database_manager import DatabaseManager
 import os
 from dotenv import load_dotenv
 import pyodbc
+from tools.exceptions import EnvFileMissingException
 
 
 class GuiDatabaseManager(DatabaseManager):
@@ -16,13 +17,19 @@ class GuiDatabaseManager(DatabaseManager):
     :type DatabaseManager: DatabaseManager
     """
 
-    def __init__(self):
+    def __init__(self, dotenv_path: str = None, timeout: int = 30):
         """
         __init__ creates an instance of GuiDatabaseManager.
         """
         super().__init__("azure_db")
-        load_dotenv()
+        load_dotenv(dotenv_path=dotenv_path, override=True)
+
         self._connection_string = os.getenv("DATABASE_CONNECTION_STRING")
+        if self._connection_string is None:
+            raise EnvFileMissingException(
+                ".env file not found or missing connection string definition."
+            )
+        self._timeout = timeout
 
     def __enter__(self):
         """
@@ -31,7 +38,9 @@ class GuiDatabaseManager(DatabaseManager):
         :return: Azure database being connected.
         :rtype: GuiDatabaseManager
         """
-        self._azure_conn = pyodbc.connect(self._connection_string)
+        self._azure_conn = pyodbc.connect(
+            self._connection_string, timeout=self._timeout
+        )
         self._cursor = self._azure_conn.cursor()
         return self
 

@@ -1,5 +1,15 @@
-from tkinter import BOTH, INSIDE, Button, Frame, Label, filedialog
+from tkinter import (
+    BOTH,
+    INSIDE,
+    NW,
+    Button,
+    Canvas,
+    Frame,
+    Label,
+    filedialog,
+)
 from PIL import Image, ImageTk
+from tools.config_file_parser import ConfigFileParser
 from tools.constants import Constants
 
 
@@ -35,6 +45,7 @@ class SettingsPage:
         self.label_frame = title_frame
         self.label = label
         self.file_info = None
+        self.message = None
         self.page_setup()
 
     def page_setup(self):
@@ -64,29 +75,30 @@ class SettingsPage:
         home_button.place(bordermode=INSIDE, x=5, y=5)
 
         # settings_frame set up
+        self.settings_frame.grid_columnconfigure(0, weight=1)
+        self.settings_frame.grid_columnconfigure(0, weight=1)
+        self.settings_frame.grid_columnconfigure(1, weight=1)
 
-        for n in range(2):
-            self.settings_frame.grid_columnconfigure(n, weight=1)
-        for n in range(4):
-            self.settings_frame.grid_rowconfigure(n, weight=1)
+        Frame(self.settings_frame).grid(row=0, column=1)
 
-        plant_name_label = Label(
-            self.settings_frame,
+        left_frame = Frame(self.settings_frame)
+
+        section_title_label = Label(
+            left_frame,
+            text="Plant Profile Settings",
+            font=(Constants.FONT_STYLE.value, 25),
+        )
+        section_title_label.pack(pady=15)
+
+        description_label = Label(
+            left_frame,
             text="The system GUI display takes the values shown\n"
             + "in configuration file below for a specific plant.",
             font=(Constants.FONT_STYLE.value, 15),
         )
-        plant_name_label.grid(
-            row=0,
-            column=0,
-            sticky="news",
-            pady=Constants.PADDING.value,
-            padx=Constants.PADDING.value,
-        )
+        description_label.pack(pady=15)
 
-        current_file_frame = Frame(
-            self.settings_frame, bg=Constants.BACKGROUND.value
-        )
+        current_file_frame = Frame(left_frame, bg=Constants.BACKGROUND.value)
 
         frame_title = Label(
             current_file_frame,
@@ -100,25 +112,44 @@ class SettingsPage:
         self.file_info = Label(
             current_file_frame,
             text=read_string,
-            font=(Constants.FONT_STYLE.value, 15),
+            font=(Constants.FONT_STYLE.value, 13),
         )
         self.file_info.pack()
 
-        current_file_frame.grid(
-            row=1, column=0, sticky="news", pady=25, padx=25, rowspan=3
-        )
-
         change_file_button = Button(
-            self.settings_frame,
+            current_file_frame,
+            bg=Constants.BACKGROUND.value,
             text="Change File",
             command=self.change_file_action,
+            padx=15,
+            pady=15,
         )
-        change_file_button.grid(
-            row=1,
+        change_file_button.pack()
+
+        current_file_frame.pack()
+
+        self.message = Label(
+            left_frame, text="", font=(Constants.FONT_STYLE.value, 15)
+        )
+        self.message.pack()
+        left_frame.grid(
+            row=0,
             column=1,
             sticky="news",
+            pady=Constants.PADDING.value,
+        )
+
+        canvas = Canvas(self.settings_frame, width=500, height=600)
+
+        img = Image.open("assets/settingsPagePlant.png")
+        new_img = ImageTk.PhotoImage(img.resize((300, 500), Image.ANTIALIAS))
+        canvas.create_image(0, 0, anchor=NW, image=new_img)
+        canvas.image = new_img
+        canvas.grid(
+            row=0,
+            column=2,
+            sticky="news",
             pady=25,
-            padx=25,
         )
 
         self.settings_frame.pack(
@@ -136,11 +167,17 @@ class SettingsPage:
         path = filedialog.askopenfilename()
         if len(path) > 0:
             with open(path, "r") as input:
-                with open("tools/plant_profile_info.ini", "w+") as f:
-                    f.write(input.read())
-                    print(f.read())
-        with open("tools/plant_profile_info.ini", "r") as f:
-            self.file_info.config(text=f.read())
+                if ConfigFileParser(path).valid:
+                    with open("tools/plant_profile_info.ini", "w+") as f:
+                        f.write(input.read())
+                        print(f.read())
+                        with open("tools/plant_profile_info.ini", "r") as f2:
+                            self.file_info.config(text=f2.read())
+                        self.message.config(text="File change successful.")
+
+                else:
+                    self.message.config(text="Error. Cannot change file.")
+                    print("CANNOT CHANGE FILE")
 
     def home_button_action(self, binst: Button):
         """

@@ -28,9 +28,10 @@ class ProfileInformation:
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "brightness"
             )
-            self.unit = config.brightness_unit
+            self.sensor_unit = config.brightness_sensor_unit
+            self.actuator_unit = config.brightness_actuator_unit
             self.sensor_value_description = (
-                "Current value: " + str(self.sensor_value) + self.unit
+                "Current value: " + str(self.sensor_value) + self.sensor_unit
             )
 
             self.extr = config.brightness_extr
@@ -56,9 +57,11 @@ class ProfileInformation:
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "humidity"
             )
-            self.unit = config.humidity_unit
+            self.sensor_unit = config.humidity_sensor_unit
+            self.actuator_unit = config.humidity_actuator_unit
+
             self.sensor_value_description = (
-                "Current value: " + str(self.sensor_value) + self.unit
+                "Current value: " + str(self.sensor_value) + self.sensor_unit
             )
 
             self.extr = config.humidity_extr
@@ -84,9 +87,10 @@ class ProfileInformation:
                 "temperature"
             )
 
-            self.unit = config.temperature_unit
+            self.sensor_unit = config.temperature_sensor_unit
+            self.actuator_unit = config.temperature_actuator_unit
             self.sensor_value_description = (
-                "Current value: " + str(self.sensor_value) + self.unit
+                "Current value: " + str(self.sensor_value) + self.sensor_unit
             )
 
             self.extr = config.temperature_extr
@@ -111,9 +115,11 @@ class ProfileInformation:
             self.sensor_value = self._db_manager.get_curr_val_single_subsys(
                 "soil_moisture"
             )
-            self.unit = config.water_level_unit
+            self.sensor_unit = config.water_level_sensor_unit
+            self.actuator_unit = config.water_level_actuator_unit
+
             self.sensor_value_description = (
-                "Current value: " + str(self.sensor_value) + self.unit
+                "Current value: " + str(self.sensor_value) + self.sensor_unit
             )
             self.water_level_value = (
                 self._db_manager.get_curr_val_single_subsys("water_level")
@@ -138,7 +144,9 @@ class ProfileInformation:
             )
 
         self.actuator_value_description = (
-            "Actuator Value set to: \n" + str(self.actuator_value) + self.unit
+            "Actuator Value set to: \n"
+            + str(self.actuator_value)
+            + self.actuator_unit
         )
         self.suggestion = MessageManager(
             profile_name, self.get_status()
@@ -209,10 +217,12 @@ class ProfileInformation:
                 )
             )
         self.sensor_value_description = (
-            "Current value: " + str(self.sensor_value) + self.unit
+            "Current value: " + str(self.sensor_value) + self.sensor_unit
         )
         self.actuator_value_description = (
-            "Actuator Value set to: \n" + str(self.actuator_value) + self.unit
+            "Actuator Value set to: \n"
+            + str(self.actuator_value)
+            + self.actuator_unit
         )
         self.suggestion = MessageManager(
             profile_name, self.get_status()
