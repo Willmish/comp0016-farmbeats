@@ -1,32 +1,28 @@
+from seeed_si114x import grove_si114x
 from time import time
 from pubsub import pub
 from sensor.sensor import Sensor
 from tools.status import Status
 from tools.sensor_data import SensorData
-from grove.adc import ADC   
 
 
-class WaterLevel(Sensor):
-    WATER_LEVEL_PIN = 2
-    water_level = ADC()
+class SunLightSensor(Sensor):
+    LIGHT_SENSOR_PIN = 0
 
     def __init__(self, *args, **kwargs):
-        super().__init__(("water_level"), *args, **kwargs)
+        super().__init__(("light_colour"), *args, **kwargs)
+        self.SI1145 = grove_si114x()
 
     def collect(self, pid_update: bool = True):
         self._status = Status.ENABLED
         MODE = "pid_update" if pid_update else "database_update"
-        val = self.water_level.read_raw(self.WATER_LEVEL_PIN)
-        val = self.map_number(val, 2100, 250, 100, 0)
         pub.sendMessage(
-            f"{MODE}.sensor_data.water_level_sensor",
+            f"{MODE}.sensor_data.sunlight_sensor",
             args=SensorData(
-                time(),
-                self._id,
-                self._type,
-                val,
+                time(), self._id, self._type, (self.SI1145.ReadVisible)
             ),
         )
+        # , self.SI1145.ReadUV / 100, self.SI1145.ReadIR)))
 
     def disable(self):
         self._status = Status.DISABLED

@@ -2,13 +2,14 @@ import time
 
 
 class PID:
-    def __init__(self, p, i, d):
+    def __init__(self, p, i, d, cache_path="./pid/cache"):
         self.Kp = p
         self.Ki = i
         self.Kd = d
         self.sample_time = 0.00
         self.current_time = time.time()
         self.last_time = self.current_time
+        self._cache_path = cache_path
         self.clear()
 
     def clear(self):
@@ -17,7 +18,6 @@ class PID:
         self.ITerm = 0.0
         self.DTerm = 0.0
         self.last_error = 0.0
-        self.int_error = 0.0
         self.output = 0.0
 
     def update(self, feedback_value):
@@ -39,3 +39,25 @@ class PID:
 
     def setSampleTime(self, sample_time):
         self.sample_time = sample_time
+
+    def recover(self):
+        try:
+            with open(self._cache_path, "r") as f:
+                p = float(f.readline())
+                i = float(f.readline())
+                d = float(f.readline())
+        except FileNotFoundError:
+            p = 0
+            i = 0
+            d = 0
+        self.PTerm = p
+        self.ITerm = i
+        self.DTerm = d
+
+    def save(self):
+        with open(self._cache_path, "w+") as f:
+            f.write(str(self.PTerm))
+            f.write("\n")
+            f.write(str(self.ITerm))
+            f.write("\n")
+            f.write(str(self.DTerm))

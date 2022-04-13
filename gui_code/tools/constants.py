@@ -2,6 +2,14 @@ from enum import Enum
 
 
 class Constants(Enum):
+    """
+    Constants contain constants that are used across all
+    python files in the gui_code folder.
+
+    :param Enum: class for creating enumerated constants.
+    :type Enum: Enum
+    """
+
     PADDING = 15
     BACKGROUND = "#E7F5EF"
     GREEN_RGB = "#64975E"

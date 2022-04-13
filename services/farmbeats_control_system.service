@@ -1,0 +1,14 @@
+[Unit]
+Description=Control System for Farmbeats comp0016 demo project - moderates the humidity, lighting and soil moisture in the box
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/python3 -u main.py
+WorkingDirectory=/home/pi/comp0016-farmbeats/src
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
