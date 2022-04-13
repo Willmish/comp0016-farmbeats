@@ -41,7 +41,6 @@ if __name__ == "__main__":
     logger.setLevel("INFO")
     logInfo("Starting...")
     with IoTHubStreamer() as db:
-        # db.create_sensor_data_table()
         GPIO.setmode(GPIO.BCM)
 
         # Actuator objects
@@ -60,9 +59,6 @@ if __name__ == "__main__":
         dht11_sensor = DHT11(sensor_id=1)
         water_level = WaterLevel(sensor_id=2)
         moisture_sensor = SoilMoistureSensor(sensor_id=3)
-
-        # pub.subscribe(dummy_listener, "database_update")
-        # pub.subscribe(dummy_listener_pid, "pid_update")
         time_since_db_update = time()
         PID_UPDATE = True
         try:
