@@ -1,6 +1,14 @@
-from tkinter import BOTH, INSIDE, NW, Button, Canvas, Frame, Label, PhotoImage, filedialog
+from tkinter import (
+    BOTH,
+    INSIDE,
+    NW,
+    Button,
+    Canvas,
+    Frame,
+    Label,
+    filedialog,
+)
 from PIL import Image, ImageTk
-from matplotlib.pyplot import text
 from tools.config_file_parser import ConfigFileParser
 from tools.constants import Constants
 
@@ -71,10 +79,7 @@ class SettingsPage:
         self.settings_frame.grid_columnconfigure(0, weight=1)
         self.settings_frame.grid_columnconfigure(1, weight=1)
 
-
         Frame(self.settings_frame).grid(row=0, column=1)
-
-
 
         left_frame = Frame(self.settings_frame)
 
@@ -93,9 +98,7 @@ class SettingsPage:
         )
         description_label.pack(pady=15)
 
-        current_file_frame = Frame(
-            left_frame, bg=Constants.BACKGROUND.value
-        )
+        current_file_frame = Frame(left_frame, bg=Constants.BACKGROUND.value)
 
         frame_title = Label(
             current_file_frame,
@@ -119,13 +122,15 @@ class SettingsPage:
             text="Change File",
             command=self.change_file_action,
             padx=15,
-            pady=15
+            pady=15,
         )
         change_file_button.pack()
 
         current_file_frame.pack()
 
-        self.message = Label(left_frame, text="", font=(Constants.FONT_STYLE.value, 15))
+        self.message = Label(
+            left_frame, text="", font=(Constants.FONT_STYLE.value, 15)
+        )
         self.message.pack()
         left_frame.grid(
             row=0,
@@ -134,18 +139,19 @@ class SettingsPage:
             pady=Constants.PADDING.value,
         )
 
-        canvas= Canvas(self.settings_frame, width= 500, height= 600)
-        
-        img = Image.open("assets/settingsPagePlant.png")      
-        new_img = ImageTk.PhotoImage(img.resize((300,500), Image.ANTIALIAS))
-        canvas.create_image(0,0, anchor=NW, image=new_img)
+        canvas = Canvas(self.settings_frame, width=500, height=600)
+
+        img = Image.open("assets/settingsPagePlant.png")
+        new_img = ImageTk.PhotoImage(img.resize((300, 500), Image.ANTIALIAS))
+        canvas.create_image(0, 0, anchor=NW, image=new_img)
         canvas.image = new_img
         canvas.grid(
-            row=0, column=2, sticky="news", pady=25, 
+            row=0,
+            column=2,
+            sticky="news",
+            pady=25,
         )
 
-
-        
         self.settings_frame.pack(
             fill=BOTH,
             expand=True,
@@ -168,11 +174,10 @@ class SettingsPage:
                         with open("tools/plant_profile_info.ini", "r") as f2:
                             self.file_info.config(text=f2.read())
                         self.message.config(text="File change successful.")
-                        
+
                 else:
                     self.message.config(text="Error. Cannot change file.")
-                    print ("CANNOT CHANGE FILE")
-        
+                    print("CANNOT CHANGE FILE")
 
     def home_button_action(self, binst: Button):
         """

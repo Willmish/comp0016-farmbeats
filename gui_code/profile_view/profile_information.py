@@ -144,7 +144,9 @@ class ProfileInformation:
             )
 
         self.actuator_value_description = (
-            "Actuator Value set to: \n" + str(self.actuator_value) + self.actuator_unit
+            "Actuator Value set to: \n"
+            + str(self.actuator_value)
+            + self.actuator_unit
         )
         self.suggestion = MessageManager(
             profile_name, self.get_status()
@@ -218,7 +220,9 @@ class ProfileInformation:
             "Current value: " + str(self.sensor_value) + self.sensor_unit
         )
         self.actuator_value_description = (
-            "Actuator Value set to: \n" + str(self.actuator_value) + self.actuator_unit
+            "Actuator Value set to: \n"
+            + str(self.actuator_value)
+            + self.actuator_unit
         )
         self.suggestion = MessageManager(
             profile_name, self.get_status()
