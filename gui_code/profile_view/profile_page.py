@@ -1,9 +1,5 @@
 from datetime import timedelta
-<<<<<<< HEAD
 from tkinter import CENTER, NW, TOP, Canvas, Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT
-=======
-from tkinter import Frame, Label, Button, INSIDE, BOTH, RIGHT, LEFT
->>>>>>> main
 from typing import List
 import matplotlib.pyplot as plt
 from profile_view.water_scale import WaterScale
@@ -114,14 +110,9 @@ class ProfilePage:
 
         # sensor_frame set up
 
-<<<<<<< HEAD
         self.profile_frame.grid_columnconfigure(0, weight=3)
         self.profile_frame.grid_columnconfigure(1, weight=1)
 
-=======
-        for n in range(2):
-            self.profile_frame.grid_columnconfigure(n, weight=1)
->>>>>>> main
         for n in range(3):
             self.profile_frame.grid_rowconfigure(n, weight=1)
 
@@ -241,11 +232,7 @@ class ProfilePage:
         over time with animated value updates.
         """
         graph_frame = Frame(self.sensor_frame, bg=Constants.BACKGROUND.value)
-<<<<<<< HEAD
         y_label = self.profile.title + " (" + self.profile.sensor_unit + ")"
-=======
-        y_label = self.profile.title + " (" + self.profile.unit + ")"
->>>>>>> main
         xar = self.profile.time_list[-ProfilePage.NUM_OF_DATA:]
         yar = self.profile.val_list[-ProfilePage.NUM_OF_DATA:]
 
@@ -314,13 +301,8 @@ class ProfilePage:
             self.get_xlabels(xar, ProfilePage.NO_XTICKS)[1]
         )
         self.axs.set(
-<<<<<<< HEAD
             xlabel="Time (HH:MM:SS)",
             ylabel=self.profile.title + " (" + self.profile.sensor_unit + ")",
-=======
-            xlabel="Time (HH:MM)",
-            ylabel=self.profile.title + " (" + self.profile.unit + ")",
->>>>>>> main
             title=self.profile.graph_title,
         )
 
