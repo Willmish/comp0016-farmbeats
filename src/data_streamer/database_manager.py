@@ -1,6 +1,8 @@
 import sqlite3
 from pubsub import pub
 
+from tools.logging import logInfo
+
 
 class DatabaseManager:
     sensor_data_topic = "database_update.actuator"
@@ -70,7 +72,7 @@ class DatabaseManager:
         self._connection.commit()
 
     def sensor_data_listener(self, args):
-        print("Received data over pubsub: ", args)
+        logInfo("Received data over pubsub: ", args)
         self.add_sensor_data(
             args.timestamp,
             args.sensor_id,

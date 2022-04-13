@@ -10,7 +10,7 @@ from actuator.led_lights import LEDLights
 
 from sensor.soil_moisture import SoilMoistureSensor
 from sensor.water_level import WaterLevel
-from analyser.water_level_analyser import WaterLevelAnalyser
+from actuator.water_pump import WaterPump
 
 from analyser.temperature_analyser import TemperatureAnalyser
 
@@ -18,6 +18,9 @@ from analyser.moisture_analyser import MoisturePidAnalyser
 
 # from data_streamer.database_manager import DatabaseManager
 from data_streamer.iot_hub_streamer import IoTHubStreamer
+from tools.exceptions import SensorException
+from tools.signal_handler import SignalHandler
+from tools.logging import logCritical, logger, logInfo
 import RPi.GPIO as GPIO
 
 
@@ -34,6 +37,9 @@ def dummy_listener_pid(args):
 
 
 if __name__ == "__main__":
+    singal_handler: SignalHandler = SignalHandler()
+    logger.setLevel("INFO")
+    logInfo("Starting...")
     with IoTHubStreamer() as db:
         # db.create_sensor_data_table()
         GPIO.setmode(GPIO.BCM)
@@ -41,13 +47,11 @@ if __name__ == "__main__":
         # Actuator objects
         fans = Fans()
         lights = LEDLights()
+        water_pump = WaterPump()
 
         # Analyser objects
-        # humidity_analyser = HumidityAnalyser()
-        # brightness_analyser = BrightnessAnalyser()
         humidity_pid = HumidityPidAnalyser()
         brightness_pid = BrightnessPidAnalyser()
-        water_level_analyser = WaterLevelAnalyser()
         temperature_analyser = TemperatureAnalyser()
         moisture_analyser = MoisturePidAnalyser()
 
@@ -67,19 +71,30 @@ if __name__ == "__main__":
                     time() - time_since_db_update
                     >= TIME_INTERVAL_BETWEEN_READINGS
                 ):
-                    print(
+                    logInfo(
                         "++++++++++++++++++++++++++++\n UPDATE DB\n"
                         "++++++++++++++++++++++++++++"
                     )
                     time_since_db_update = time()
                     PID_UPDATE = False
-                dht11_sensor.collect(PID_UPDATE)
-                light_sensor.collect(PID_UPDATE)
-                water_level.collect(PID_UPDATE)
-                moisture_sensor.collect(PID_UPDATE)
+                try:
+                    light_sensor.collect(PID_UPDATE)
+                    dht11_sensor.collect(PID_UPDATE)
+                    water_level.collect(PID_UPDATE)
+                    moisture_sensor.collect(PID_UPDATE)
+                except SensorException:
+                    logCritical("Sensor Failed! exiting...")
+                    raise KeyboardInterrupt
                 fans.actuate()
+                lights.actuate()
+                water_pump.actuate()
                 PID_UPDATE = True
+                logInfo(
+                    "-----------------------------------------------------"
+                )
                 sleep(PID_CLOCK_SPEED)
 
         except KeyboardInterrupt:
             GPIO.cleanup()
+            lights.cleanup()
+            fans.cleanup()
