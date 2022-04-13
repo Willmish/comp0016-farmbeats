@@ -7,9 +7,18 @@ The Project consists of 2 standalone programs: Raspberry Pi edge program and Des
 
 ## Edge device
 
-Install requirements with `pip install -r requirements.txt`. Also required: Grove library, link to be added @Willmish.
+PLEASE REFER TO DEPLOYMENT MANUAL FOR MORE DETAILED DESCRIPTION
+
+Install requirements with `pip install -r requirements.txt`. Also required: Grove library: https://github.com/Seeed-Studio/grove.py
+Additonally, I2C, remote GPIO and PWM must be enabled, via raspi-config and also through console, see:
+https://www.raspberrypi.com/documentation/computers/configuration.html#i2c
+https://www.raspberrypi.com/documentation/computers/configuration.html#remote-gpio
+https://github.com/Pioreactor/rpi_hardware_pwm#installation
 
 ## Dekstop device
+
+PLEASE REFER TO DEPLOYMENT MANUAL FOR MORE DETAILED DESCRIPTION
+
 
 Install requirements with `pip install -r requirements.txt`. Also required: Pyodbc and MS odbc driver.
 
