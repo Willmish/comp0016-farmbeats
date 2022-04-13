@@ -17,9 +17,6 @@ class DHT11(Sensor):
         self._status = Status.ENABLED
         MODE = "pid_update" if pid_update else "database_update"
         humidity, temp = self._dht11.read()
-        # TODO think if magic numbers for sensor type is best option?
-        # maybe keep all as enums?
-        # (Problematic with mixed type sensors)
         current_t = time()
         pub.sendMessage(
             f"{MODE}.sensor_data.humidity_sensor",

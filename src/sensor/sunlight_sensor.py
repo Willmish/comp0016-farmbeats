@@ -22,7 +22,6 @@ class SunLightSensor(Sensor):
                 time(), self._id, self._type, (self.SI1145.ReadVisible)
             ),
         )
-        # , self.SI1145.ReadUV / 100, self.SI1145.ReadIR)))
 
     def disable(self):
         self._status = Status.DISABLED

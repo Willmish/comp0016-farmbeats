@@ -16,13 +16,12 @@ class TemperatureAnalyser(Analyser):
         self._pid.SetPoint = 25
 
     def analyser_listener(self, args, rest=None):
-        MAIN_PUBSUB_TOPIC = "pid_update"  # TODO move to enum/config file
+        MAIN_PUBSUB_TOPIC = "pid_update"
         temperature = args.sensor_value
         sensor_data = args
         feedback = temperature
         self._pid.update(feedback)
         output = 100 - self._pid.output  # / 100
-        # todo need to move this logic somewhere else maybe?
         # clamping value to 0-100 range
         output = max(0, min(output, 100))
         sensor_data.actuator_value = output
@@ -45,7 +44,6 @@ class TemperatureAnalyser(Analyser):
         feedback = temperature
         self._pid.update(feedback)
         output = 100 - self._pid.output  # / 100
-        # todo need to move this logic somewhere else maybe?
         # clamping value to 0-100 range
         output = max(0, min(output, 100))
         sensor_data.actuator_value = output

@@ -21,7 +21,6 @@ class Sensor:
     def map_number(
         self, val: float, old_max, old_min, new_max, new_min
     ) -> float:
-        # try:
         old_range = float(old_max - old_min)
         new_range = float(new_max - new_min)
         new_value = float(((val - old_min) * new_range) / old_range) + new_min

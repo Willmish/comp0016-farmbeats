@@ -19,7 +19,7 @@ class BrightnessPidAnalyser(Analyser):
         self._pid.recover()
 
     def analyser_listener(self, args, rest=None):
-        MAIN_PUBSUB_TOPIC = "pid_update"  # TODO move to enum/config file
+        MAIN_PUBSUB_TOPIC = "pid_update"
         brightness = args.sensor_value
         sensor_data = args
         feedback = brightness
@@ -29,7 +29,6 @@ class BrightnessPidAnalyser(Analyser):
         # Clamping value to 0-100 range
         output = int(max(0, min(output, 100)))
 
-        # TODO SWAP BACK TO OUTPUT ONCE CORRECT SENSOR IN PLACE
         sensor_data.actuator_value = output
 
         pub.sendMessage(

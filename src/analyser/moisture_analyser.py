@@ -56,7 +56,6 @@ class MoisturePidAnalyser(Analyser):
         # 670-2100
         sensor_data = args
         self._last_water_level = sensor_data.sensor_value
-        # TODO consider changing this structure, as it has no actuator!
         sensor_data.actuator_value = (
             -1
         )  # Set actuator to -1 to avoid null values in DB
@@ -81,11 +80,7 @@ class MoisturePidAnalyser(Analyser):
         soil_moisture = args.sensor_value
         sensor_data = args
         logDebug(f"{sensor_data}")
-        # self._pid.update(soil_moisture)
 
-        # TODO change so can work asynchronously (clock needs to be passed from
-        # outside loop, actuator has to be working asynchronously and
-        # monitor/on/off state)
         if (
             MoisturePidAnalyser.TARGET_MOISTURE_LEVEL - soil_moisture
             >= MoisturePidAnalyser.MAX_DRYNESS_DEVIATION
@@ -119,8 +114,6 @@ class MoisturePidAnalyser(Analyser):
         # been on since the last update of the database
         sensor_data.actuator_value = self._cumulative_time_pump_on_since_update
         self._cumulative_time_pump_on_since_update = 0
-        # TODO either change to send the on off status (will be inaccurate)
-        # , or see issue #55
         pub.sendMessage(
             f"{MAIN_PUBSUB_TOPIC}.actuator.water_pump_status", args=sensor_data
         )

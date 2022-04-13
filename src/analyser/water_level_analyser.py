@@ -8,10 +8,9 @@ class WaterLevelAnalyser(Analyser):
         super().__init__(["sensor_data.water_level_sensor"])
 
     def analyser_listener(self, args, rest=None):
-        MAIN_PUBSUB_TOPIC = "pid_update"  # TODO move to enum/config file
+        MAIN_PUBSUB_TOPIC = "pid_update"
         # 670-2100
         sensor_data = args
-        # TODO consider changing this structure, as it has no actuator!
         sensor_data.actuator_value = (
             -1
         )  # Set actuator to -1 to avoid null values in DB
