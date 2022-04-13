@@ -1,11 +1,15 @@
 from tools.status import Status
 from actuator.actuator import Actuator
 from pubsub import pub
-import RPi.GPIO as GPIO
+from rpi_hardware_pwm import HardwarePWM
+from tools.logging import logDebug
 
 
 class LEDLights(Actuator):
-    LED_PIN = 5
+    # PWM channel 0 is on PIN 12
+    LED_PIN = 12
+    PWM_FREQUENCY = 480
+    PWM_CHANNEL = 0
 
     def __init__(self, *args, **kwargs):
 
@@ -18,12 +22,15 @@ class LEDLights(Actuator):
         :type actuator_status: Status
         """
         super().__init__("led_lights", args, kwargs)
-        self._brightness = 0
+        self._brightness: int = 0
         pub.subscribe(
             self.light_status_listener,
             f"{Actuator.MAIN_LISTEN_TOPIC}.actuator.light_status",
         )
-        GPIO.setup(LEDLights.LED_PIN, GPIO.OUT)
+        self._pwm_light = HardwarePWM(
+            pwm_channel=LEDLights.PWM_CHANNEL, hz=LEDLights.PWM_FREQUENCY
+        )
+        self._pwm_light.start(self._brightness)
 
     def activate(self):
         """activate: sets the current status to Status.ENABLED."""
@@ -33,13 +40,14 @@ class LEDLights(Actuator):
         """actuate: dummy actuation function, to be overriden by children."""
         # Turns LED on and off
         if self._brightness > 0:
-            print("lights on!")
-            GPIO.output(LEDLights.LED_PIN, GPIO.HIGH)
+            self._pwm_light.change_duty_cycle(self._brightness)
         else:
-            print("lights off!")
-            GPIO.output(LEDLights.LED_PIN, GPIO.LOW)
+            self._pwm_light.change_duty_cycle(0)
+
+    def cleanup(self):
+        self._pwm_light.stop()
 
     def light_status_listener(self, args, rest=None):
         brightness = args.actuator_value
-        print("Received brightness vals over pubsub:", brightness)
+        logDebug(f"Received brightness value: {brightness}%")
         self._brightness = brightness

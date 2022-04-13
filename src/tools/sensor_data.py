@@ -4,10 +4,10 @@ from typing import Union
 class SensorData:
     def __init__(
         self,
-        timestamp: float,
-        sensor_id: int,
-        sensor_type: str,
-        sensor_value: Union[str, int, float],
+        timestamp: float = None,
+        sensor_id: int = None,
+        sensor_type: str = None,
+        sensor_value: Union[str, int, float] = None,
         actuator_value: float = None,
     ):
         self.timestamp = timestamp
