@@ -114,7 +114,6 @@ class MoisturePidAnalyser(Analyser):
         MAIN_PUBSUB_TOPIC = "database_update"
         if self._last_water_level < MoisturePidAnalyser.MIN_WATER_LEVEL:
             logWarning("Water level in the tank too low to pump water!")
-            return
         sensor_data = args
         # For the actuator value, we send the cumulative time the pump has
         # been on since the last update of the database
