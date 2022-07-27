@@ -1,6 +1,10 @@
 # comp0016-farmbeats
 [![Lintly-Flake8 CI](https://github.com/Willmish/comp0016-farmbeats/actions/workflows/flake8-ci.yml/badge.svg)](https://github.com/Willmish/comp0016-farmbeats/actions/workflows/flake8-ci.yml)
 
+# Project intro:
+
+See the project website for more details: http://students.cs.ucl.ac.uk/2021/group28/
+
 # Setup guide
 
 The Project consists of 2 standalone programs: Raspberry Pi edge program and Desktop GUI program, located repsectively in `src/` directory and `gui_code/` directory. Currently there is a single requirements.txt file for both programs.
