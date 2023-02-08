@@ -1,6 +1,6 @@
 azure-iot-device==2.10.0
 black==22.1.0
-certifi==2021.10.8
+certifi==2022.12.7
 charset-normalizer==2.0.12
 click==8.0.4
 deprecation==2.1.0
